@@ -33,12 +33,16 @@
       <artifactId>apache-jstl</artifactId>
       <version>11.0.0</version>
     </dependency>
+
     <!-- https://mvnrepository.com/artifact/jakarta.servlet.jsp.jstl/jakarta.servlet.jsp.jstl-api -->
     <dependency>
       <groupId>jakarta.servlet.jsp.jstl</groupId>
       <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
       <version>2.0.0</version>
     </dependency>
+
+
+
     <!-- https://mvnrepository.com/artifact/com.mysql/mysql-connector-j -->
     <dependency>
       <groupId>com.mysql</groupId>

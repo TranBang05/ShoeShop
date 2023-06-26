@@ -1,4 +1,24 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="Model.User" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<%
+  String err="";
+  if(request.getAttribute("err")!=null)
+    err=(String)request.getAttribute("err");
+
+
+
+  String password="";
+  if(request.getAttribute("password")!=null)
+    password=(String)request.getAttribute("password");
+
+  User username = (User) request.getSession().getAttribute("username");
+  if(username!=null){
+    request.setAttribute("username",username);
+  }
+
+%>
 <html lang="zxx">
 
 <head>
@@ -38,20 +58,7 @@
 
 </head>
 
-<%
-  String err="";
-  if(request.getAttribute("err")!=null)
-    err=(String)request.getAttribute("err");
 
-  String username="";
-  if(request.getAttribute("username")!=null)
-    username=(String)request.getAttribute("username");
-
-  String password="";
-  if(request.getAttribute("password")!=null)
-    password=(String)request.getAttribute("password");
-
-%>
 
 <body>
 
@@ -60,7 +67,39 @@
 
   <!--== Start Header Wrapper ==-->
   <header class="main-header-wrapper position-relative">
+    <div class="header-top">
+      <div class="container pt--0 pb--0">
+        <div class="row">
+          <div class="col-12">
+            <div class="header-top-align">
+              <div class="header-top-align-start">
 
+              </div>
+              <div class="header-top-align-end">
+                <div class="header-info-items">
+                  <div class="info-items">
+                    <%
+                      if(username!=null){%>
+
+                    <ul>
+                      <li class="account"><i class="fa fa-user"></i><a href="logout">LogOut</a></li>
+                    </ul>
+                    <%}else{%>
+                    <ul>
+                      <li class="account"><i class="fa fa-user"></i><a href="logout">Login</a></li>
+                    </ul>
+
+                    <%}
+                    %>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="header-middle">
       <div class="container pt--0 pb--0">
         <div class="row align-items-center">
@@ -87,7 +126,11 @@
                   <div class="shopping-search">
                     <button class="shopping-search-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#AsideOffcanvasSearch" aria-controls="AsideOffcanvasSearch"><i class="pe-7s-search icon"></i></button>
                   </div>
-
+                  <div class="shopping-wishlist">
+                    <a class="shopping-wishlist-btn" href="shop-wishlist.html">
+                      <i class="pe-7s-like icon"></i>
+                    </a>
+                  </div>
                   <div class="shopping-cart">
                     <button class="shopping-cart-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#AsideOffcanvasCart" aria-controls="offcanvasRightLabel">
                       <i class="pe-7s-shopbag icon"></i>
@@ -115,14 +158,11 @@
 
                   </li>
 
-                  <li class="has-submenu position-static"><a href="#/"><span>Shop</span></a>
+                  <li ><a href="Shop-Products.jsp"><span>Shop</span></a>
 
                   </li>
-
-
-
-
-
+                  <li><a href="blog-details-no-sidebar.html"><span>Blog</span></a>
+                  </li>
                   <li><a href="contact.html"><span>Contact</span></a></li>
                 </ul>
               </div>
@@ -137,6 +177,7 @@
   <main class="main-content">
 
     <section class="account-area">
+      <%--
       <div class="hero">
 
         <div class="login_form">
@@ -170,6 +211,54 @@
         </div>
 
       </div>
+      --%>
+
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-8 m-auto">
+              <div class="section-title text-center">
+                <h2 class="title"> Dang Nhap </h2>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="login-form-content">
+                <form action="login" method="post">
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="form-group">
+                        <label for="username">Username<span class="required"></span></label>
+                        <input id="username" name="username" class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-group">
+                        <label for="password">Password <span class="required"></span></label>
+                        <input id="password" name="password" class="form-control" type="password">
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-group">
+                        <button type="submit" class="btn-login">Login</button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+                <div class="col-12">
+                  <div class="form-group account-info-group mb--0">
+                    <div class="rememberme-account">
+                      <div class="form-check">
+                        <a class="lost-password" href="SignUp.jsp">Sing Up</a>
+                      </div>
+                    </div>
+                    <a class="lost-password" href="ForgotPassword.jsp">Forgot password</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
     </section>
     <!--== End My Account Area Wrapper ==-->

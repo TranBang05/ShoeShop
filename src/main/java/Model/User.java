@@ -6,9 +6,17 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class User {
-    private String id, username, password, email,code;
+    private String id;
+    private String username;
+    private String password;
+    private String email;
+    private String code;
+    private int role;
 
 
 
@@ -38,11 +46,31 @@ public class User {
 
 
 
+
+
     public User(String username, String password, String email) {
-        
+
         this.username = username;
         this.password = password;
         this.email = email;
+        connect();
+    }
+
+
+    public User(String username, String password, String email,int role) {
+
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.role=role;
+        connect();
+    }
+
+    public User(String username, String password, int role) {
+
+        this.username = username;
+        this.password = password;
+        this.role = role;
         connect();
     }
 
@@ -141,13 +169,14 @@ public class User {
 
     public void addUser() {
         try {
-            String stradd = "INSERT INTO Users (username, password, email)"
-                    + "VALUES (?,?,?)";
+            String stradd = "INSERT INTO Users (username, password, email,role)"
+                    + "VALUES (?,?,?,?)";
 
             pstm = cnn.prepareStatement(stradd);
             pstm.setString(1, username);
             pstm.setString(2, password);
             pstm.setString(3, email);
+            pstm.setInt ( 4,role );
             pstm.execute();
 
         } catch (Exception e) {
@@ -176,6 +205,29 @@ public class User {
         return u;
     }
 
+
+    public int getUserByRole(String acc,String pass) {
+        int role=0;
+        try {
+            String strSelect = "SELECT * FROM Users "
+                    + "WHERE username = '" + acc + "' AND password = '" + pass + "'";
+
+            stm = cnn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            rs = stm.executeQuery(strSelect);
+            while (rs.next()) {
+
+                role = rs.getInt (6);
+
+            }
+        } catch (Exception e) {
+            System.out.println("getUserByAccount: " + e.getMessage());
+        }
+
+        return role;
+    }
+
+
+
     public void updatePassword(User u) {
         try {
             String strUpdate = "UPDATE Users SET password=? WHERE username=?";
@@ -187,5 +239,28 @@ public class User {
         } catch (Exception e) {
             System.out.println("updatePassword: " + e.getMessage());
         }
+    }
+
+    public List<User> getListUser() {
+        List<User> userList = new ArrayList<>();
+
+        try {
+            String strSelect = "SELECT * FROM Users";
+            stm = cnn.createStatement();
+            rs = stm.executeQuery(strSelect);
+            while (rs.next()) {
+                String username = rs.getString("username");
+                String password = rs.getString("password");
+                String email = rs.getString("email");
+                int role = rs.getInt("role");
+
+                User user = new User(username, password, email, role);
+                userList.add(user);
+            }
+        } catch (Exception e) {
+            System.out.println("getListUser: " + e.getMessage());
+        }
+
+        return userList;
     }
 }

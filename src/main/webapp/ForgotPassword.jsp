@@ -1,5 +1,17 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="Model.User" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%
+
+
+    User username = (User) request.getSession().getAttribute("username");
+    if(username!=null){
+        request.setAttribute("username",username);
+    }
+
+%>
 
 <html lang="zxx">
 
@@ -67,7 +79,39 @@
 
     <!--== Start Header Wrapper ==-->
     <header class="main-header-wrapper position-relative">
+        <div class="header-top">
+            <div class="container pt--0 pb--0">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="header-top-align">
+                            <div class="header-top-align-start">
 
+                            </div>
+                            <div class="header-top-align-end">
+                                <div class="header-info-items">
+                                    <div class="info-items">
+                                        <%
+                                            if(username!=null){%>
+
+                                        <ul>
+                                            <li class="account"><i class="fa fa-user"></i><a href="logout">LogOut</a></li>
+                                        </ul>
+                                        <%}else{%>
+                                        <ul>
+                                            <li class="account"><i class="fa fa-user"></i><a href="logout">Login</a></li>
+                                        </ul>
+
+                                        <%}
+                                        %>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="header-middle">
             <div class="container pt--0 pb--0">
                 <div class="row align-items-center">
@@ -94,7 +138,11 @@
                                     <div class="shopping-search">
                                         <button class="shopping-search-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#AsideOffcanvasSearch" aria-controls="AsideOffcanvasSearch"><i class="pe-7s-search icon"></i></button>
                                     </div>
-
+                                    <div class="shopping-wishlist">
+                                        <a class="shopping-wishlist-btn" href="shop-wishlist.html">
+                                            <i class="pe-7s-like icon"></i>
+                                        </a>
+                                    </div>
                                     <div class="shopping-cart">
                                         <button class="shopping-cart-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#AsideOffcanvasCart" aria-controls="offcanvasRightLabel">
                                             <i class="pe-7s-shopbag icon"></i>
@@ -122,14 +170,11 @@
 
                                     </li>
 
-                                    <li class="has-submenu position-static"><a href="#/"><span>Shop</span></a>
+                                    <li ><a href="Shop-Products.jsp"><span>Shop</span></a>
 
                                     </li>
-
-
-
-
-
+                                    <li><a href="blog-details-no-sidebar.html"><span>Blog</span></a>
+                                    </li>
                                     <li><a href="contact.html"><span>Contact</span></a></li>
                                 </ul>
                             </div>
