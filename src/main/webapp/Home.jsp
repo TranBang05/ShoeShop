@@ -168,7 +168,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
                                     </li>
 
-                                    <li ><a href="Shop.jsp"><span>Sản Phẩm</span></a>
+                                    <li ><a href="shop"><span>Sản Phẩm</span></a>
 
                                     </li>
                                     <li><a href="blog-details-no-sidebar.html"><span>Blog</span></a>
