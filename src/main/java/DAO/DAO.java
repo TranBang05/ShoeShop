@@ -1,16 +1,19 @@
 package DAO;
 
 import DAL.DBContext;
+import Model.Order;
 import Model.Products;
 import Model.Category;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import Model.cart;
+
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DAO {
+
+
+
     Connection cnn;
     Statement stm;//thuc thi cau lenh sql
     PreparedStatement pstm;
@@ -46,6 +49,101 @@ public class DAO {
         }
         return list;
     }
+
+
+
+
+
+    public List<cart> getCartProducts(ArrayList<cart> cartList) {
+        List<cart> book = new ArrayList<>();
+        try {
+            if (cartList.size() > 0) {
+                for (cart item : cartList) {
+                     String query = "select * from products where product_id=?";
+                    cnn=(new DBContext()).connection;
+                    pstm = cnn.prepareStatement(query);
+                    pstm.setInt(1, item.getId());
+                    rs = pstm.executeQuery();
+                    while (rs.next()) {
+                        cart row = new cart();
+                        row.setId(rs.getInt("product_id"));
+                        row.setName(rs.getString("name"));
+                        row.setDescription(rs.getString("description"));
+                        row.setImage(rs.getString("image"));
+                        row.setPrice(rs.getDouble("price") * item.getQuantity());
+                        row.setQuantity(item.getQuantity());
+                        book.add(row);
+                    }
+
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+        return book;
+    }
+
+    public List<Products> getWishListProducts(ArrayList<Products> WishList) {
+        List<Products> p = new ArrayList<>();
+        try {
+            if (WishList.size() > 0) {
+                for (Products item : WishList) {
+                    String query = "select * from products where product_id=?";
+                    cnn=(new DBContext()).connection;
+                    pstm = cnn.prepareStatement(query);
+                    pstm.setInt(1, item.getId());
+                    rs = pstm.executeQuery();
+                    while (rs.next()) {
+                        cart row = new cart();
+                        row.setId(rs.getInt("product_id"));
+                        row.setName(rs.getString("name"));
+                        row.setDescription(rs.getString("description"));
+                        row.setImage(rs.getString("image"));
+                        row.setPrice(rs.getDouble("price"));
+                        p.add(row);
+                    }
+
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+        return p;
+    }
+
+
+    public List<Products> SearchByName(String name) {
+        List<Products> data = new ArrayList<>();
+        String strSelect = "  select * from products where name like ?";
+        try {
+            // String strSelect = "select * from Student where name like '?'";
+
+            cnn=(new DBContext()).connection;
+            pstm = cnn.prepareStatement(strSelect);
+            pstm.setString(1,"%"+name+"%");
+            rs = pstm.executeQuery();
+
+            while (rs.next()) {
+                data.add(new Products(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getDouble(4),
+                        rs.getString(5),
+                        rs.getString(7)));
+            }
+
+        } catch (Exception e) {
+            System.out.println("getListSearch:" + e.getMessage());
+        }
+        return data;
+    }
+
+
+
 
 
     public List<Products> getProductByCID(String cid) {
@@ -91,6 +189,8 @@ public class DAO {
         }
         return null;
     }
+
+
     public List<Category> getAllCategory() {
         List<Category> list = new ArrayList<>();
         String query = "select * from categories";
@@ -130,13 +230,145 @@ public class DAO {
         return null;
     }
 
+    public boolean insertOrder(Order model) {
+        boolean result = false;
+        String query = "insert into orders ( userid, product_id,quantity, date_placed) values(?,?,?,?)";
+        try {
+            cnn=(new DBContext()).connection;
+            pstm = cnn.prepareStatement(query);
+
+            pstm.setInt(1, model.getUid());
+            pstm.setInt(2, model.getId());
+
+            pstm.setInt(3, model.getQunatity());
+            pstm.setString(4, model.getDate());
+            pstm.executeUpdate();
+            result = true;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return result;
+    }
+
+
+
+    public Products getSingleProduct(int id) {
+        Products row = null;
+        String query = "select * from products where product_id=? ";
+        try {
+
+            cnn=(new DBContext()).connection;
+            pstm = cnn.prepareStatement(query);
+
+
+
+            pstm.setInt(1, id);
+            rs = pstm.executeQuery();
+
+            while (rs.next()) {
+                row = new Products();
+                row.setId(rs.getInt("product_id"));
+                row.setName(rs.getString("name"));
+                row.setPrice(rs.getDouble("price"));
+                row.setImage(rs.getString("image"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+
+        return row;
+    }
+
+
+    public List<Order> userOrders(int id) {
+        List<Order> list = new ArrayList<>();
+        String query = "select * from orders where userid=? order by orders.order_id desc";
+        try {
+
+            cnn=(new DBContext()).connection;
+            pstm = cnn.prepareStatement(query);
+
+            pstm.setInt(1, id);
+            rs = pstm.executeQuery();
+            while (rs.next()) {
+                Order order = new Order();
+                DAO productDao = new DAO();
+                int pId = rs.getInt("product_id");
+                Products product = productDao.getSingleProduct(pId);
+                order.setOrderId(rs.getInt("order_id"));
+                order.setId(pId);
+                order.setName(product.getName());
+                order.setPrice(product.getPrice()*rs.getInt("quantity"));
+                order.setQunatity(rs.getInt("quantity"));
+                order.setDate(rs.getString("date_placed"));
+                list.add(order);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+        return list;
+    }
+
+    public void cancelOrder(int id) {
+        String query = "DELETE FROM orders WHERE order_id = ?";
+        try {
+            cnn = (new DBContext()).connection;
+            pstm = cnn.prepareStatement(query);
+            pstm.setInt(1, id);
+            int rowsAffected = pstm.executeUpdate();
+
+            // Optionally, you can check the number of affected rows
+            if (rowsAffected > 0) {
+                System.out.println("Order canceled successfully.");
+            } else {
+                System.out.println("No order found with the specified ID.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.print(e.getMessage());
+        }
+    }
+
+    public double getTotalCartPrice(ArrayList<cart> cartList) {
+        double sum = 0;
+        try {
+            if (cartList.size() > 0) {
+                for (cart item : cartList) {
+                     String query = "select price from products where product_id=?";
+
+                    cnn=(new DBContext()).connection;
+                    pstm = cnn.prepareStatement(query);
+                    pstm.setInt(1, item.getId());
+                    rs = pstm.executeQuery();
+
+
+                    while (rs.next()) {
+                        sum+=rs.getDouble("price")*item.getQuantity();
+                    }
+
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+        return sum;
+    }
+
+
     public static void main(String[] args) {
         DAO dao = new DAO();
         List<Products> list = dao.getAllProduct();
         List<Category> listC = dao.getAllCategory();
 
+
         for (Category o : listC) {
             System.out.println(o);
         }
     }
+
+
 }

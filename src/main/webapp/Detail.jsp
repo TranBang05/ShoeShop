@@ -1,11 +1,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="Model.User" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="Model.Category" %>
-<%@ page import="java.util.List" %>
 <%@ page import="Model.Products" %>
-<%@ page import="static jdk.javadoc.internal.doclets.formats.html.markup.HtmlStyle.detail" %>
+<%@ page import="java.util.List" %>
+<%@ page import="Model.cart" %>
+<%@ page import="java.util.ArrayList" %>
 <%@page isELIgnored="false" %>
+<%@ page import="DAO.DAO" %>
 
 
 
@@ -67,7 +68,22 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     if(username!=null){
         request.setAttribute("username",username);
     }
+
+    ArrayList<cart> cart_list = (ArrayList<cart>) session.getAttribute("cart-list");
+    List<cart> cartProduct = null;
+    if (cart_list != null) {
+        DAO dao = new DAO(); // Khởi tạo đối tượng DAO
+        try {
+            cartProduct = dao.getCartProducts(cart_list);
+            request.setAttribute("cart_list", cart_list);
+        } catch (Exception e) {
+            // Xử lý ngoại lệ nếu có
+            e.printStackTrace();
+        }
+    }
+
 %>
+
 
 
 
@@ -89,19 +105,21 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             <div class="header-top-align-end">
                                 <div class="header-info-items">
                                     <div class="info-items">
-                                        <%
-                                            if(username!=null){%>
 
-                                        <ul>
-                                            <li class="account"><i class="fa fa-user"></i><a href="logout">LogOut</a></li>
-                                        </ul>
-                                        <%}else{%>
-                                        <ul>
-                                            <li class="account"><i class="fa fa-user"></i><a href="logout">Đăng Nhập</a></li>
-                                        </ul>
+                                        <c:if test="${sessionScope.username != null}">
+                                            <ul>
+                                                <li class="account"><i class="fa fa-user"></i><a href="logout">Xin chào ${sessionScope.username.username}</a></li>
+                                                <li class="account"><i class="fa fa-user"></i><a href="logout">LogOut</a></li>
+                                            </ul>
+                                        </c:if>
 
-                                        <%}
-                                        %>
+                                        <c:if test="${sessionScope.username==null}">
+                                            <ul>
+                                                <li class="account"><i class="fa fa-user"></i><a href="Login.jsp">Đăng Nhập</a></li>
+                                            </ul>
+
+                                        </c:if>
+
 
                                     </div>
                                 </div>
@@ -126,8 +144,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             </div>
                             <div class="header-middle-align-center">
                                 <div class="header-search-area">
-                                    <form class="header-searchbox">
-                                        <input type="search" class="form-control" placeholder="Tìm Kiếm">
+                                    <form class="header-searchbox" action="search">
+                                        <input type="search" class="form-control" name="txt" placeholder="Tìm Kiếm">
                                         <button class="btn-submit" type="submit"><i class="pe-7s-search"></i></button>
                                     </form>
                                 </div>
@@ -138,15 +156,26 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                         <button class="shopping-search-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#AsideOffcanvasSearch" aria-controls="AsideOffcanvasSearch"><i class="pe-7s-search icon"></i></button>
                                     </div>
                                     <div class="shopping-wishlist">
-                                        <a class="shopping-wishlist-btn" href="shop-wishlist.html">
+                                        <a class="shopping-wishlist-btn" href="Wishlist.jsp">
                                             <i class="pe-7s-like icon"></i>
                                         </a>
                                     </div>
                                     <div class="shopping-cart">
-                                        <button class="shopping-cart-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#AsideOffcanvasCart" aria-controls="offcanvasRightLabel">
-                                            <i class="pe-7s-shopbag icon"></i>
-                                            <sup class="shop-count">02</sup>
+
+
+
+                                        <button class="shopping-cart-btn" type="button" href="ShopCart.jsp">
+                                            <a class="shopping-cart-btn" href="ShopCart.jsp">
+
+
+                                                <i class="pe-7s-shopbag icon"></i>
+                                                <sup class="shop-count">${cart_list.size()}</sup>
+                                            </a>
                                         </button>
+
+
+
+
                                     </div>
                                     <button class="btn-menu" type="button" data-bs-toggle="offcanvas" data-bs-target="#AsideOffcanvasMenu" aria-controls="AsideOffcanvasMenu">
                                         <i class="pe-7s-menu"></i>
@@ -170,7 +199,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
                                     </li>
 
-                                    <li ><a href="Shop.jsp"><span>Sản Phẩm</span></a>
+                                    <li ><a href="shop"><span>Sản Phẩm</span></a>
 
                                     </li>
                                     <li><a href="blog-details-no-sidebar.html"><span>Blog</span></a>
@@ -184,7 +213,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             </div>
         </div>
     </header>
-
     <!--== End Header Wrapper ==-->
 
     <main class="main-content">
@@ -212,11 +240,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <!--== Start Product Single Area Wrapper ==-->
         <section class="product-area product-single-area">
             <div class="container">
+
                 <div class="row">
                     <div class="col-12">
                         <div class="product-single-item">
                             <div class="row">
                                 <div class="col-xl-6">
+
                                     <!--== Start Product Thumbnail Area ==-->
                                     <div class="product-single-thumb">
                                         <div class="swiper-container single-product-thumb single-product-thumb-slider">
@@ -254,8 +284,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                     </div>
                                     <!--== End Product Thumbnail Area ==-->
                                 </div>
+
                                 <div class="col-xl-6">
                                     <!--== Start Product Info Area ==-->
+
                                     <div class="product-single-info">
                                         <h3 class="main-title">${detail.name}</h3>
                                         <div class="prices">
@@ -284,26 +316,33 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                                 <li>XL</li>
                                             </ul>
                                         </div>
+
                                         <div class="product-quick-action">
                                             <div class="qty-wrap">
                                                 <div class="pro-qty">
                                                     <input type="text" title="Quantity" value="1">
                                                 </div>
                                             </div>
-                                            <a class="btn-theme" href="shop-cart.html">Add to Cart</a>
+
+                                                <a class="btn-theme" href="addtocart?id=${detail.id}">Add to Cart</a>
+
                                         </div>
                                         <div class="product-wishlist-compare">
-                                            <a href="shop-wishlist.html"><i class="pe-7s-like"></i>Add to Wishlist</a>
+                                            <a href="wishlist?id=${detail.id}" ><i class="pe-7s-like"></i>Add to Wishlist</a>
 
                                         </div>
 
+
                                     </div>
+
                                     <!--== End Product Info Area ==-->
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+
 
                 <div class="row">
                     <div class="col-12">
@@ -528,7 +567,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                         <div class="product-item">
                                             <div class="inner-content">
                                                 <div class="product-thumb">
-                                                    <a href="single-product.html">
+                                                    <a href="detail?pid=${p.id}">
                                                         <img src="${p.image}" width="270" height="274" alt="Image-HasTech">
                                                     </a>
 
@@ -552,197 +591,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                     </div>
                                         </c:forEach>
 
-                                    <div class="swiper-slide">
-                                        <!--== Start Product Item ==-->
-                                        <div class="product-item">
-                                            <div class="inner-content">
-                                                <div class="product-thumb">
-                                                    <a href="single-product.html">
-                                                        <img src="assets/img/shop/7.webp" width="270" height="274" alt="Image-HasTech">
-                                                    </a>
-                                                    <div class="product-action">
-                                                        <a class="btn-product-wishlist" href="shop-wishlist.html"><i class="fa fa-heart"></i></a>
-                                                        <a class="btn-product-cart" href="shop-cart.html"><i class="fa fa-shopping-cart"></i></a>
-                                                        <button type="button" class="btn-product-quick-view-open">
-                                                            <i class="fa fa-arrows"></i>
-                                                        </button>
-                                                        <a class="btn-product-compare" href="shop-compare.html"><i class="fa fa-random"></i></a>
-                                                    </div>
-                                                    <a class="banner-link-overlay" href="shop.html"></a>
-                                                </div>
-                                                <div class="product-info">
-                                                    <div class="category">
-                                                        <ul>
-                                                            <li><a href="shop.html">Men</a></li>
-                                                            <li class="sep">/</li>
-                                                            <li><a href="shop.html">Women</a></li>
-                                                        </ul>
-                                                    </div>
-                                                    <h4 class="title"><a href="single-product.html">Quickiin Mens shoes</a></h4>
-                                                    <div class="prices">
-                                                        <span class="price">$240.00</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!--== End prPduct Item ==-->
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <!--== Start Product Item ==-->
-                                        <div class="product-item">
-                                            <div class="inner-content">
-                                                <div class="product-thumb">
-                                                    <a href="single-product.html">
-                                                        <img src="assets/img/shop/3.webp" width="270" height="274" alt="Image-HasTech">
-                                                    </a>
-                                                    <div class="product-flag">
-                                                        <ul>
-                                                            <li class="discount">-10%</li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="product-action">
-                                                        <a class="btn-product-wishlist" href="shop-wishlist.html"><i class="fa fa-heart"></i></a>
-                                                        <a class="btn-product-cart" href="shop-cart.html"><i class="fa fa-shopping-cart"></i></a>
-                                                        <button type="button" class="btn-product-quick-view-open">
-                                                            <i class="fa fa-arrows"></i>
-                                                        </button>
-                                                        <a class="btn-product-compare" href="shop-compare.html"><i class="fa fa-random"></i></a>
-                                                    </div>
-                                                    <a class="banner-link-overlay" href="shop.html"></a>
-                                                </div>
-                                                <div class="product-info">
-                                                    <div class="category">
-                                                        <ul>
-                                                            <li><a href="shop.html">Men</a></li>
-                                                            <li class="sep">/</li>
-                                                            <li><a href="shop.html">Women</a></li>
-                                                        </ul>
-                                                    </div>
-                                                    <h4 class="title"><a href="single-product.html">Rexpo Womens shoes</a></h4>
-                                                    <div class="prices">
-                                                        <span class="price-old">$300</span>
-                                                        <span class="sep">-</span>
-                                                        <span class="price">$240.00</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!--== End prPduct Item ==-->
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <!--== Start Product Item ==-->
-                                        <div class="product-item">
-                                            <div class="inner-content">
-                                                <div class="product-thumb">
-                                                    <a href="single-product.html">
-                                                        <img src="assets/img/shop/4.webp" width="270" height="274" alt="Image-HasTech">
-                                                    </a>
-                                                    <div class="product-action">
-                                                        <a class="btn-product-wishlist" href="shop-wishlist.html"><i class="fa fa-heart"></i></a>
-                                                        <a class="btn-product-cart" href="shop-cart.html"><i class="fa fa-shopping-cart"></i></a>
-                                                        <button type="button" class="btn-product-quick-view-open">
-                                                            <i class="fa fa-arrows"></i>
-                                                        </button>
-                                                        <a class="btn-product-compare" href="shop-compare.html"><i class="fa fa-random"></i></a>
-                                                    </div>
-                                                    <a class="banner-link-overlay" href="shop.html"></a>
-                                                </div>
-                                                <div class="product-info">
-                                                    <div class="category">
-                                                        <ul>
-                                                            <li><a href="shop.html">Men</a></li>
-                                                            <li class="sep">/</li>
-                                                            <li><a href="shop.html">Women</a></li>
-                                                        </ul>
-                                                    </div>
-                                                    <h4 class="title"><a href="single-product.html">Leather Mens Slipper</a></h4>
-                                                    <div class="prices">
-                                                        <span class="price">$240.00</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!--== End prPduct Item ==-->
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <!--== Start Product Item ==-->
-                                        <div class="product-item">
-                                            <div class="inner-content">
-                                                <div class="product-thumb">
-                                                    <a href="single-product.html">
-                                                        <img src="assets/img/shop/5.webp" width="270" height="274" alt="Image-HasTech">
-                                                    </a>
-                                                    <div class="product-action">
-                                                        <a class="btn-product-wishlist" href="shop-wishlist.html"><i class="fa fa-heart"></i></a>
-                                                        <a class="btn-product-cart" href="shop-cart.html"><i class="fa fa-shopping-cart"></i></a>
-                                                        <button type="button" class="btn-product-quick-view-open">
-                                                            <i class="fa fa-arrows"></i>
-                                                        </button>
-                                                        <a class="btn-product-compare" href="shop-compare.html"><i class="fa fa-random"></i></a>
-                                                    </div>
-                                                    <a class="banner-link-overlay" href="shop.html"></a>
-                                                </div>
-                                                <div class="product-info">
-                                                    <div class="category">
-                                                        <ul>
-                                                            <li><a href="shop.html">Men</a></li>
-                                                            <li class="sep">/</li>
-                                                            <li><a href="shop.html">Women</a></li>
-                                                        </ul>
-                                                    </div>
-                                                    <h4 class="title"><a href="single-product.html">Primitive Mens shoes</a></h4>
-                                                    <div class="prices">
-                                                        <span class="price-old">$300</span>
-                                                        <span class="sep">-</span>
-                                                        <span class="price">$240.00</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!--== End prPduct Item ==-->
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <!--== Start Product Item ==-->
-                                        <div class="product-item">
-                                            <div class="inner-content">
-                                                <div class="product-thumb">
-                                                    <a href="single-product.html">
-                                                        <img src="assets/img/shop/6.webp" width="270" height="274" alt="Image-HasTech">
-                                                    </a>
-                                                    <div class="product-flag">
-                                                        <ul>
-                                                            <li class="discount">-10%</li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="product-action">
-                                                        <a class="btn-product-wishlist" href="shop-wishlist.html"><i class="fa fa-heart"></i></a>
-                                                        <a class="btn-product-cart" href="shop-cart.html"><i class="fa fa-shopping-cart"></i></a>
-                                                        <button type="button" class="btn-product-quick-view-open">
-                                                            <i class="fa fa-arrows"></i>
-                                                        </button>
-                                                        <a class="btn-product-compare" href="shop-compare.html"><i class="fa fa-random"></i></a>
-                                                    </div>
-                                                    <a class="banner-link-overlay" href="shop.html"></a>
-                                                </div>
-                                                <div class="product-info">
-                                                    <div class="category">
-                                                        <ul>
-                                                            <li><a href="shop.html">Men</a></li>
-                                                            <li class="sep">/</li>
-                                                            <li><a href="shop.html">Women</a></li>
-                                                        </ul>
-                                                    </div>
-                                                    <h4 class="title"><a href="single-product.html">Simple Fabric Shoe</a></h4>
-                                                    <div class="prices">
-                                                        <span class="price-old">$300</span>
-                                                        <span class="sep">-</span>
-                                                        <span class="price">$240.00</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!--== End prPduct Item ==-->
-                                    </div>
+
                                 </div>
                             </div>
                             <!--== Add Swiper Arrows ==-->
@@ -933,6 +782,24 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <div class="canvas-overlay"></div>
     </aside>
     <!--== End Quick View Menu ==-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <!--== Start Aside Cart Menu ==-->
     <div class="aside-cart-wrapper offcanvas offcanvas-end" tabindex="-1" id="AsideOffcanvasCart" aria-labelledby="offcanvasRightLabel">
