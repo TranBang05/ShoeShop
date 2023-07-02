@@ -19,7 +19,7 @@ public class UserVerify extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int role=1;
+    int role=1;
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()){
             String username = request.getParameter("username");

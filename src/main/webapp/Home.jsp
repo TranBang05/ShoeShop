@@ -116,7 +116,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         <div class="header-middle-align">
                             <div class="header-middle-align-start">
                                 <div class="header-logo-area">
-                                    <a href="Home.jsp">
+                                    <a href="index.html">
                                         <img class="logo-main" src="assets/img/logo.webp" width="131" height="34" alt="Logo" />
                                         <img class="logo-light" src="assets/img/logo-light.webp" width="131" height="34" alt="Logo" />
                                     </a>
@@ -168,7 +168,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
                                     </li>
 
-                                    <li ><a href="Shop.jsp"><span>Sản Phẩm</span></a>
+                                    <li ><a href="shop"><span>Sản Phẩm</span></a>
 
                                     </li>
                                     <li><a href="blog-details-no-sidebar.html"><span>Blog</span></a>

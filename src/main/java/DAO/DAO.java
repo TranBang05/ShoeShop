@@ -47,6 +47,50 @@ public class DAO {
         return list;
     }
 
+
+    public List<Products> getProductByCID(String cid) {
+        List<Products> list = new ArrayList<>();
+        String query = "select * from products where category_id=?";
+        try {
+            cnn=(new DBContext()).connection;
+            pstm = cnn.prepareStatement(query);
+            pstm.setString(1,cid);
+            rs = pstm.executeQuery();
+
+            while (rs.next()) {
+                list.add(new Products(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getDouble(4),
+                        rs.getString(5),
+                        rs.getString(7)));
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
+
+    public Products getProductByID(String id) {
+
+        String query = "select * from products where product_id=?";
+        try {
+            cnn=(new DBContext()).connection;
+            pstm = cnn.prepareStatement(query);
+            pstm.setString(1,id);
+            rs = pstm.executeQuery();
+
+            while (rs.next()) {
+               return new Products(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getDouble(4),
+                        rs.getString(5),
+                        rs.getString(7));
+            }
+        } catch (Exception e) {
+        }
+        return null;
+    }
     public List<Category> getAllCategory() {
         List<Category> list = new ArrayList<>();
         String query = "select * from categories";
