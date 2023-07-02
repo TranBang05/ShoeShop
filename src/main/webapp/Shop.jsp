@@ -5,7 +5,10 @@
 <%@ page import="java.util.List" %>
 <%@ page import="Model.Products" %>
 <%@ page import="static jdk.javadoc.internal.doclets.formats.html.markup.HtmlStyle.detail" %>
+<%@ page import="Model.cart" %>
+<%@ page import="java.util.ArrayList" %>
 <%@page isELIgnored="false" %>
+<%@ page import="DAO.DAO" %>
 
 
 
@@ -67,6 +70,18 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     if(username!=null){
         request.setAttribute("username",username);
     }
+    ArrayList<cart> cart_list = (ArrayList<cart>) session.getAttribute("cart-list");
+    List<cart> cartProduct = null;
+    if (cart_list != null) {
+        DAO dao = new DAO(); // Khởi tạo đối tượng DAO
+        try {
+            cartProduct = dao.getCartProducts(cart_list);
+            request.setAttribute("cart_list", cart_list);
+        } catch (Exception e) {
+            // Xử lý ngoại lệ nếu có
+            e.printStackTrace();
+        }
+    }
 %>
 
 
@@ -89,19 +104,19 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             <div class="header-top-align-end">
                                 <div class="header-info-items">
                                     <div class="info-items">
-                                        <%
-                                            if(username!=null){%>
+                                        <c:if test="${sessionScope.username != null}">
+                                            <ul>
+                                                <li class="account"><i class="fa fa-user"></i><a href="logout">Xin chào ${sessionScope.username.username}</a></li>
+                                                <li class="account"><i class="fa fa-user"></i><a href="logout">LogOut</a></li>
+                                            </ul>
+                                        </c:if>
 
-                                        <ul>
-                                            <li class="account"><i class="fa fa-user"></i><a href="logout">LogOut</a></li>
-                                        </ul>
-                                        <%}else{%>
-                                        <ul>
-                                            <li class="account"><i class="fa fa-user"></i><a href="logout">Đăng Nhập</a></li>
-                                        </ul>
+                                        <c:if test="${sessionScope.username==null}">
+                                            <ul>
+                                                <li class="account"><i class="fa fa-user"></i><a href="Login.jsp">Đăng Nhập</a></li>
+                                            </ul>
 
-                                        <%}
-                                        %>
+                                        </c:if>
 
                                     </div>
                                 </div>
@@ -126,8 +141,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             </div>
                             <div class="header-middle-align-center">
                                 <div class="header-search-area">
-                                    <form class="header-searchbox">
-                                        <input type="search" class="form-control" placeholder="Tìm Kiếm">
+                                    <form class="header-searchbox" action="search" method="post">
+                                        <input type="search" class="form-control" name="txt" placeholder="Tìm Kiếm">
                                         <button class="btn-submit" type="submit"><i class="pe-7s-search"></i></button>
                                     </form>
                                 </div>
@@ -138,15 +153,26 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                         <button class="shopping-search-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#AsideOffcanvasSearch" aria-controls="AsideOffcanvasSearch"><i class="pe-7s-search icon"></i></button>
                                     </div>
                                     <div class="shopping-wishlist">
-                                        <a class="shopping-wishlist-btn" href="shop-wishlist.html">
+                                        <a class="shopping-wishlist-btn" href="Wishlist.jsp">
                                             <i class="pe-7s-like icon"></i>
                                         </a>
                                     </div>
                                     <div class="shopping-cart">
-                                        <button class="shopping-cart-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#AsideOffcanvasCart" aria-controls="offcanvasRightLabel">
+
+
+
+                                        <button class="shopping-cart-btn" type="button" href="ShopCart.jsp">
+                                            <a class="shopping-cart-btn" href="ShopCart.jsp">
+
+
                                             <i class="pe-7s-shopbag icon"></i>
-                                            <sup class="shop-count">02</sup>
+                                            <sup class="shop-count">${cart_list.size()}</sup>
+                                            </a>
                                         </button>
+
+
+
+
                                     </div>
                                     <button class="btn-menu" type="button" data-bs-toggle="offcanvas" data-bs-target="#AsideOffcanvasMenu" aria-controls="AsideOffcanvasMenu">
                                         <i class="pe-7s-menu"></i>
@@ -170,7 +196,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
                                     </li>
 
-                                    <li ><a href="Shop.jsp"><span>Sản Phẩm</span></a>
+                                    <li ><a href="shop"><span>Sản Phẩm</span></a>
 
                                     </li>
                                     <li><a href="blog-details-no-sidebar.html"><span>Blog</span></a>
@@ -231,6 +257,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                             <span>Sort By :</span>
                                             <select class="form-select" aria-label="Sort select example">
                                                 <option selected>Default</option>
+                                                <% List<Products> list = (List<Products>) request.getAttribute("list"); %>
+                                                <% for (Products product : list) { %>
+                                                <option value="<%= product.getId() %>"><%= product.getName() %></option>
+                                                <% } %>
                                                 <option value="1">Popularity</option>
                                                 <option value="2">Average Rating</option>
                                                 <option value="3">Newsness</option>
@@ -252,12 +282,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                                 <div class="product-item">
                                                     <div class="inner-content">
                                                         <div class="product-thumb">
-                                                            <a href="single-product.html">
+                                                            <a  href="detail?pid=${p.id}">
                                                                 <img src="${p.image}" width="270" height="274" alt="Image-HasTech">
                                                             </a>
 
                                                             <div class="product-action">
-                                                                <a class="btn-product-wishlist" href="shop-wishlist.html"><i class="fa fa-heart"></i></a>
+                                                                <a class="btn-product-wishlist" href="wishlist?id=${p.id}"><i class="fa fa-heart"></i></a>
 
                                                             </div>
                                                             <a class="banner-link-overlay" href="shop.html"></a>
@@ -306,7 +336,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                                             </a>
 
                                                             <div class="product-action">
-                                                                <a class="btn-product-wishlist" href="shop-wishlist.html"><i class="fa fa-heart"></i></a>
+                                                                <a class="btn-product-wishlist" href="wishlist?id=${p.id}" ><i class="fa fa-heart"></i></a>
 
                                                             </div>
                                                             <a class="banner-link-overlay" href="shop.html"></a>
@@ -322,7 +352,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                                                 <span class="price">${p.price}</span>
                                                             </div>
                                                             <p>${p.description}</p>
-                                                            <a class="btn-theme btn-sm" href="shop-cart.html">Add To Cart</a>
+                                                            <a class="btn-theme btn-sm" href="addtocart?id=${p.id}">Thêm Vào Giỏ Hàng</a>
+                                                            <a class="btn-theme btn-sm" href="ordernow?quantity=1&id=${p.id}">Mua Ngay</a>
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -353,14 +385,18 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         <div class="shop-sidebar">
                             <div class="shop-sidebar-category">
                                 <h4 class="sidebar-title">Top Categories</h4>
-                                <div class="sidebar-category">
-                                    <ul class="category-list mb--0">
-                                        <% List<Category> listC = (List<Category>) request.getAttribute("listC");%>
-                                        <c:forEach items="<%=listC%>" var="o">
-                                            <li><a href="category?cid=${o.cid}"><c:out value="${o.cname}"/></a></li>
-                                        </c:forEach>
-                                    </ul>
-                                </div>
+                                <form action="category" method="post">
+                                    <div class="sidebar-category">
+                                        <ul class="category-list mb--0">
+                                            <% List<Category> listC = (List<Category>) request.getAttribute("listC");%>
+                                            <c:forEach items="<%=listC%>" var="o">
+                                                <li><a href="category?cid=${o.cid}"><c:out value="${o.cname}"/></a></li>
+                                            </c:forEach>
+                                        </ul>
+                                    </div>
+
+                                </form>
+
                             </div>
                         </div>
                     </div>
@@ -369,6 +405,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         </section>
         <!--== End Product Area Wrapper ==-->
     </main>
+
+
+
+
+
+
+
 
     <!--== Start Footer Area Wrapper ==-->
     <footer class="footer-area">
@@ -385,11 +428,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                         <img class="logo-main" src="assets/img/logo-light.webp" width="131" height="34" alt="Logo" />
                                     </a>
                                 </div>
-                                <p class="desc">Lorem ipsum dolor sit amet consl adipisi elit, sed do eiusmod templ incididunt ut labore</p>
+                                <p class="desc">Trang web bao gồm tất cả các đôi giày mới nhất trên thị trường</p>
                                 <div class="social-icons">
                                     <a href="https://www.facebook.com/" target="_blank" rel="noopener"><i class="fa fa-facebook"></i></a>
-                                    <a href="https://dribbble.com/" target="_blank" rel="noopener"><i class="fa fa-dribbble"></i></a>
-                                    <a href="https://www.pinterest.com/" target="_blank" rel="noopener"><i class="fa fa-pinterest-p"></i></a>
                                     <a href="https://twitter.com/" target="_blank" rel="noopener"><i class="fa fa-twitter"></i></a>
                                 </div>
                             </div>
@@ -399,17 +440,16 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <div class="col-md-6 col-lg-3">
                         <!--== Start widget Item ==-->
                         <div class="widget-item widget-services-item">
-                            <h4 class="widget-title">Services</h4>
-                            <h4 class="widget-collapsed-title collapsed" data-bs-toggle="collapse" data-bs-target="#widgetId-1">Services</h4>
+                            <h4 class="widget-title">Dịch Vụ</h4>
+                            <h4 class="widget-collapsed-title collapsed" data-bs-toggle="collapse" data-bs-target="#widgetId-1">Dịch Vụ</h4>
                             <div id="widgetId-1" class="collapse widget-collapse-body">
                                 <div class="collapse-body">
                                     <div class="widget-menu-wrap">
                                         <ul class="nav-menu">
-                                            <li><a href="contact.html">Home monitoring</a></li>
-                                            <li><a href="contact.html">Air Filters</a></li>
-                                            <li><a href="contact.html">Professional installation</a></li>
-                                            <li><a href="contact.html">Smart Buildings</a></li>
-                                            <li><a href="contact.html">For contractors</a></li>
+                                            <li><a href="contact.html">Dịch vụ khách hàng</a></li>
+                                            <li><a href="contact.html">Khuyến mãi và giảm giá</a></li>
+                                            <li><a href="contact.html">Đổi/trả hàng</a></li>
+                                            <li><a href="contact.html">Giao hàng</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -420,17 +460,16 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <div class="col-md-6 col-lg-3">
                         <!--== Start widget Item ==-->
                         <div class="widget-item widget-account-item">
-                            <h4 class="widget-title">My Account</h4>
-                            <h4 class="widget-collapsed-title collapsed" data-bs-toggle="collapse" data-bs-target="#widgetId-2">My Account</h4>
+                            <h4 class="widget-title">Tài Khoản</h4>
+                            <h4 class="widget-collapsed-title collapsed" data-bs-toggle="collapse" data-bs-target="#widgetId-2">Tài Khoản</h4>
                             <div id="widgetId-2" class="collapse widget-collapse-body">
                                 <div class="collapse-body">
                                     <div class="widget-menu-wrap">
                                         <ul class="nav-menu">
-                                            <li><a href="account-login.html">My Account</a></li>
-                                            <li><a href="contact.html">Contact</a></li>
-                                            <li><a href="shop-cart.html">Shopping cart</a></li>
-                                            <li><a href="shop.html">Shop</a></li>
-                                            <li><a href="account-login.html">Services Login</a></li>
+                                            <li><a href="account-login.html">Tài Khoản</a></li>
+                                            <li><a href="contact.html">Liên Hệ</a></li>
+                                            <li><a href="shop-cart.html">Giỏ Hàng</a></li>
+                                            <li><a href="shop">Sản Phẩm</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -441,16 +480,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <div class="col-md-6 col-lg-3">
                         <!--== Start widget Item ==-->
                         <div class="widget-item">
-                            <h4 class="widget-title">Contact Info</h4>
-                            <h4 class="widget-collapsed-title collapsed" data-bs-toggle="collapse" data-bs-target="#widgetId-3">Contact Info</h4>
+                            <h4 class="widget-title">Thông Tin Liên Lạc</h4>
+                            <h4 class="widget-collapsed-title collapsed" data-bs-toggle="collapse" data-bs-target="#widgetId-3">Thông Tin Liên Lạc</h4>
                             <div id="widgetId-3" class="collapse widget-collapse-body">
                                 <div class="collapse-body">
                                     <div class="widget-contact-wrap">
                                         <ul>
-                                            <li><span>Address:</span> Your address goes here.</li>
-                                            <li><span>Phone//fax:</span> <a href="tel://0123456789">0123456789</a></li>
-                                            <li><span>Email:</span> <a href="mailto://demo@example.com">demo@example.com</a></li>
-                                            <li><a target="_blank" href="https://www.hasthemes.com">www.example.com</a></li>
+                                            <li><span>Address:</span> Viet Nam</li>
+                                            <li><span>Phone//fax:</span> <a href="tel://0123456789">0392156817</a></li>
+                                            <li><span>Email:</span> <a href="mailto://demo@example.com">bang@example.com</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -467,9 +505,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <div class="footer-bottom">
             <div class="container pt--0 pb--0">
                 <div class="row">
-                    <div class="col-md-7 col-lg-6">
-                        <p class="copyright">© 2021 Shome. Made with <i class="fa fa-heart"></i> by <a target="_blank" href="https://themeforest.net/user/codecarnival/portfolio">Codecarnival.</a></p>
-                    </div>
+
                     <div class="col-md-5 col-lg-6">
                         <div class="payment">
                             <a href="account-login.html"><img src="assets/img/photos/payment-card.webp" width="192" height="21" alt="Payment Logo"></a>
@@ -542,145 +578,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     </aside>
     <!--== End Quick View Menu ==-->
 
-    <!--== Start Aside Cart Menu ==-->
-    <div class="aside-cart-wrapper offcanvas offcanvas-end" tabindex="-1" id="AsideOffcanvasCart" aria-labelledby="offcanvasRightLabel">
-        <div class="offcanvas-header">
-            <h1 id="offcanvasRightLabel"></h1>
-            <button class="btn-aside-cart-close" data-bs-dismiss="offcanvas" aria-label="Close">Shopping Cart <i class="fa fa-chevron-right"></i></button>
-        </div>
-        <div class="offcanvas-body">
-            <ul class="aside-cart-product-list">
-                <li class="product-list-item">
-                    <a href="#/" class="remove">×</a>
-                    <a href="single-product.html">
-                        <img src="assets/img/shop/product-mini/1.webp" width="90" height="110" alt="Image-HasTech">
-                        <span class="product-title">Leather Mens Slipper</span>
-                    </a>
-                    <span class="product-price">1 × £69.99</span>
-                </li>
-                <li class="product-list-item">
-                    <a href="#/" class="remove">×</a>
-                    <a href="single-product.html">
-                        <img src="assets/img/shop/product-mini/2.webp" width="90" height="110" alt="Image-HasTech">
-                        <span class="product-title">Quickiin Mens shoes</span>
-                    </a>
-                    <span class="product-price">1 × £20.00</span>
-                </li>
-            </ul>
-            <p class="cart-total"><span>Subtotal:</span><span class="amount">£89.99</span></p>
-            <a class="btn-theme" data-margin-bottom="10" href="shop-cart.html">View cart</a>
-            <a class="btn-theme" href="shop-checkout.html">Checkout</a>
-            <a class="d-block text-end lh-1" href="shop-checkout.html"><img src="assets/img/photos/paypal.webp" width="133" height="26" alt="Has-image"></a>
-        </div>
-    </div>
-    <!--== End Aside Cart Menu ==-->
 
-    <!--== Start Aside Search Menu ==-->
-    <aside class="aside-search-box-wrapper offcanvas offcanvas-top" tabindex="-1" id="AsideOffcanvasSearch" aria-labelledby="offcanvasTopLabel">
-        <div class="offcanvas-header">
-            <h5 class="d-none" id="offcanvasTopLabel">Aside Search</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"><i class="pe-7s-close"></i></button>
-        </div>
-        <div class="offcanvas-body">
-            <div class="container pt--0 pb--0">
-                <div class="search-box-form-wrap">
-                    <div class="search-note">
-                        <p>Start typing and press Enter to search</p>
-                    </div>
-                    <form action="#" method="post">
-                        <div class="search-form position-relative">
-                            <label for="search-input" class="visually-hidden">Search</label>
-                            <input id="search-input" type="search" class="form-control" placeholder="Search entire store…">
-                            <button class="search-button"><i class="fa fa-search"></i></button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </aside>
+
+
+
     <!--== End Aside Search Menu ==-->
 
     <!--== Start Side Menu ==-->
-    <div class="off-canvas-wrapper offcanvas offcanvas-start" tabindex="-1" id="AsideOffcanvasMenu" aria-labelledby="offcanvasExampleLabel">
-        <div class="offcanvas-header">
-            <h1 id="offcanvasExampleLabel"></h1>
-            <button class="btn-menu-close" data-bs-dismiss="offcanvas" aria-label="Close">menu <i class="fa fa-chevron-left"></i></button>
-        </div>
-        <div class="offcanvas-body">
-            <div class="info-items">
-                <ul>
-                    <li class="number"><a href="tel://0123456789"><i class="fa fa-phone"></i>+00 123 456 789</a></li>
-                    <li class="email"><a href="mailto://demo@example.com"><i class="fa fa-envelope"></i>demo@example.com</a></li>
-                    <li class="account"><a href="account-login.html"><i class="fa fa-user"></i>Account</a></li>
-                </ul>
-            </div>
-            <!-- Mobile Menu Start -->
-            <div class="mobile-menu-items">
-                <ul class="nav-menu">
-                    <li><a href="#">Home</a>
-                        <ul class="sub-menu">
-                            <li><a href="index.html">Home One</a></li>
-                            <li><a href="index-two.html">Home Two</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="about-us.html">About</a></li>
-                    <li><a href="#">Pages</a>
-                        <ul class="sub-menu">
-                            <li><a href="account.html">Account</a></li>
-                            <li><a href="account-login.html">Login</a></li>
-                            <li><a href="account-register.html">Register</a></li>
-                            <li><a href="page-not-found.html">Page Not Found</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">Shop</a>
-                        <ul class="sub-menu">
-                            <li><a href="#">Shop Layout</a>
-                                <ul class="sub-menu">
-                                    <li><a href="shop-three-columns.html">Shop 3 Column</a></li>
-                                    <li><a href="shop-four-columns.html">Shop 4 Column</a></li>
-                                    <li><a href="shop.html">Shop Left Sidebar</a></li>
-                                    <li><a href="shop-right-sidebar.html">Shop Right Sidebar</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">Single Product</a>
-                                <ul class="sub-menu">
-                                    <li><a href="single-normal-product.html">Single Product Normal</a></li>
-                                    <li><a href="single-product.html">Single Product Variable</a></li>
-                                    <li><a href="single-group-product.html">Single Product Group</a></li>
-                                    <li><a href="single-affiliate-product.html">Single Product Affiliate</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">Others Pages</a>
-                                <ul class="sub-menu">
-                                    <li><a href="shop-cart.html">Shopping Cart</a></li>
-                                    <li><a href="shop-checkout.html">Checkout</a></li>
-                                    <li><a href="shop-wishlist.html">Wishlist</a></li>
-                                    <li><a href="shop-compare.html">Compare</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li><a href="#">Blog</a>
-                        <ul class="sub-menu">
-                            <li><a href="#">Blog Layout</a>
-                                <ul class="sub-menu">
-                                    <li><a href="blog.html">Blog Grid</a></li>
-                                    <li><a href="blog-left-sidebar.html">Blog Left Sidebar</a></li>
-                                    <li><a href="blog-right-sidebar.html">Blog Right Sidebar</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">Single Blog</a>
-                                <ul class="sub-menu">
-                                    <li><a href="blog-details-no-sidebar.html">Blog Details</a></li>
-                                    <li><a href="blog-details-left-sidebar.html">Blog Details Left Sidebar</a></li>
-                                    <li><a href="blog-details.html">Blog Details Right Sidebar</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-            </div>
+
             <!-- Mobile Menu End -->
         </div>
     </div>

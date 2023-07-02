@@ -70,6 +70,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
 
 
+
 <body>
 <!--wrapper start-->
 <div class="wrapper">
@@ -87,19 +88,21 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             <div class="header-top-align-end">
                                 <div class="header-info-items">
                                     <div class="info-items">
-                                        <%
-                                            if(username!=null){%>
 
-                                        <ul>
-                                            <li class="account"><i class="fa fa-user"></i><a href="logout">LogOut</a></li>
-                                        </ul>
-                                        <%}else{%>
-                                        <ul>
-                                            <li class="account"><i class="fa fa-user"></i><a href="logout">Đăng Nhập</a></li>
-                                        </ul>
+                                        <c:if test="${sessionScope.username != null}">
+                                            <ul>
+                                                <li class="account"><i class="fa fa-user"></i><a href="logout">Xin chào ${sessionScope.username.username}</a></li>
+                                                <li class="account"><i class="fa fa-user"></i><a href="logout">LogOut</a></li>
+                                            </ul>
+                                        </c:if>
 
-                                        <%}
-                                        %>
+                                        <c:if test="${sessionScope.username==null}">
+                                            <ul>
+                                                <li class="account"><i class="fa fa-user"></i><a href="Login.jsp">Đăng Nhập</a></li>
+                                            </ul>
+
+                                        </c:if>
+
 
                                     </div>
                                 </div>
@@ -124,8 +127,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             </div>
                             <div class="header-middle-align-center">
                                 <div class="header-search-area">
-                                    <form class="header-searchbox">
-                                        <input type="search" class="form-control" placeholder="Tìm Kiếm">
+                                    <form class="header-searchbox" action="search">
+                                        <input type="search" class="form-control" name="txt" placeholder="Tìm Kiếm">
                                         <button class="btn-submit" type="submit"><i class="pe-7s-search"></i></button>
                                     </form>
                                 </div>
@@ -136,15 +139,23 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                         <button class="shopping-search-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#AsideOffcanvasSearch" aria-controls="AsideOffcanvasSearch"><i class="pe-7s-search icon"></i></button>
                                     </div>
                                     <div class="shopping-wishlist">
-                                        <a class="shopping-wishlist-btn" href="shop-wishlist.html">
+                                        <a class="shopping-wishlist-btn" href="Wishlist.jsp">
                                             <i class="pe-7s-like icon"></i>
                                         </a>
                                     </div>
                                     <div class="shopping-cart">
-                                        <button class="shopping-cart-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#AsideOffcanvasCart" aria-controls="offcanvasRightLabel">
-                                            <i class="pe-7s-shopbag icon"></i>
-                                            <sup class="shop-count">02</sup>
+
+
+
+                                        <button class="shopping-cart-btn" type="button" href="ShopCart.jsp">
+                                            <a class="shopping-cart-btn" href="ShopCart.jsp">
+
+
+                                                <i class="pe-7s-shopbag icon"></i>
+                                                <sup class="shop-count">${cart_list.size()}</sup>
+                                            </a>
                                         </button>
+
                                     </div>
                                     <button class="btn-menu" type="button" data-bs-toggle="offcanvas" data-bs-target="#AsideOffcanvasMenu" aria-controls="AsideOffcanvasMenu">
                                         <i class="pe-7s-menu"></i>
@@ -164,7 +175,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             <div class="header-navigation-area position-relative">
                                 <ul class="main-menu nav">
 
-                                    <li><a href="Home.jsp"><span>Trang Chủ</span></a>
+                                    <li><a href="home"><span>Trang Chủ</span></a>
 
                                     </li>
 
@@ -323,6 +334,108 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
 
     </main>
+    <footer class="footer-area">
+        <!--== Start Footer Main ==-->
+        <div class="footer-main">
+            <div class="container pt--0 pb--0">
+                <div class="row">
+                    <div class="col-md-6 col-lg-3">
+                        <!--== Start widget Item ==-->
+                        <div class="widget-item">
+                            <div class="about-widget-wrap">
+                                <div class="widget-logo-area">
+                                    <a href="index.html">
+                                        <img class="logo-main" src="assets/img/logo-light.webp" width="131" height="34" alt="Logo" />
+                                    </a>
+                                </div>
+                                <p class="desc">Trang web bao gồm tất cả các đôi giày mới nhất trên thị trường</p>
+                                <div class="social-icons">
+                                    <a href="https://www.facebook.com/" target="_blank" rel="noopener"><i class="fa fa-facebook"></i></a>
+                                    <a href="https://twitter.com/" target="_blank" rel="noopener"><i class="fa fa-twitter"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <!--== End widget Item ==-->
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <!--== Start widget Item ==-->
+                        <div class="widget-item widget-services-item">
+                            <h4 class="widget-title">Dịch Vụ</h4>
+                            <h4 class="widget-collapsed-title collapsed" data-bs-toggle="collapse" data-bs-target="#widgetId-1">Dịch Vụ</h4>
+                            <div id="widgetId-1" class="collapse widget-collapse-body">
+                                <div class="collapse-body">
+                                    <div class="widget-menu-wrap">
+                                        <ul class="nav-menu">
+                                            <li><a href="contact.html">Dịch vụ khách hàng</a></li>
+                                            <li><a href="contact.html">Khuyến mãi và giảm giá</a></li>
+                                            <li><a href="contact.html">Đổi/trả hàng</a></li>
+                                            <li><a href="contact.html">Giao hàng</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--== End widget Item ==-->
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <!--== Start widget Item ==-->
+                        <div class="widget-item widget-account-item">
+                            <h4 class="widget-title">Tài Khoản</h4>
+                            <h4 class="widget-collapsed-title collapsed" data-bs-toggle="collapse" data-bs-target="#widgetId-2">Tài Khoản</h4>
+                            <div id="widgetId-2" class="collapse widget-collapse-body">
+                                <div class="collapse-body">
+                                    <div class="widget-menu-wrap">
+                                        <ul class="nav-menu">
+                                            <li><a href="account-login.html">Tài Khoản</a></li>
+                                            <li><a href="contact.html">Liên Hệ</a></li>
+                                            <li><a href="shop-cart.html">Giỏ Hàng</a></li>
+                                            <li><a href="shop">Sản Phẩm</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--== End widget Item ==-->
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <!--== Start widget Item ==-->
+                        <div class="widget-item">
+                            <h4 class="widget-title">Thông Tin Liên Lạc</h4>
+                            <h4 class="widget-collapsed-title collapsed" data-bs-toggle="collapse" data-bs-target="#widgetId-3">Thông Tin Liên Lạc</h4>
+                            <div id="widgetId-3" class="collapse widget-collapse-body">
+                                <div class="collapse-body">
+                                    <div class="widget-contact-wrap">
+                                        <ul>
+                                            <li><span>Address:</span> Viet Nam</li>
+                                            <li><span>Phone//fax:</span> <a href="tel://0123456789">0392156817</a></li>
+                                            <li><span>Email:</span> <a href="mailto://demo@example.com">bang@example.com</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--== End widget Item ==-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--== End Footer Main ==-->
+
+        <!--== Start Footer Bottom ==-->
+        <div class="footer-bottom">
+            <div class="container pt--0 pb--0">
+                <div class="row">
+
+                    <div class="col-md-5 col-lg-6">
+                        <div class="payment">
+                            <a href="account-login.html"><img src="assets/img/photos/payment-card.webp" width="192" height="21" alt="Payment Logo"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--== End Footer Bottom ==-->
+    </footer>
 
 
 

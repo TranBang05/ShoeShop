@@ -130,15 +130,26 @@
                                         <button class="shopping-search-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#AsideOffcanvasSearch" aria-controls="AsideOffcanvasSearch"><i class="pe-7s-search icon"></i></button>
                                     </div>
                                     <div class="shopping-wishlist">
-                                        <a class="shopping-wishlist-btn" href="shop-wishlist.html">
+                                        <a class="shopping-wishlist-btn" href="Wishlist.jsp">
                                             <i class="pe-7s-like icon"></i>
                                         </a>
                                     </div>
                                     <div class="shopping-cart">
-                                        <button class="shopping-cart-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#AsideOffcanvasCart" aria-controls="offcanvasRightLabel">
-                                            <i class="pe-7s-shopbag icon"></i>
-                                            <sup class="shop-count">02</sup>
+
+
+
+                                        <button class="shopping-cart-btn" type="button" href="ShopCart.jsp">
+                                            <a class="shopping-cart-btn" href="ShopCart.jsp">
+
+
+                                                <i class="pe-7s-shopbag icon"></i>
+                                                <sup class="shop-count">${cart_list.size()}</sup>
+                                            </a>
                                         </button>
+
+
+
+
                                     </div>
                                     <button class="btn-menu" type="button" data-bs-toggle="offcanvas" data-bs-target="#AsideOffcanvasMenu" aria-controls="AsideOffcanvasMenu">
                                         <i class="pe-7s-menu"></i>

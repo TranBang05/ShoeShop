@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.ArrayList;
+
 public class Products {
     private int id;
     private String name;
@@ -73,6 +75,7 @@ public class Products {
     public String toString() {
         return "Product{" + "id=" + id + ", name=" + name + ", description=" + description+",  price=" + price + ", image=" + image + ", title=" + title +  '}';
     }
+
 
 }
 

@@ -11,7 +11,7 @@ import java.util.List;
 
 
 public class User {
-    private String id;
+    private int id;
     private String username;
     private String password;
     private String email;
@@ -85,11 +85,11 @@ public class User {
         this.code = code;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -131,7 +131,9 @@ public class User {
         }
     }
 
-    public boolean checkUser() {
+    public User userLogin(String username, String password) {
+        User user = null;
+
         try {
             String strSelect = "SELECT * FROM Users "
                     + "WHERE username=? "
@@ -141,13 +143,17 @@ public class User {
             pstm.setString(2, password);
             rs = pstm.executeQuery();
             while (rs.next()) {
-                return true;
+                user = new User();
+                user.setId(rs.getInt("userid"));
+                user.setUsername(rs.getString("username"));
+                user.setEmail(rs.getString("email"));
+
             }
         } catch (Exception e) {
             System.out.println("checkUser: " + e.getMessage());
         }
 
-        return false;
+        return user;
     }
 
 
@@ -169,7 +175,7 @@ public class User {
 
     public void addUser() {
         try {
-            String stradd = "INSERT INTO Users (username, password, email,role)"
+            String stradd = "INSERT INTO Users(username, password, email,role)"
                     + "VALUES (?,?,?,?)";
 
             pstm = cnn.prepareStatement(stradd);
@@ -216,7 +222,7 @@ public class User {
             rs = stm.executeQuery(strSelect);
             while (rs.next()) {
 
-                role = rs.getInt (6);
+                role = rs.getInt (7);
 
             }
         } catch (Exception e) {

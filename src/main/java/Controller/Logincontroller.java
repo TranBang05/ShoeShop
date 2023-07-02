@@ -24,31 +24,15 @@ public class Logincontroller extends HttpServlet {
         //su ly thong tin
         User u = new User ( username, password );
 
-        boolean check = u.checkUser ();
-
-        if (check) {
-            //luu thong tin login vao session
-            int role = u.getUserByRole ( username, password );
-
-            switch (role) {
-                case 1:
-                    HttpSession session = req.getSession ();
-                    session.setAttribute ( "username", u );
-                    req.setAttribute ( "username", username );
-                    resp.sendRedirect("home");
-                    break;
+        User user = u.userLogin(username, password);
 
 
-                case 2:
-                    req.getRequestDispatcher ( "Admin.jsp" ).forward ( req, resp );
 
-                    break;
+        if (user!=null) {
+            req.getSession().setAttribute("username", user);
 
-                default:
-                    System.out.println ( "Lựa chọn không hợp lệ" );
-                    break;
-            }
 
+            resp.sendRedirect("home");
 
         } else {
             err = "Account exit";

@@ -2,23 +2,24 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="Model.User" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="Model.Products" %>
+<%@ page import="java.util.List" %>
+<%@page isELIgnored="false" %>
 
-<%
 
 
-    User username = (User) request.getSession().getAttribute("username");
-    if(username!=null){
-        request.setAttribute("username",username);
-    }
 
-%>
 
-<html lang="zxx">
-
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
+-->
+<html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>JSP Page</title>
-
+    <title>TODO supply a title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -26,36 +27,46 @@
     <meta name="keywords" content="footwear, shoes, modern, shop, store, ecommerce, responsive, e-commerce"/>
     <meta name="author" content="codecarnival"/>
 
-
+    <title>Shome - Shoes eCommerce Website Template</title>
 
     <!--== Favicon ==-->
-    <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="${pageContext.request.contextPath}/assets/img/favicon.ico" type="image/x-icon" />
 
     <!--== Google Fonts ==-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet">
 
     <!--== Bootstrap CSS ==-->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css" rel="stylesheet" />
     <!--== Font Awesome Min Icon CSS ==-->
-    <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/assets/css/font-awesome.min.css" rel="stylesheet" />
     <!--== Pe7 Stroke Icon CSS ==-->
-    <link href="assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
     <!--== Swiper CSS ==-->
-    <link href="assets/css/swiper.min.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/assets/css/swiper.min.css" rel="stylesheet" />
     <!--== Fancybox Min CSS ==-->
-    <link href="assets/css/fancybox.min.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/assets/css/fancybox.min.css" rel="stylesheet" />
     <!--== Aos Min CSS ==-->
-    <link href="assets/css/aos.min.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/assets/css/aos.min.css" rel="stylesheet" />
 
     <!--== Main Style CSS ==-->
-    <link href="assets/css/style.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/assets/css/style.css" rel="stylesheet" />
 
-
+    <!--[if lt IE 9]>
+    <script src="${pageContext.request.contextPath}///oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="${pageContext.request.contextPath}///oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
 
+
 <%
+
+    User username = (User) request.getSession().getAttribute("username");
+    if(username!=null){
+        request.setAttribute("username",username);
+    }
+
     String err="";
     if(request.getAttribute("err")!=null)
         err=(String)request.getAttribute("err");
@@ -69,12 +80,14 @@
     String err1="";
     if(request.getAttribute("err1")!=null)
         err1=(String)request.getAttribute("password");
-
 %>
 
+
+
+
+
 <body>
-
-
+<!--wrapper start-->
 <div class="wrapper">
 
     <!--== Start Header Wrapper ==-->
@@ -90,19 +103,21 @@
                             <div class="header-top-align-end">
                                 <div class="header-info-items">
                                     <div class="info-items">
-                                        <%
-                                            if(username!=null){%>
 
-                                        <ul>
-                                            <li class="account"><i class="fa fa-user"></i><a href="logout">LogOut</a></li>
-                                        </ul>
-                                        <%}else{%>
-                                        <ul>
-                                            <li class="account"><i class="fa fa-user"></i><a href="logout">Login</a></li>
-                                        </ul>
+                                        <c:if test="${sessionScope.username != null}">
+                                            <ul>
+                                                <li class="account"><i class="fa fa-user"></i><a href="logout">Xin chào ${sessionScope.username.username}</a></li>
+                                                <li class="account"><i class="fa fa-user"></i><a href="logout">LogOut</a></li>
+                                            </ul>
+                                        </c:if>
 
-                                        <%}
-                                        %>
+                                        <c:if test="${sessionScope.username==null}">
+                                            <ul>
+                                                <li class="account"><i class="fa fa-user"></i><a href="Login.jsp">Đăng Nhập</a></li>
+                                            </ul>
+
+                                        </c:if>
+
 
                                     </div>
                                 </div>
@@ -127,8 +142,8 @@
                             </div>
                             <div class="header-middle-align-center">
                                 <div class="header-search-area">
-                                    <form class="header-searchbox">
-                                        <input type="search" class="form-control" placeholder="Search">
+                                    <form class="header-searchbox" action="search">
+                                        <input type="search" class="form-control" name="txt" placeholder="Tìm Kiếm">
                                         <button class="btn-submit" type="submit"><i class="pe-7s-search"></i></button>
                                     </form>
                                 </div>
@@ -139,15 +154,26 @@
                                         <button class="shopping-search-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#AsideOffcanvasSearch" aria-controls="AsideOffcanvasSearch"><i class="pe-7s-search icon"></i></button>
                                     </div>
                                     <div class="shopping-wishlist">
-                                        <a class="shopping-wishlist-btn" href="shop-wishlist.html">
+                                        <a class="shopping-wishlist-btn" href="Wishlist.jsp">
                                             <i class="pe-7s-like icon"></i>
                                         </a>
                                     </div>
                                     <div class="shopping-cart">
-                                        <button class="shopping-cart-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#AsideOffcanvasCart" aria-controls="offcanvasRightLabel">
-                                            <i class="pe-7s-shopbag icon"></i>
-                                            <sup class="shop-count">02</sup>
+
+
+
+                                        <button class="shopping-cart-btn" type="button" href="ShopCart.jsp">
+                                            <a class="shopping-cart-btn" href="ShopCart.jsp">
+
+
+                                                <i class="pe-7s-shopbag icon"></i>
+                                                <sup class="shop-count">${cart_list.size()}</sup>
+                                            </a>
                                         </button>
+
+
+
+
                                     </div>
                                     <button class="btn-menu" type="button" data-bs-toggle="offcanvas" data-bs-target="#AsideOffcanvasMenu" aria-controls="AsideOffcanvasMenu">
                                         <i class="pe-7s-menu"></i>
@@ -166,16 +192,17 @@
                         <div class="header-align">
                             <div class="header-navigation-area position-relative">
                                 <ul class="main-menu nav">
-                                    <li><a href="Home.jsp"><span>Home</span></a>
+
+                                    <li><a href="home"><span>Trang Chủ</span></a>
 
                                     </li>
 
-                                    <li ><a href="Shop-Products.jsp"><span>Shop</span></a>
+                                    <li ><a href="shop"><span>Sản Phẩm</span></a>
 
                                     </li>
                                     <li><a href="blog-details-no-sidebar.html"><span>Blog</span></a>
                                     </li>
-                                    <li><a href="contact.html"><span>Contact</span></a></li>
+                                    <li><a href="contact.html"><span>Liên Hệ</span></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -184,7 +211,6 @@
             </div>
         </div>
     </header>
-    <!--== End Header Wrapper ==-->
 
     <main class="main-content">
 
