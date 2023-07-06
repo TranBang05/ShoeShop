@@ -227,6 +227,10 @@
                 <form action="login" method="post">
                   <div class="row">
                     <div class="col-12">
+                         <c:if test="${not empty message}">
+                            
+                        <p style="color: red">${message}</p>
+                        </c:if>
                       <div class="form-group">
                         <label for="username">Username<span class="required"></span></label>
                         <input id="username" name="username" class="form-control">
