@@ -19,7 +19,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     <title>TODO supply a title</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="utf-8">
+  
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Shome - Shoes eCommerce Website Template"/>
@@ -182,7 +182,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                     <li ><a href="shop"><span>Sản Phẩm</span></a>
 
                                     </li>
-                                    <li><a href="blog-details-no-sidebar.html"><span>Blog</span></a>
+                                    <li><a href="blog"><span>Blog</span></a>
                                     </li>
                                     <li><a href="contact.html"><span>Liên Hệ</span></a></li>
                                 </ul>
