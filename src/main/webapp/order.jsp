@@ -68,30 +68,21 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 <%
     List<Order> orders = null;
 
+
     User username = (User) request.getSession().getAttribute("username");
     if(username!=null){
         request.setAttribute("username",username);
         DAO orderDao  = new DAO();
          orders = orderDao.userOrders(username.getId());
+        request.setAttribute("order-list", orders);
+
+
     }else{
         response.sendRedirect("Login.jsp");
     }
 
 
-    ArrayList<cart> cart_list = (ArrayList<cart>) session.getAttribute("cart-list");
-    List<cart> cartProduct = null;
-    if (cart_list != null) {
-        DAO dao = new DAO(); // Khởi tạo đối tượng DAO
-        try {
-            cartProduct = dao.getCartProducts(cart_list);
-            double total = dao.getTotalCartPrice(cart_list);
-            request.setAttribute("total", total);
-            request.setAttribute("cart_list", cart_list);
-        } catch (Exception e) {
-            // Xử lý ngoại lệ nếu có
-            e.printStackTrace();
-        }
-    }
+
 
 
 %>
@@ -281,7 +272,72 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 </tbody>
             </table>
 
+            <div class="card-header my-3"><a href="payment">Thanh toan</a></div>
+
     </div>
+
+
+
+
+
+            <div class="center-container">
+                <div class="checkout-order-details-wrap">
+                    <form action="payment" method="post">
+                    <div class="order-details-table-wrap table-responsive">
+
+
+
+                        <h2 class="title mb-25">Your order</h2>
+
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th class="product-name">Product</th>
+                                <th class="product-total">Total</th>
+                            </tr>
+                            </thead>
+                            <tbody class="table-body">
+
+                                <%
+                                    double total = 0.0; // Khởi tạo biến tổng ban đầu
+
+                                    if (orders != null) {
+                                        for (Order o : orders) {
+                                   %>
+                            <tr class="cart-item">
+                                <td class="product-name" name="name"><%= o.getName() %><span class="product-quantity">*<%=o.getQunatity()%></span></td>
+                                <td class="product-total" name="price"><%= o.getPrice() %></td>
+                            </tr>
+                                <%
+                                           total += o.getPrice();
+                                  }
+                                     }
+                                 %>
+
+                            <!-- ... -->
+
+                            <tfoot class="table-foot">git
+                            <!-- ... -->
+                            <tr class="order-total">
+                                <th>Total</th>
+                                <td><%= total %></td>
+                            </tr>
+                            <input type="hidden" class="quantity" title="Quantity" name="price" value="<%=total%>">
+                            </tfoot>
+                        </table>
+
+                        <td >
+                            <button type="submit" class="btn-theme btn-flat" >Xác Nhận Đặt Hàng</button>
+                        </td>
+                    </div>
+                    </form>
+
+                </div>
+
+
+            </div>
+
+
     </main>
 </div>
 

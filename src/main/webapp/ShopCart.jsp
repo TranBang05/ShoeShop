@@ -8,6 +8,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="DAO.DAO" %>
 <%@ page import="DAL.DBContext" %>
+<%@ page import="Model.Order" %>
 <%@page isELIgnored="false" %>
 
 
@@ -66,10 +67,20 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
 <%
 
+    List<Order> orders = null;
+
     User username = (User) request.getSession().getAttribute("username");
     if(username!=null){
         request.setAttribute("username",username);
+        DAO orderDao  = new DAO();
+        orders = orderDao.userOrders(username.getId());
+        request.setAttribute("order-list", orders);
+
+
+    }else{
+        response.sendRedirect("Login.jsp");
     }
+
 
     ArrayList<cart> cart_list = (ArrayList<cart>) session.getAttribute("cart-list");
     List<cart> cartProduct = null;
@@ -78,6 +89,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         try {
             cartProduct = dao.getCartProducts(cart_list);
             double total = dao.getTotalCartPrice(cart_list);
+
             request.setAttribute("total", total);
             request.setAttribute("cart_list", cart_list);
         } catch (Exception e) {
@@ -266,6 +278,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                     %>
                                                 <tr class="cart-product-item">
                                                     <input type="hidden" name="id" value="<%= c.getId()%>" class="form-input">
+                                                    <input type="hidden" class="quantity" title="Quantity" name="price" value="<%=c.getPrice()%>">
                                         <td class="product-remove">
                                             <a href="removecart?id=<%=c.getId() %>"><i class="fa fa-trash-o"></i></a>
                                         </td>
@@ -278,7 +291,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                             <h4 class="title"><a href="single-product.html"><%=c.getName()%></a></h4>
                                         </td>
                                         <td class="product-price">
-                                            <span class="price"><%=c.getPrice()%></span>
+                                            <span class="price" name="price"><%=c.getPrice()%></span>
                                         </td>
                                         <td class="product-quantity">
 
@@ -308,55 +321,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     </div>
                 </div>
                 <div class="row row-gutter-50">
-                    <div class="col-md-6 col-lg-4">
-                        <div id="CategoriesAccordion" class="shipping-form-calculate">
-                            <div class="section-title-cart">
-                                <h5 class="title">Calculate Shipping</h5>
-                                <div class="desc">
-                                    <p>Estimate your shipping fee *</p>
-                                </div>
-                            </div>
-                            <span data-bs-toggle="collapse" data-bs-target="#CategoriesTwo" aria-expanded="true" role="button">Calculate shipping</span>
-                            <div id="CategoriesTwo" class="collapse show" data-bs-parent="#CategoriesAccordion">
-                                <form action="#" method="post">
-                                    <div class="row row-gutter-50">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label class="visually-hidden" for="FormCountry">State</label>
-                                                <select id="FormCountry" class="form-control">
-                                                    <option selected>Select a country…</option>
-                                                    <option>...</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="stateCounty" class="visually-hidden">State / County</label>
-                                                <input type="text" id="stateCounty" class="form-control" placeholder="State / County">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="townCity" class="visually-hidden">Town / City</label>
-                                                <input type="text" id="townCity" class="form-control" placeholder="Town / City">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="postcodeZip" class="visually-hidden">Postcode / ZIP</label>
-                                                <input type="text" id="postcodeZip" class="form-control" placeholder="Postcode / ZIP">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <button type="submit" class="update-totals">Update totals</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+
                     <div class="col-md-6 col-lg-4">
                         <div class="shipping-form-coupon">
                             <div class="section-title-cart">
@@ -382,53 +347,65 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             </form>
                         </div>
                     </div>
-                    <div class="col-md-12 col-lg-4">
-                        <div class="shipping-form-cart-totals">
-                            <div class="section-title-cart">
-                                <h5 class="title">Giỏ Hàng</h5>
-                            </div>
-                            <div class="cart-total-table">
-                                <table class="table">
-                                    <tbody>
-                                    <tr class="cart-subtotal">
-                                        <td>
-                                            <p class="value">Tổng Giá trị</p>
-                                        </td>
-                                        <td>
-                                            <p class="price">${total}</p>
-                                        </td>
-                                    </tr>
-                                    <tr class="shipping">
-                                        <td>
-                                            <p class="value">Vận Chuyển</p>
-                                        </td>
-                                        <td>
-                                            <ul class="shipping-list">
-                                                <li class="radio">
-                                                    <input type="radio" name="shipping" id="radio1" checked>
-                                                    <label for="radio1"><span></span> Miễn Phí Vận Chuyển</label>
-                                                </li>
-                                                <li class="radio">
-                                                    <input type="radio" name="shipping" id="radio3">
-                                                    <label for="radio3"><span></span> Local Pickup</label>
-                                                </li>
-                                            </ul>
-                                        </td>
-                                    </tr>
-                                    <tr class="order-total">
-                                        <td>
-                                            <p class="value">Tổng</p>
-                                        </td>
-                                        <td>
-                                            <p class="price">${total}</p>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <a class="btn-theme btn-flat" href="checkout">Proceed to checkout</a>
+
+                    <div class="col-lg-6">
+                        <div class="checkout-order-details-wrap">
+                            <form action="checkout" method="post">
+                                <div class="order-details-table-wrap table-responsive">
+
+
+
+                                    <h2 class="title mb-25">Your order</h2>
+
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th class="product-name">Product</th>
+                                            <th class="product-total">Total</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody class="table-body">
+
+                                            <%
+                                    double total = 0.0; // Khởi tạo biến tổng ban đầu
+
+                                     if (cart_list != null) {
+                                            for (cart o : cartProduct) {
+                                   %>
+                                        <tr class="cart-item">
+                                            <td class="product-name" name="name"><%= o.getName() %><span class="product-quantity">*</span></td>
+                                            <td class="product-total" name="price"><%= o.getPrice() %></td>
+
+                                        </tr>
+                                            <%
+                                           total += o.getPrice(); // Cộng giá mỗi món vào tổng
+                                  }
+                                     }
+                                 %>
+
+                                        <!-- ... -->
+
+                                        <tfoot class="table-foot">
+                                        <!-- ... -->
+                                        <tr class="order-total">
+                                            <th>Total</th>
+                                            <td><%= total %></td>
+                                        </tr>
+                                        <input type="hidden" class="quantity" title="Quantity" name="price" value="<%=total%>">
+                                        </tfoot>
+                                    </table>
+
+                                    <td >
+                                        <button type="submit" class="btn-theme btn-flat">Đặt Hàng</button>
+                                    </td>
+                                </div>
+                            </form>
+
                         </div>
+
+
                     </div>
+
                 </div>
             </div>
         </section>
@@ -450,11 +427,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                         <img class="logo-main" src="assets/img/logo-light.webp" width="131" height="34" alt="Logo" />
                                     </a>
                                 </div>
-                                <p class="desc">Lorem ipsum dolor sit amet consl adipisi elit, sed do eiusmod templ incididunt ut labore</p>
+                                <p class="desc">Trang web bao gồm tất cả các đôi giày mới nhất trên thị trường</p>
                                 <div class="social-icons">
                                     <a href="https://www.facebook.com/" target="_blank" rel="noopener"><i class="fa fa-facebook"></i></a>
-                                    <a href="https://dribbble.com/" target="_blank" rel="noopener"><i class="fa fa-dribbble"></i></a>
-                                    <a href="https://www.pinterest.com/" target="_blank" rel="noopener"><i class="fa fa-pinterest-p"></i></a>
                                     <a href="https://twitter.com/" target="_blank" rel="noopener"><i class="fa fa-twitter"></i></a>
                                 </div>
                             </div>
@@ -464,17 +439,16 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <div class="col-md-6 col-lg-3">
                         <!--== Start widget Item ==-->
                         <div class="widget-item widget-services-item">
-                            <h4 class="widget-title">Services</h4>
-                            <h4 class="widget-collapsed-title collapsed" data-bs-toggle="collapse" data-bs-target="#widgetId-1">Services</h4>
+                            <h4 class="widget-title">Dịch Vụ</h4>
+                            <h4 class="widget-collapsed-title collapsed" data-bs-toggle="collapse" data-bs-target="#widgetId-1">Dịch Vụ</h4>
                             <div id="widgetId-1" class="collapse widget-collapse-body">
                                 <div class="collapse-body">
                                     <div class="widget-menu-wrap">
                                         <ul class="nav-menu">
-                                            <li><a href="contact.html">Home monitoring</a></li>
-                                            <li><a href="contact.html">Air Filters</a></li>
-                                            <li><a href="contact.html">Professional installation</a></li>
-                                            <li><a href="contact.html">Smart Buildings</a></li>
-                                            <li><a href="contact.html">For contractors</a></li>
+                                            <li><a href="contact.html">Dịch vụ khách hàng</a></li>
+                                            <li><a href="contact.html">Khuyến mãi và giảm giá</a></li>
+                                            <li><a href="contact.html">Đổi/trả hàng</a></li>
+                                            <li><a href="contact.html">Giao hàng</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -485,17 +459,16 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <div class="col-md-6 col-lg-3">
                         <!--== Start widget Item ==-->
                         <div class="widget-item widget-account-item">
-                            <h4 class="widget-title">My Account</h4>
-                            <h4 class="widget-collapsed-title collapsed" data-bs-toggle="collapse" data-bs-target="#widgetId-2">My Account</h4>
+                            <h4 class="widget-title">Tài Khoản</h4>
+                            <h4 class="widget-collapsed-title collapsed" data-bs-toggle="collapse" data-bs-target="#widgetId-2">Tài Khoản</h4>
                             <div id="widgetId-2" class="collapse widget-collapse-body">
                                 <div class="collapse-body">
                                     <div class="widget-menu-wrap">
                                         <ul class="nav-menu">
-                                            <li><a href="account-login.html">My Account</a></li>
-                                            <li><a href="contact.html">Contact</a></li>
-                                            <li><a href="shop-cart.html">Shopping cart</a></li>
-                                            <li><a href="shop.html">Shop</a></li>
-                                            <li><a href="account-login.html">Services Login</a></li>
+                                            <li><a href="account-login.html">Tài Khoản</a></li>
+                                            <li><a href="contact.html">Liên Hệ</a></li>
+                                            <li><a href="shop-cart.html">Giỏ Hàng</a></li>
+                                            <li><a href="shop">Sản Phẩm</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -506,16 +479,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <div class="col-md-6 col-lg-3">
                         <!--== Start widget Item ==-->
                         <div class="widget-item">
-                            <h4 class="widget-title">Contact Info</h4>
-                            <h4 class="widget-collapsed-title collapsed" data-bs-toggle="collapse" data-bs-target="#widgetId-3">Contact Info</h4>
+                            <h4 class="widget-title">Thông Tin Liên Lạc</h4>
+                            <h4 class="widget-collapsed-title collapsed" data-bs-toggle="collapse" data-bs-target="#widgetId-3">Thông Tin Liên Lạc</h4>
                             <div id="widgetId-3" class="collapse widget-collapse-body">
                                 <div class="collapse-body">
                                     <div class="widget-contact-wrap">
                                         <ul>
-                                            <li><span>Address:</span> Your address goes here.</li>
-                                            <li><span>Phone//fax:</span> <a href="tel://0123456789">0123456789</a></li>
-                                            <li><span>Email:</span> <a href="mailto://demo@example.com">demo@example.com</a></li>
-                                            <li><a target="_blank" href="https://www.hasthemes.com">www.example.com</a></li>
+                                            <li><span>Address:</span> Viet Nam</li>
+                                            <li><span>Phone//fax:</span> <a href="tel://0123456789">0392156817</a></li>
+                                            <li><span>Email:</span> <a href="mailto://demo@example.com">bang@example.com</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -532,9 +504,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <div class="footer-bottom">
             <div class="container pt--0 pb--0">
                 <div class="row">
-                    <div class="col-md-7 col-lg-6">
-                        <p class="copyright">© 2021 Shome. Made with <i class="fa fa-heart"></i> by <a target="_blank" href="https://themeforest.net/user/codecarnival/portfolio">Codecarnival.</a></p>
-                    </div>
+
                     <div class="col-md-5 col-lg-6">
                         <div class="payment">
                             <a href="account-login.html"><img src="assets/img/photos/payment-card.webp" width="192" height="21" alt="Payment Logo"></a>
@@ -543,8 +513,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 </div>
             </div>
         </div>
-        <!--== End Footer Bottom ==-->
+        <!--== End Footer Bottom ==-->s
     </footer>
+
     <!--== End Footer Area Wrapper ==-->
 
     <!--== Scroll Top Button ==-->
@@ -608,36 +579,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     <!--== End Quick View Menu ==-->
 
     <!--== Start Aside Cart Menu ==-->
-    <div class="aside-cart-wrapper offcanvas offcanvas-end" tabindex="-1" id="AsideOffcanvasCart" aria-labelledby="offcanvasRightLabel">
-        <div class="offcanvas-header">
-            <h1 id="offcanvasRightLabel"></h1>
-            <button class="btn-aside-cart-close" data-bs-dismiss="offcanvas" aria-label="Close">Shopping Cart <i class="fa fa-chevron-right"></i></button>
-        </div>
-        <div class="offcanvas-body">
-            <ul class="aside-cart-product-list">
-                <li class="product-list-item">
-                    <a href="#/" class="remove">×</a>
-                    <a href="single-product.html">
-                        <img src="assets/img/shop/product-mini/1.webp" width="90" height="110" alt="Image-HasTech">
-                        <span class="product-title">Leather Mens Slipper</span>
-                    </a>
-                    <span class="product-price">1 × £69.99</span>
-                </li>
-                <li class="product-list-item">
-                    <a href="#/" class="remove">×</a>
-                    <a href="single-product.html">
-                        <img src="assets/img/shop/product-mini/2.webp" width="90" height="110" alt="Image-HasTech">
-                        <span class="product-title">Quickiin Mens shoes</span>
-                    </a>
-                    <span class="product-price">1 × £20.00</span>
-                </li>
-            </ul>
-            <p class="cart-total"><span>Subtotal:</span><span class="amount">£89.99</span></p>
-            <a class="btn-theme" data-margin-bottom="10" href="shop-cart.html">View cart</a>
-            <a class="btn-theme" href="shop-checkout.html">Checkout</a>
-            <a class="d-block text-end lh-1" href="shop-checkout.html"><img src="assets/img/photos/paypal.webp" width="133" height="26" alt="Has-image"></a>
-        </div>
-    </div>
+
     <!--== End Aside Cart Menu ==-->
 
     <!--== Start Aside Search Menu ==-->
@@ -666,86 +608,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     <!--== End Aside Search Menu ==-->
 
     <!--== Start Side Menu ==-->
-    <div class="off-canvas-wrapper offcanvas offcanvas-start" tabindex="-1" id="AsideOffcanvasMenu" aria-labelledby="offcanvasExampleLabel">
-        <div class="offcanvas-header">
-            <h1 id="offcanvasExampleLabel"></h1>
-            <button class="btn-menu-close" data-bs-dismiss="offcanvas" aria-label="Close">menu <i class="fa fa-chevron-left"></i></button>
-        </div>
-        <div class="offcanvas-body">
-            <div class="info-items">
-                <ul>
-                    <li class="number"><a href="tel://0123456789"><i class="fa fa-phone"></i>+00 123 456 789</a></li>
-                    <li class="email"><a href="mailto://demo@example.com"><i class="fa fa-envelope"></i>demo@example.com</a></li>
-                    <li class="account"><a href="account-login.html"><i class="fa fa-user"></i>Account</a></li>
-                </ul>
-            </div>
-            <!-- Mobile Menu Start -->
-            <div class="mobile-menu-items">
-                <ul class="nav-menu">
-                    <li><a href="#">Home</a>
-                        <ul class="sub-menu">
-                            <li><a href="index.html">Home One</a></li>
-                            <li><a href="index-two.html">Home Two</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="about-us.html">About</a></li>
-                    <li><a href="#">Pages</a>
-                        <ul class="sub-menu">
-                            <li><a href="account.html">Account</a></li>
-                            <li><a href="account-login.html">Login</a></li>
-                            <li><a href="account-register.html">Register</a></li>
-                            <li><a href="page-not-found.html">Page Not Found</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">Shop</a>
-                        <ul class="sub-menu">
-                            <li><a href="#">Shop Layout</a>
-                                <ul class="sub-menu">
-                                    <li><a href="shop-three-columns.html">Shop 3 Column</a></li>
-                                    <li><a href="shop-four-columns.html">Shop 4 Column</a></li>
-                                    <li><a href="shop.html">Shop Left Sidebar</a></li>
-                                    <li><a href="shop-right-sidebar.html">Shop Right Sidebar</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">Single Product</a>
-                                <ul class="sub-menu">
-                                    <li><a href="single-normal-product.html">Single Product Normal</a></li>
-                                    <li><a href="single-product.html">Single Product Variable</a></li>
-                                    <li><a href="single-group-product.html">Single Product Group</a></li>
-                                    <li><a href="single-affiliate-product.html">Single Product Affiliate</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">Others Pages</a>
-                                <ul class="sub-menu">
-                                    <li><a href="shop-cart.html">Shopping Cart</a></li>
-                                    <li><a href="shop-checkout.html">Checkout</a></li>
-                                    <li><a href="shop-wishlist.html">Wishlist</a></li>
-                                    <li><a href="shop-compare.html">Compare</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li><a href="#">Blog</a>
-                        <ul class="sub-menu">
-                            <li><a href="#">Blog Layout</a>
-                                <ul class="sub-menu">
-                                    <li><a href="blog.html">Blog Grid</a></li>
-                                    <li><a href="blog-left-sidebar.html">Blog Left Sidebar</a></li>
-                                    <li><a href="blog-right-sidebar.html">Blog Right Sidebar</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">Single Blog</a>
-                                <ul class="sub-menu">
-                                    <li><a href="blog-details-no-sidebar.html">Blog Details</a></li>
-                                    <li><a href="blog-details-left-sidebar.html">Blog Details Left Sidebar</a></li>
-                                    <li><a href="blog-details.html">Blog Details Right Sidebar</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-            </div>
+
             <!-- Mobile Menu End -->
         </div>
     </div>

@@ -324,11 +324,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                         </div>
                                     </div>
                                     <div class="tab-pane fade" id="nav-list" role="tabpanel" aria-labelledby="nav-list-tab">
+
                                         <div class="row">
+
                                            <c:forEach var="p" items="${list}">
                                             <div class="col-md-12">
                                                 <!--== Start Product Item ==-->
                                                 <div class="product-item product-list-item">
+
                                                     <div class="inner-content">
                                                         <div class="product-thumb">
                                                             <a href="single-product.html">
@@ -352,7 +355,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                                                 <span class="price">${p.price}</span>
                                                             </div>
                                                             <p>${p.description}</p>
-                                                            <a class="btn-theme btn-sm" href="addtocart?id=${p.id}">Thêm Vào Giỏ Hàng</a>
+                                                            <a class="btn-theme btn-sm" href="addtocart?id=${p.id}&price=${p.price}">Thêm Vào Giỏ Hàng</a>
                                                             <a class="btn-theme btn-sm" href="ordernow?quantity=1&id=${p.id}">Mua Ngay</a>
 
                                                         </div>

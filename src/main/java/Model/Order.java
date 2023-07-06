@@ -4,6 +4,7 @@ public class Order extends Products{
     private int orderId;
     private int uid;
     private int qunatity;
+
     private String date;
 
     public Order() {
@@ -23,6 +24,8 @@ public class Order extends Products{
         this.qunatity = qunatity;
         this.date = date;
     }
+
+
 
     public int getOrderId() {
         return orderId;
@@ -51,4 +54,6 @@ public class Order extends Products{
     public void setDate(String date) {
         this.date = date;
     }
+
+
 }

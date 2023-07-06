@@ -23,32 +23,47 @@ public class CheckOutController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         //b1: get data from da
-        try(PrintWriter out = response.getWriter()){
+        try {
+            PrintWriter out = response.getWriter();
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date date = new Date();
             ArrayList<cart> cart_list = (ArrayList<cart>) request.getSession().getAttribute("cart-list");
+
             User username = (User) request.getSession().getAttribute("username");
-            if(cart_list != null && username!=null) {
-                for(cart c:cart_list) {
+
+
+
+
+            if (cart_list != null && username != null) {
+                for (cart c : cart_list) {
+
+                    System.out.println(c);
                     Order order = new Order();
                     order.setId(c.getId());
                     order.setUid(username.getId());
+                    order.setPrice(c.getPrice());
                     order.setQunatity(c.getQuantity());
                     order.setDate(formatter.format(date));
+
                     DAO orderDao = new DAO();
                     boolean result = orderDao.insertOrder(order);
-                    if(!result) break;
+                    if (!result) break;
+
+
                 }
+
                 cart_list.clear();
+
                 response.sendRedirect("order.jsp");
-            }else {
-                if(username==null) {
+            } else {
+                if (username == null) {
                     response.sendRedirect("Login.jsp");
+                } else {
+                    response.sendRedirect("ShopCart.jsp");
                 }
-                response.sendRedirect("ShopCart.jsp");
             }
         } catch (Exception e) {
-            // Xử lý ClassNotFoundException ở đây
+            // Handle other exceptions
             e.printStackTrace();
         }
     }

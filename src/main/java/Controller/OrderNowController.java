@@ -32,6 +32,7 @@ public class OrderNowController extends HttpServlet {
             if (username != null) {
                 System.out.println( username.getId() );
                 String productId = request.getParameter("id");
+                double price = Double.parseDouble(request.getParameter("price"));
                 int productQuantity = Integer.parseInt(request.getParameter("quantity"));
                 if (productQuantity <= 0) {
                     productQuantity = 1;
@@ -39,6 +40,7 @@ public class OrderNowController extends HttpServlet {
                 Order orderModel = new Order();
                 orderModel.setId(Integer.parseInt(productId));
                 orderModel.setUid(username.getId());
+                orderModel.setPrice(price);
                 orderModel.setQunatity(productQuantity);
                 orderModel.setDate(formatter.format(date));
 
@@ -48,6 +50,7 @@ public class OrderNowController extends HttpServlet {
                     ArrayList<cart> cart_list = (ArrayList<cart>) request.getSession().getAttribute("cart-list");
                     if (cart_list != null) {
                         for (cart c : cart_list) {
+                            System.out.println(c);
                             if (c.getId() == Integer.parseInt(productId)) {
                                 cart_list.remove(cart_list.indexOf(c));
                                 break;

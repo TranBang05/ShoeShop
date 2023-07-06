@@ -1,10 +1,7 @@
 package DAO;
 
 import DAL.DBContext;
-import Model.Order;
-import Model.Products;
-import Model.Category;
-import Model.cart;
+import Model.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -84,6 +81,10 @@ public class DAO {
         }
         return book;
     }
+
+
+
+
 
     public List<Products> getWishListProducts(ArrayList<Products> WishList) {
         List<Products> p = new ArrayList<>();
@@ -232,16 +233,42 @@ public class DAO {
 
     public boolean insertOrder(Order model) {
         boolean result = false;
-        String query = "insert into orders ( userid, product_id,quantity, date_placed) values(?,?,?,?)";
+        String query = "insert into orders ( userid, product_id, price, quantity, date_placed) values(?,?,?,?,?)";
         try {
             cnn=(new DBContext()).connection;
             pstm = cnn.prepareStatement(query);
 
             pstm.setInt(1, model.getUid());
             pstm.setInt(2, model.getId());
+            pstm.setDouble(3, model.getPrice());
+            pstm.setInt(4, model.getQunatity());
+            pstm.setString(5, model.getDate());
 
-            pstm.setInt(3, model.getQunatity());
-            pstm.setString(4, model.getDate());
+            pstm.executeUpdate();
+            result = true;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return result;
+    }
+
+
+
+
+
+
+
+    public boolean insertPayment(Payment model) {
+        boolean result = false;
+        String query = "insert into payments (order_id, amount) values(?,?)";
+        try {
+            cnn=(new DBContext()).connection;
+            pstm = cnn.prepareStatement(query);
+
+            pstm.setInt(1,model.getOrderId());
+            pstm.setDouble(2, model.getAmount());
+
             pstm.executeUpdate();
             result = true;
         } catch (SQLException e) {
@@ -249,6 +276,7 @@ public class DAO {
         }
         return result;
     }
+
 
 
 
@@ -311,6 +339,31 @@ public class DAO {
         return list;
     }
 
+    public List<Order> Orders(int id) {
+        List<Order> list = new ArrayList<>();
+        String query = "select * from orders where order_id=? ";
+        try {
+
+            cnn=(new DBContext()).connection;
+            pstm = cnn.prepareStatement(query);
+
+            pstm.setInt(1, id);
+            rs = pstm.executeQuery();
+            while (rs.next()) {
+                Order order = new Order();
+                order.setId(rs.getInt("order_id"));
+
+                order.setDate(rs.getString("date_placed"));
+                list.add(order);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+        return list;
+    }
+
+
     public void cancelOrder(int id) {
         String query = "DELETE FROM orders WHERE order_id = ?";
         try {
@@ -357,6 +410,7 @@ public class DAO {
         }
         return sum;
     }
+
 
 
     public static void main(String[] args) {

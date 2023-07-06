@@ -33,8 +33,10 @@ public class AddtoCartController extends HttpServlet {
 
             ArrayList<cart> cartList = new ArrayList<>();
             int id = Integer.parseInt(request.getParameter("id"));
+            double a=Double.parseDouble((request.getParameter("price")));
             cart cm = new cart();
             cm.setId(id);
+            cm.setPrice(a);
             cm.setQuantity(1);
             HttpSession session = request.getSession();
             ArrayList<cart> cart_list = (ArrayList<cart>) session.getAttribute("cart-list");
@@ -44,7 +46,7 @@ public class AddtoCartController extends HttpServlet {
                 response.sendRedirect("shop");
             } else {
                 cartList = cart_list;
-
+                System.out.println(cart_list);
                 boolean exist = false;
                 for (cart c : cart_list) {
                     if (c.getId() == id) {
@@ -55,6 +57,7 @@ public class AddtoCartController extends HttpServlet {
 
                 if (!exist) {
                     cartList.add(cm);
+                    System.out.println(cartList);
                     response.sendRedirect("shop");
                 }
             }
