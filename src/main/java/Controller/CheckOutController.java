@@ -31,9 +31,6 @@ public class CheckOutController extends HttpServlet {
 
             User username = (User) request.getSession().getAttribute("username");
 
-
-
-
             if (cart_list != null && username != null) {
                 for (cart c : cart_list) {
 

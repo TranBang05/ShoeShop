@@ -38,7 +38,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="${pageContext.request.contextPath}/https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet">
-
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <!--== Bootstrap CSS ==-->
     <link href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css" rel="stylesheet" />
     <!--== Font Awesome Min Icon CSS ==-->
@@ -56,17 +56,17 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     <link href="${pageContext.request.contextPath}/assets/css/style.css" rel="stylesheet" />
 
     <!--[if lt IE 9]>
-    <script src="${pageContext.request.contextPath}///oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="${pageContext.request.contextPath}///oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+        <script src="${pageContext.request.contextPath}///oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="${pageContext.request.contextPath}///oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
 </head>
 
 
 <%
 
     User username = (User) request.getSession().getAttribute("username");
-    if(username!=null){
-        request.setAttribute("username",username);
+    if (username != null) {
+        request.setAttribute("username", username);
     }
 
     ArrayList<cart> cart_list = (ArrayList<cart>) session.getAttribute("cart-list");
@@ -295,14 +295,18 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                         </div>
                                         <div class="rating-box-wrap">
                                             <div class="rating-box">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
+                                                <%-- Display the average star rating dynamically --%>
+                                                <c:forEach begin="1" end="${avgStarRating}" var="i">
+                                                    <i class="fa fa-star"></i>
+                                                </c:forEach>
+                                                <%-- Display remaining empty stars based on the maximum rating --%>
+                                                <c:forEach begin="${avgStarRating + 1}" end="5" var="i">
+                                                    <i class="fa fa-star-o"></i>
+                                                </c:forEach>
                                             </div>
                                             <div class="review-status">
-                                                <a href="javascript:void(0)">(5 Customer Review)</a>
+                                                <%-- Display the total customer reviews dynamically --%>
+                                                <a href="javascript:void(0)">${totalCount} Customer Review</a>
                                             </div>
                                         </div>
                                         <p>${detail.description}</p>
@@ -324,7 +328,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                                 </div>
                                             </div>
 
-                                                <a class="btn-theme" href="addtocart?id=${detail.id}&price=${detail.price}">Add to Cart</a>
+                                            <a class="btn-theme" href="addtocart?id=${detail.id}&price=${detail.price}">Add to Cart</a>
 
                                         </div>
                                         <div class="product-wishlist-compare">
@@ -355,7 +359,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                     <a id="description-tab" data-bs-toggle="pill" href="#description" role="tab" aria-controls="description" aria-selected="false">Description</a>
                                 </li>
                                 <li role="presentation">
-                                    <a id="reviews-tab" data-bs-toggle="pill" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">Reviews <span>(05)</span></a>
+                                    <a id="reviews-tab" data-bs-toggle="pill" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">Reviews <span>(${totalCount})</span></a>
                                 </li>
                             </ul>
                             <div class="tab-content product-tab-content" id="ReviewTabContent">
@@ -375,13 +379,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                             <h3>Customer Reviews</h3>
                                             <div class="review-info">
                                                 <ul class="review-rating">
-                                                    <li class="fa fa-star"></li>
-                                                    <li class="fa fa-star"></li>
-                                                    <li class="fa fa-star"></li>
-                                                    <li class="fa fa-star"></li>
-                                                    <li class="fa fa-star-o"></li>
+                                                    <c:forEach begin="1" end="${avgStarRating}">
+                                                        <li class="fa fa-star"></li>
+                                                    </c:forEach>
+                                                    <c:forEach begin="${avgStarRating + 1}" end="5">
+                                                        <li class="fa fa-star-o"></li>
+                                                    </c:forEach>
                                                 </ul>
-                                                <span class="review-caption">Based on 5 reviews</span>
+                                                <span class="review-caption">Based on ${totalCount} reviews</span>
                                                 <span class="review-write-btn">Write a review</span>
                                             </div>
                                         </div>
@@ -390,142 +395,97 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                         <div class="reviews-form-area">
                                             <h4 class="title">Write a review</h4>
                                             <div class="reviews-form-content">
-                                                <form action="#">
+                                                <form id="feedbackForm" action="#" method="POST">
                                                     <div class="row">
                                                         <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <label for="for_name">Name</label>
-                                                                <input id="for_name" class="form-control" type="text" placeholder="Enter your name">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <label for="for_email">Email</label>
-                                                                <input id="for_email" class="form-control" type="email" placeholder="john.smith@example.com">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
+                                                            <div class="form-group" >
                                                                 <span class="title">Rating</span>
                                                                 <ul class="review-rating">
-                                                                    <li class="fa fa-star-o"></li>
-                                                                    <li class="fa fa-star-o"></li>
-                                                                    <li class="fa fa-star-o"></li>
-                                                                    <li class="fa fa-star-o"></li>
-                                                                    <li class="fa fa-star-o"></li>
+                                                                    <li class="fa fa-star-o" data-star="1"></li>
+                                                                    <li class="fa fa-star-o" data-star="2"></li>
+                                                                    <li class="fa fa-star-o" data-star="3"></li>
+                                                                    <li class="fa fa-star-o" data-star="4"></li>
+                                                                    <li class="fa fa-star-o" data-star="5"></li>
                                                                 </ul>
+                                                                <input type="hidden" id="feedbackRating" name="rating" value="0" required="">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-12">
                                                             <div class="form-group">
-                                                                <label for="for_review-title">Review Title</label>
-                                                                <input id="for_review-title" class="form-control" type="text" placeholder="Give your review a title">
+                                                                <label for="feedbackTitle">Review Title</label>
+                                                                <input id="feedbackTitle" class="form-control" type="text" placeholder="Give your review a title" required="">
+                                                                <input type="hidden" id="productId" name="productId" value="${product_id}">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-12">
                                                             <div class="form-group">
-                                                                <label for="for_comment">Body of Review (1500)</label>
-                                                                <textarea id="for_comment" class="form-control" placeholder="Write your comments here"></textarea>
+                                                                <label for="feedbackContent">Body of Review (1500)</label>
+                                                                <textarea id="feedbackContent" class="form-control" placeholder="Write your comments here" required=""></textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-12">
                                                             <div class="form-submit-btn">
-                                                                <button type="submit" class="btn-submit">Post comment</button>
+                                                                <button id="addFeedbackButton" type="submit" class="btn-submit">Post comment</button>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </form>
                                             </div>
                                         </div>
+
                                         <!--== End Reviews Form Item ==-->
 
                                         <div class="reviews-content-body">
-                                            <!--== Start Reviews Content Item ==-->
-                                            <div class="review-item">
-                                                <ul class="review-rating">
-                                                    <li class="fa fa-star"></li>
-                                                    <li class="fa fa-star"></li>
-                                                    <li class="fa fa-star"></li>
-                                                    <li class="fa fa-star"></li>
-                                                    <li class="fa fa-star"></li>
-                                                </ul>
-                                                <h3 class="title">Awesome shipping service!</h3>
-                                                <h5 class="sub-title"><span>Nantu Nayal</span> no <span>Sep 30, 2022</span></h5>
-                                                <p>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                                                <a href="#/">Report as Inappropriate</a>
-                                            </div>
-                                            <!--== End Reviews Content Item ==-->
-
-                                            <!--== Start Reviews Content Item ==-->
-                                            <div class="review-item">
-                                                <ul class="review-rating">
-                                                    <li class="fa fa-star"></li>
-                                                    <li class="fa fa-star-o"></li>
-                                                    <li class="fa fa-star-o"></li>
-                                                    <li class="fa fa-star-o"></li>
-                                                    <li class="fa fa-star-o"></li>
-                                                </ul>
-                                                <h3 class="title">Low Quality</h3>
-                                                <h5 class="sub-title"><span>Oliv hala</span> no <span>Sep 30, 2022</span></h5>
-                                                <p>My Favorite White Sneakers From Splurge To Save the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</p>
-                                                <a href="#/">Report as Inappropriate</a>
-                                            </div>
-                                            <!--== End Reviews Content Item ==-->
-
-                                            <!--== Start Reviews Content Item ==-->
-                                            <div class="review-item">
-                                                <ul class="review-rating">
-                                                    <li class="fa fa-star"></li>
-                                                    <li class="fa fa-star"></li>
-                                                    <li class="fa fa-star"></li>
-                                                    <li class="fa fa-star"></li>
-                                                    <li class="fa fa-star"></li>
-                                                </ul>
-                                                <h3 class="title">Excellent services!</h3>
-                                                <h5 class="sub-title"><span>Halk Marron</span> no <span>Sep 30, 2022</span></h5>
-                                                <p>The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.</p>
-                                                <a href="#/">Report as Inappropriate</a>
-                                            </div>
-                                            <!--== End Reviews Content Item ==-->
-
-                                            <!--== Start Reviews Content Item ==-->
-                                            <div class="review-item">
-                                                <ul class="review-rating">
-                                                    <li class="fa fa-star"></li>
-                                                    <li class="fa fa-star"></li>
-                                                    <li class="fa fa-star"></li>
-                                                    <li class="fa fa-star-o"></li>
-                                                    <li class="fa fa-star-o"></li>
-                                                </ul>
-                                                <h3 class="title">Price is very high</h3>
-                                                <h5 class="sub-title"><span>Musa</span> no <span>Sep 30, 2022</span></h5>
-                                                <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.</p>
-                                                <a href="#/">Report as Inappropriate</a>
-                                            </div>
-                                            <!--== End Reviews Content Item ==-->
-
-                                            <!--== Start Reviews Content Item ==-->
-                                            <div class="review-item">
-                                                <ul class="review-rating">
-                                                    <li class="fa fa-star"></li>
-                                                    <li class="fa fa-star"></li>
-                                                    <li class="fa fa-star"></li>
-                                                    <li class="fa fa-star"></li>
-                                                    <li class="fa fa-star-o"></li>
-                                                </ul>
-                                                <h3 class="title">Normal</h3>
-                                                <h5 class="sub-title"><span>Muhammad</span> no <span>Sep 30, 2022</span></h5>
-                                                <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour</p>
-                                                <a href="#/">Report as Inappropriate</a>
-                                            </div>
-                                            <!--== End Reviews Content Item ==-->
+                                            <c:forEach items="${productFeedback}" var="feedback">
+                                                <div class="review-item">
+                                                    <ul class="review-rating">
+                                                        <c:forEach begin="1" end="${feedback.star}">
+                                                            <li class="fa fa-star"></li>
+                                                        </c:forEach>
+                                                        <c:forEach begin="${feedback.star + 1}" end="5">
+                                                            <li class="fa fa-star-o"></li>
+                                                        </c:forEach>
+                                                    </ul>
+                                                    <h3 class="title"> <b>${feedback.title}</b></h3>
+                                                    <h5 class="sub-title"><span>${feedback.authorName}</span> no <span>${feedback.date_posted}</span></h5>
+                                                    <p>${feedback.content}</p>
+                                                    <a href="#/">Report as Inappropriate</a>
+                                                </div>
+                                            </c:forEach>
                                         </div>
 
                                         <!--== Start Reviews Pagination Item ==-->
-                                        <div class="review-pagination">
-                                            <span class="pagination-pag">1</span>
-                                            <span class="pagination-pag">2</span>
-                                            <span class="pagination-next">Next »</span>
+                                        <div class="col-12">
+                                            <div class="pagination-items">
+                                                <ul class="pagination d-inline-flex">
+                                                    <c:if test="${currentPage > 1}">
+                                                        <li class="page-item">
+                                                            <a class="page-link" href="?pid=${product_id}&amp;page=${currentPage - 1}&amp;pageSize=${pageSize}">&laquo; </a>
+                                                        </li>
+                                                    </c:if>
+
+                                                    <c:forEach begin="1" end="${totalPages}" var="pageNumber">
+                                                        <c:choose>
+                                                            <c:when test="${pageNumber == currentPage}">
+                                                                <li class="page-item active">
+                                                                    <span class="page-link">${pageNumber}</span>
+                                                                </li>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <li class="page-item">
+                                                                    <a class="page-link" href="?pid=${product_id}&amp;page=${pageNumber}&amp;pageSize=${pageSize}">${pageNumber}</a>
+                                                                </li>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </c:forEach>
+
+                                                    <c:if test="${currentPage < totalPages}">
+                                                        <li class="page-item">
+                                                            <a class="page-link" href="?pid=${product_id}&amp;page=${currentPage + 1}&amp;pageSize=${pageSize}"> &raquo;</a>
+                                                        </li>
+                                                    </c:if>
+                                                </ul>
+                                            </div>
                                         </div>
                                         <!--== End Reviews Pagination Item ==-->
                                     </div>
@@ -561,35 +521,35 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             <div class="swiper-container product-slider-col4-container">
                                 <div class="swiper-wrapper">
                                     <c:forEach var="p" items="${list}">
-                                    <div class="swiper-slide">
-                                        <!--== Start Product Item ==-->
+                                        <div class="swiper-slide">
+                                            <!--== Start Product Item ==-->
 
-                                        <div class="product-item">
-                                            <div class="inner-content">
-                                                <div class="product-thumb">
-                                                    <a href="detail?pid=${p.id}">
-                                                        <img src="${p.image}" width="270" height="274" alt="Image-HasTech">
-                                                    </a>
+                                            <div class="product-item">
+                                                <div class="inner-content">
+                                                    <div class="product-thumb">
+                                                        <a href="detail?pid=${p.id}">
+                                                            <img src="${p.image}" width="270" height="274" alt="Image-HasTech">
+                                                        </a>
 
-                                                    <div class="product-action">
-                                                        <a class="btn-product-wishlist" href="shop-wishlist.html"><i class="fa fa-heart"></i></a>
+                                                        <div class="product-action">
+                                                            <a class="btn-product-wishlist" href="shop-wishlist.html"><i class="fa fa-heart"></i></a>
 
+                                                        </div>
+                                                        <a class="banner-link-overlay" href="shop.html"></a>
                                                     </div>
-                                                    <a class="banner-link-overlay" href="shop.html"></a>
-                                                </div>
-                                                <div class="product-info">
+                                                    <div class="product-info">
 
-                                                    <h4 class="title"><a href="detail?pid=${p.id}">${p.name}</a></h4>
-                                                    <div class="prices">
-                                                        <span class="price">${p.price}</span>
+                                                        <h4 class="title"><a href="detail?pid=${p.id}">${p.name}</a></h4>
+                                                        <div class="prices">
+                                                            <span class="price">${p.price}</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <!--== End prPduct Item ==-->
-                                    </div>
-                                        </c:forEach>
+                                            <!--== End prPduct Item ==-->
+                                        </div>
+                                    </c:forEach>
 
 
                                 </div>
@@ -626,9 +586,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                         <img class="logo-main" src="assets/img/logo-light.webp" width="131" height="34" alt="Logo" />
                                     </a>
                                 </div>
-                                <p class="desc">Trang web bao gồm tất cả các đôi giày mới nhất trên thị trường</p>
+                                <p class="desc">Lorem ipsum dolor sit amet consl adipisi elit, sed do eiusmod templ incididunt ut labore</p>
                                 <div class="social-icons">
                                     <a href="https://www.facebook.com/" target="_blank" rel="noopener"><i class="fa fa-facebook"></i></a>
+                                    <a href="https://dribbble.com/" target="_blank" rel="noopener"><i class="fa fa-dribbble"></i></a>
+                                    <a href="https://www.pinterest.com/" target="_blank" rel="noopener"><i class="fa fa-pinterest-p"></i></a>
                                     <a href="https://twitter.com/" target="_blank" rel="noopener"><i class="fa fa-twitter"></i></a>
                                 </div>
                             </div>
@@ -638,16 +600,17 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <div class="col-md-6 col-lg-3">
                         <!--== Start widget Item ==-->
                         <div class="widget-item widget-services-item">
-                            <h4 class="widget-title">Dịch Vụ</h4>
-                            <h4 class="widget-collapsed-title collapsed" data-bs-toggle="collapse" data-bs-target="#widgetId-1">Dịch Vụ</h4>
+                            <h4 class="widget-title">Services</h4>
+                            <h4 class="widget-collapsed-title collapsed" data-bs-toggle="collapse" data-bs-target="#widgetId-1">Services</h4>
                             <div id="widgetId-1" class="collapse widget-collapse-body">
                                 <div class="collapse-body">
                                     <div class="widget-menu-wrap">
                                         <ul class="nav-menu">
-                                            <li><a href="contact.html">Dịch vụ khách hàng</a></li>
-                                            <li><a href="contact.html">Khuyến mãi và giảm giá</a></li>
-                                            <li><a href="contact.html">Đổi/trả hàng</a></li>
-                                            <li><a href="contact.html">Giao hàng</a></li>
+                                            <li><a href="contact.html">Home monitoring</a></li>
+                                            <li><a href="contact.html">Air Filters</a></li>
+                                            <li><a href="contact.html">Professional installation</a></li>
+                                            <li><a href="contact.html">Smart Buildings</a></li>
+                                            <li><a href="contact.html">For contractors</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -658,16 +621,17 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <div class="col-md-6 col-lg-3">
                         <!--== Start widget Item ==-->
                         <div class="widget-item widget-account-item">
-                            <h4 class="widget-title">Tài Khoản</h4>
-                            <h4 class="widget-collapsed-title collapsed" data-bs-toggle="collapse" data-bs-target="#widgetId-2">Tài Khoản</h4>
+                            <h4 class="widget-title">My Account</h4>
+                            <h4 class="widget-collapsed-title collapsed" data-bs-toggle="collapse" data-bs-target="#widgetId-2">My Account</h4>
                             <div id="widgetId-2" class="collapse widget-collapse-body">
                                 <div class="collapse-body">
                                     <div class="widget-menu-wrap">
                                         <ul class="nav-menu">
-                                            <li><a href="account-login.html">Tài Khoản</a></li>
-                                            <li><a href="contact.html">Liên Hệ</a></li>
-                                            <li><a href="shop-cart.html">Giỏ Hàng</a></li>
-                                            <li><a href="shop">Sản Phẩm</a></li>
+                                            <li><a href="account-login.html">My Account</a></li>
+                                            <li><a href="contact.html">Contact</a></li>
+                                            <li><a href="shop-cart.html">Shopping cart</a></li>
+                                            <li><a href="shop.html">Shop</a></li>
+                                            <li><a href="account-login.html">Services Login</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -678,15 +642,16 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <div class="col-md-6 col-lg-3">
                         <!--== Start widget Item ==-->
                         <div class="widget-item">
-                            <h4 class="widget-title">Thông Tin Liên Lạc</h4>
-                            <h4 class="widget-collapsed-title collapsed" data-bs-toggle="collapse" data-bs-target="#widgetId-3">Thông Tin Liên Lạc</h4>
+                            <h4 class="widget-title">Contact Info</h4>
+                            <h4 class="widget-collapsed-title collapsed" data-bs-toggle="collapse" data-bs-target="#widgetId-3">Contact Info</h4>
                             <div id="widgetId-3" class="collapse widget-collapse-body">
                                 <div class="collapse-body">
                                     <div class="widget-contact-wrap">
                                         <ul>
-                                            <li><span>Address:</span> Viet Nam</li>
-                                            <li><span>Phone//fax:</span> <a href="tel://0123456789">0392156817</a></li>
-                                            <li><span>Email:</span> <a href="mailto://demo@example.com">bang@example.com</a></li>
+                                            <li><span>Address:</span> Your address goes here.</li>
+                                            <li><span>Phone//fax:</span> <a href="tel://0123456789">0123456789</a></li>
+                                            <li><span>Email:</span> <a href="mailto://demo@example.com">demo@example.com</a></li>
+                                            <li><a target="_blank" href="https://www.hasthemes.com">www.example.com</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -703,7 +668,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <div class="footer-bottom">
             <div class="container pt--0 pb--0">
                 <div class="row">
-
+                    <div class="col-md-7 col-lg-6">
+                        <p class="copyright">© 2021 Shome. Made with <i class="fa fa-heart"></i> by <a target="_blank" href="https://themeforest.net/user/codecarnival/portfolio">Codecarnival.</a></p>
+                    </div>
                     <div class="col-md-5 col-lg-6">
                         <div class="payment">
                             <a href="account-login.html"><img src="assets/img/photos/payment-card.webp" width="192" height="21" alt="Payment Logo"></a>
@@ -714,7 +681,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         </div>
         <!--== End Footer Bottom ==-->
     </footer>
-
     <!--== End Footer Area Wrapper ==-->
 
     <!--== Scroll Top Button ==-->
@@ -968,5 +934,127 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 <!--=== jQuery Custom Js ===-->
 <script src="${pageContext.request.contextPath}/assets/js/custom.js"></script>
 </body>
+<script>
+    $(document).ready(function () {
+        // Add event listener to the star rating
+        $('.review-rating li').click(function () {
+            var selectedStar = $(this).data('star');
 
+            // Update the selected star styling
+            $(this).prevAll('li').removeClass('fa-star-o').addClass('fa-star');
+            $(this).removeClass('fa-star-o').addClass('fa-star');
+            $(this).nextAll('li').removeClass('fa-star').addClass('fa-star-o');
+
+            // Set the selected star value to the hidden input field
+            $('#feedbackRating').val(selectedStar);
+        });
+
+        // Add event listener to the feedback form submission
+        $('#feedbackForm').submit(function (event) {
+            event.preventDefault();
+
+            // Retrieve form values
+            var rating = $('#feedbackRating').val();
+            var title = $('#feedbackTitle').val();
+            var content = $('#feedbackContent').val();
+            var productId = $('#productId').val();
+
+            // Disable the submit button
+            $('#addFeedbackButton').prop('disabled', true);
+
+            // AJAX request
+            $.ajax({
+                url: 'add-product-feedback', // Update with the actual server endpoint
+                type: 'POST',
+                data: {
+                    rating: rating,
+                    title: title,
+                    content: content,
+                    productId: productId // Add the productId parameter
+                },
+                success: function (response) {
+                    // Reset form values
+                    $('.review-rating li').removeClass('fa-star').addClass('fa-star-o');
+                    $('#feedbackRating').val('0');
+                    $('#feedbackTitle').val('');
+                    $('#feedbackContent').val('');
+
+                    // Enable the submit button
+                    $('#addFeedbackButton').prop('disabled', false);
+
+                    // Show success message
+                    Toastify({
+                        text: "Feedback submitted successfully!",
+                        duration: 2000, // Duration in milliseconds
+                        gravity: "top", // Position: top, topLeft, topCenter, topRight, center, centerLeft, centerRight, bottom, bottomLeft, bottomCenter, bottomRight
+                        position: "left", // Position: left, right, center
+                        close: false, // Show a close button
+                        style: {
+                            background: "green"
+                        }
+                    }).showToast();
+                    setTimeout(function () {
+                        var urlParams = new URLSearchParams(window.location.search);
+                        urlParams.set('page', 1);
+                        window.location.href = window.location.pathname + '?' + urlParams.toString();
+                    }, 2000);
+                },
+                error: function (xhr, status, error) {
+                    // Enable the submit button
+                    $('#addFeedbackButton').prop('disabled', false);
+
+                    if (xhr.status === 401) {
+                        // User must log in
+                        Toastify({
+                            text: "You must log in first!",
+                            duration: 2000,
+                            gravity: "top",
+                            position: "left",
+                            close: false,
+                            style: {
+                                background: "red"
+                            }
+                        }).showToast();
+                    } else {
+                        // Show error message
+                        Toastify({
+                            text: "Error submitting feedback",
+                            duration: 2000,
+                            gravity: "top",
+                            position: "left",
+                            close: false,
+                            style: {
+                                background: "red"
+                            }
+                        }).showToast();
+                    }
+                }
+            });
+        });
+    });
+    $(document).ready(function () {
+        // Check if the page contains the "reviews" parameter in the URL
+        var urlParams = new URLSearchParams(window.location.search);
+        var pageParam = urlParams.get('page');
+        // If the "reviews" parameter is present or the page is 1, activate the "Reviews" tab
+        if (pageParam && pageParam >= 1) {
+            $('#reviews-tab').tab('show');
+        }
+
+        // Add event listener to the pagination links
+        $('.pagination-items .page-link').click(function () {
+            var targetTab = $(this).attr('href');
+            // If the target tab is the "Reviews" tab, activate it
+            if (targetTab === '#reviews') {
+                $('#reviews-tab').tab('show');
+            }
+        });
+    });
+
+
+
+
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </html>
