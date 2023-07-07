@@ -33,6 +33,38 @@
         <servlet-name>AddProductFeedback</servlet-name>
         <servlet-class>Controller.AddProductFeedback</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProductManageController</servlet-name>
+        <servlet-class>Controller.Staff.ProductManageController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetProductServlet</servlet-name>
+        <servlet-class>Controller.Staff.GetProductServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProductDetailsController</servlet-name>
+        <servlet-class>Controller.Staff.ProductDetailsController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateProductController</servlet-name>
+        <servlet-class>Controller.Staff.UpdateProductController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteProductController</servlet-name>
+        <servlet-class>Controller.Staff.DeleteProductController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddProductController</servlet-name>
+        <servlet-class>Controller.Staff.AddProductController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserManageController</servlet-name>
+        <servlet-class>Controller.Staff.UserManageController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BlockUserController</servlet-name>
+        <servlet-class>Controller.Staff.BlockUserController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Logincontroller</servlet-name>
         <url-pattern>/login</url-pattern>
@@ -64,6 +96,38 @@
     <servlet-mapping>
         <servlet-name>AddProductFeedback</servlet-name>
         <url-pattern>/add-product-feedback</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductManageController</servlet-name>
+        <url-pattern>/staff/product-manage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetProductServlet</servlet-name>
+        <url-pattern>/staff/get-product</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductDetailsController</servlet-name>
+        <url-pattern>/staff/product-detail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateProductController</servlet-name>
+        <url-pattern>/staff/updateProduct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteProductController</servlet-name>
+        <url-pattern>/staff/delete-product</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddProductController</servlet-name>
+        <url-pattern>/staff/add-product</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserManageController</servlet-name>
+        <url-pattern>/staff/user-manage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BlockUserController</servlet-name>
+        <url-pattern>/staff/block-user</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

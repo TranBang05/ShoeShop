@@ -7,6 +7,7 @@ import Model.Blog;
 import Model.BlogComment;
 import Model.Category;
 import Model.ProductFeedback;
+import Model.User;
 import Model.cart;
 
 import java.sql.*;
@@ -41,7 +42,7 @@ public class DAO {
 
             while (rs.next()) {
                 list.add(new Products(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getString(5),
-                        rs.getString(6)));
+                        rs.getString(7)));
             }
         } catch (Exception e) {
         }
@@ -67,6 +68,165 @@ public class DAO {
             System.err.println(e);
         }
         return list;
+    }
+
+    public boolean deleteProduct(String productId) {
+        boolean success = false;
+        String query = "DELETE FROM Products WHERE product_id = ?";
+
+        try {
+            cnn = new DBContext().connection;
+            pstm = cnn.prepareStatement(query);
+            pstm.setString(1, productId);
+
+            int rowsDeleted = pstm.executeUpdate();
+            success = (rowsDeleted > 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        } finally {
+            // Close connections and resources
+            // ...
+        }
+
+        return success;
+    }
+
+    public List<Products> getAllProductForManage(String searchParam, String categoryParam) {
+        List<Object> list = new ArrayList<>();
+        List<Products> products = new ArrayList<>();
+
+        try {
+            StringBuilder query = new StringBuilder();
+            query.append("select p.product_id, p.name, p.description, p.price, p.image, p.category_id, c.name\n")
+                    .append("from products p join Categories c\n")
+                    .append("on p.category_id = c.category_id ");
+
+            if (searchParam != null && !searchParam.trim().isEmpty()) {
+                query.append("and p.name LIKE ? ");
+                list.add("%" + searchParam + "%");
+            }
+            if (categoryParam != null && !categoryParam.trim().isEmpty()) {
+                query.append("AND p.category_id = ? ");
+                list.add(Integer.parseInt(categoryParam));
+            }
+            cnn = (new DBContext()).connection;
+            pstm = cnn.prepareStatement(query.toString());
+            mapParams(pstm, list);
+            rs = pstm.executeQuery();
+            while (rs.next()) {
+                products.add(new Products(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getDouble(4),
+                        rs.getString(5),
+                        rs.getInt(6),
+                        rs.getString(7)));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return products;
+    }
+
+    public List<User> getAllUsersForManage(String searchParam, String statusParam) {
+        List<Object> list = new ArrayList<>();
+        List<User> users = new ArrayList<>();
+
+        try {
+            StringBuilder query = new StringBuilder();
+            query.append("SELECT * FROM Users where userid > 1");
+
+            if (searchParam != null && !searchParam.trim().isEmpty()) {
+                query.append("And username LIKE  ? OR email LIKE ? ");
+                list.add("%" + searchParam + "%");
+                list.add("%" + searchParam + "%");
+            }
+            if (statusParam != null && !statusParam.trim().isEmpty()) {
+                query.append("and status =  = ? ");
+                list.add(Integer.parseInt(statusParam));
+            }
+            cnn = (new DBContext()).connection;
+            pstm = cnn.prepareStatement(query.toString());
+            mapParams(pstm, list);
+            rs = pstm.executeQuery();
+            while (rs.next()) {
+                User user = new User();
+                user.setId(rs.getInt("userid"));
+                user.setUsername(rs.getString("username"));
+                user.setPassword(rs.getString("password"));
+                user.setEmail(rs.getString("email"));
+                user.setAddress(rs.getString("address"));
+                user.setPhone_number(rs.getString("phone_number"));
+                user.setStatus(rs.getInt("status"));
+                users.add(user);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return users;
+    }
+
+    public List<Products> Paging(List<Products> list, int pageParam, int size) {
+        if (list.isEmpty()) {
+            return list;
+        }
+        return list.subList((pageParam - 1) * size, size * pageParam >= list.size() ? list.size() : size * pageParam);
+    }
+
+    public List<User> PagingUser(List<User> list, int pageParam, int size) {
+        if (list.isEmpty()) {
+            return list;
+        }
+        return list.subList((pageParam - 1) * size, size * pageParam >= list.size() ? list.size() : size * pageParam);
+    }
+
+    public void mapParams(PreparedStatement ps, List<Object> args) throws SQLException {
+        int i = 1;
+        for (Object arg : args) {
+            if (arg instanceof Date) {
+                ps.setTimestamp(i++, new Timestamp(((Date) arg).getTime()));
+            } else if (arg instanceof Integer) {
+                ps.setInt(i++, (Integer) arg);
+            } else if (arg instanceof Long) {
+                ps.setLong(i++, (Long) arg);
+            } else if (arg instanceof Double) {
+                ps.setDouble(i++, (Double) arg);
+            } else if (arg instanceof Float) {
+                ps.setFloat(i++, (Float) arg);
+            } else {
+                ps.setString(i++, (String) arg);
+            }
+        }
+    }
+
+    public boolean updateProduct(String id, String name, String description, String price, String image,
+            String cateId) {
+        boolean success = false;
+        String query = "UPDATE Products SET name=?, description=?, price=?, image=?, category_id=? WHERE product_id=?";
+
+        try {
+            cnn = new DBContext().connection;
+            pstm = cnn.prepareStatement(query);
+            pstm.setString(1, name);
+            pstm.setString(2, description);
+            pstm.setString(3, price);
+            pstm.setString(4, image);
+            pstm.setString(5, cateId);
+            pstm.setString(6, id);
+
+            int rowsUpdated = pstm.executeUpdate();
+            success = (rowsUpdated > 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        } finally {
+            // Close connections and resources
+            // ...
+        }
+
+        return success;
     }
 
     public List<BlogComment> getAllBlogCommentByBlogID(int blogId, int page, int pageSize) {
@@ -437,6 +597,26 @@ public class DAO {
                         rs.getString(7));
             }
         } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    public Products getProductByIDForManage(String id) {
+
+        String query = "select * from products where product_id=?";
+        try {
+            cnn = (new DBContext()).connection;
+            pstm = cnn.prepareStatement(query);
+            pstm.setString(1, id);
+            rs = pstm.executeQuery();
+
+            while (rs.next()) {
+                return new Products(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getString(5),
+                        rs.getString(6));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
         }
         return null;
     }
@@ -607,6 +787,53 @@ public class DAO {
 //        for (BlogComment blogComment : blogComments) {
 //            System.out.println(blogComment);
 //        }
+    }
+
+    public boolean addProduct(Products product) {
+        boolean success = false;
+        String query = "INSERT INTO Products (name, description, price, image, category_id) VALUES (?, ?, ?, ?, ?)";
+
+        try {
+
+            cnn = (new DBContext()).connection;
+            pstm = cnn.prepareStatement(query);
+
+            pstm.setString(1, product.getName());
+            pstm.setString(2, product.getDescription());
+            pstm.setDouble(3, product.getPrice());
+            pstm.setString(4, product.getImage());
+            pstm.setInt(5, product.getCateId());
+
+            int rowsInserted = pstm.executeUpdate();
+            success = (rowsInserted > 0);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+
+        return success;
+    }
+
+    public boolean blockUser(String userId) {
+        boolean success = false;
+        String query = "UPDATE Users SET status = CASE WHEN status = 0 THEN 1 ELSE 0 END WHERE userid = ?";
+
+        try {
+            cnn = new DBContext().connection;
+            pstm = cnn.prepareStatement(query);
+            pstm.setString(1, userId);
+
+            int rowsAffected = pstm.executeUpdate();
+            success = (rowsAffected > 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        } finally {
+            // Close connections and resources
+            // ...
+        }
+
+        return success;
     }
 
 }

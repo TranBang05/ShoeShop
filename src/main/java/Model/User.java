@@ -15,8 +15,11 @@ public class User {
     private String username;
     private String password;
     private String email;
+    private String address;
+    private String phone_number;
     private String code;
     private int role;
+    private int status;
 
 
 
@@ -42,6 +45,85 @@ public class User {
         this.email = email;
         this.code=code;
         connect();
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhone_number() {
+        return phone_number;
+    }
+
+    public void setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
+    }
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public Connection getCnn() {
+        return cnn;
+    }
+
+    public void setCnn(Connection cnn) {
+        this.cnn = cnn;
+    }
+
+    public Statement getStm() {
+        return stm;
+    }
+
+    public void setStm(Statement stm) {
+        this.stm = stm;
+    }
+
+    public PreparedStatement getPstm() {
+        return pstm;
+    }
+
+    public void setPstm(PreparedStatement pstm) {
+        this.pstm = pstm;
+    }
+
+    public ResultSet getRs() {
+        return rs;
+    }
+
+    public void setRs(ResultSet rs) {
+        this.rs = rs;
+    }
+
+    public User(int id, String username, String password, String email, String address, String phone_number, int role, int status, Connection cnn, Statement stm, PreparedStatement pstm, ResultSet rs) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.address = address;
+        this.phone_number = phone_number;
+        this.role = role;
+        this.status = status;
+        this.cnn = cnn;
+        this.stm = stm;
+        this.pstm = pstm;
+        this.rs = rs;
     }
 
 
