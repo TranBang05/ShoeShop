@@ -621,6 +621,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
 <!--=== jQuery Custom Js ===-->
 <script src="${pageContext.request.contextPath}/assets/js/custom.js"></script>
+
 </body>
 
 </html>
