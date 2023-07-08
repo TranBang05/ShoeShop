@@ -76,6 +76,7 @@ public class UserManageController extends HttpServlet {
         List<User> usersList = dao.PagingUser(users, page, pageSize);
       usersList.forEach(System.out::println);
         request.setAttribute("searchParam", searchParam);
+        request.setAttribute("statusParam", statusParam);
         request.setAttribute("listP", usersList);
         request.setAttribute("totalPages", users.size() % pageSize == 0 ? (users.size() / pageSize) : (users.size() / pageSize + 1));
         request.setAttribute("currentPage", page);

@@ -136,15 +136,17 @@ public class DAO {
 
         try {
             StringBuilder query = new StringBuilder();
-            query.append("SELECT * FROM Users where userid > 1");
+            query.append("SELECT *\n"
+                    + "FROM Users u\n"
+                    + "WHERE u.userid > 1");
 
             if (searchParam != null && !searchParam.trim().isEmpty()) {
-                query.append("And username LIKE  ? OR email LIKE ? ");
+                query.append(" AND (u.username LIKE ? OR u.email LIKE ?)");
                 list.add("%" + searchParam + "%");
                 list.add("%" + searchParam + "%");
             }
             if (statusParam != null && !statusParam.trim().isEmpty()) {
-                query.append("and status =  = ? ");
+                query.append(" and status = ? ");
                 list.add(Integer.parseInt(statusParam));
             }
             cnn = (new DBContext()).connection;

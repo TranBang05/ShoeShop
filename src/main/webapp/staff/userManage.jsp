@@ -59,13 +59,11 @@
 
                             </label>
 
-                            <label for="status">Category:</label>
-                            <select name="satus" id="category">
+                            <label for="status">Status</label>
+                            <select name="status" id="category">
                                 <option value="">All</option>
-
-                                <option value="1" >Active</option>
-                                <option value="0" >Blocked</option>
-
+                                <option value="1" ${statusParam == '1' ? 'selected' : ''}>Active</option>
+                                <option value="0" ${statusParam == '0' ? 'selected' : ''}>Blocked</option>
                                 <!-- Add more options as needed -->
                             </select>
 
@@ -136,8 +134,8 @@
                                                 <c:if test="${p.status == 0}">
 
                                                     <button class="delete-button" data-product-id="${p.id}" onclick="confirmBlock(this)">   
-                                                             <ion-icon name="thumbs-up-outline"></ion-icon>
-                                                   
+                                                        <ion-icon name="thumbs-up-outline"></ion-icon>
+
                                                     </button>
                                                 </td>
                                             </c:if>
