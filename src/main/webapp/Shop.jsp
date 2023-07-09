@@ -309,18 +309,43 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
 
 
-
-
-
                                             <div class="col-12">
                                                 <div class="pagination-items">
-                                                    <ul class="pagination justify-content-end mb--0">
-                                                        <li><a class="active" href="shop.html">1</a></li>
-                                                        <li><a href="shop-four-columns.html">2</a></li>
-                                                        <li><a href="shop-three-columns.html">3</a></li>
+                                                    <ul class="pagination d-inline-flex">
+                                                        <c:if test="${currentPage > 1}">
+                                                            <li class="page-item">
+                                                                <a class="page-link" href="?pid=${product_id}&amp;page=${currentPage - 1}&amp;pageSize=${pageSize}">&laquo; </a>
+                                                            </li>
+                                                        </c:if>
+
+                                                        <c:forEach begin="1" end="${totalPages}" var="pageNumber">
+                                                            <c:choose>
+                                                                <c:when test="${pageNumber == currentPage}">
+                                                                    <li class="page-item active">
+                                                                        <span class="page-link">${pageNumber}</span>
+                                                                    </li>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <li class="page-item">
+                                                                        <a class="page-link" href="?pid=${product_id}&amp;page=${pageNumber}&amp;pageSize=${pageSize}">${pageNumber}</a>
+                                                                    </li>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </c:forEach>
+
+                                                        <c:if test="${currentPage < totalPages}">
+                                                            <li class="page-item">
+                                                                <a class="page-link" href="?pid=${product_id}&amp;page=${currentPage + 1}&amp;pageSize=${pageSize}"> &raquo;</a>
+                                                            </li>
+                                                        </c:if>
                                                     </ul>
                                                 </div>
                                             </div>
+
+
+
+
+
                                         </div>
                                     </div>
                                     <div class="tab-pane fade" id="nav-list" role="tabpanel" aria-labelledby="nav-list-tab">
@@ -370,11 +395,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                                 <div class="pagination-items">
                                                     <ul class="pagination justify-content-end mb--0">
                                                         <li><a class="active" href="shop.html">1</a></li>
-                                                        <li><a href="shop-four-columns.html">2</a></li>
+                                                        <li><a href="shop-four-columns.html">3</a></li>
                                                         <li><a href="shop-three-columns.html">3</a></li>
                                                     </ul>
                                                 </div>
                                             </div>
+
+
+
+
                                         </div>
                                     </div>
                                 </div>

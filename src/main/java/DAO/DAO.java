@@ -69,6 +69,32 @@ public class DAO {
         return list;
     }
 
+    public List<Products> getAllProducts(int page, int pageSize) {
+        int offset = (page - 1) * pageSize;
+        List<Products> list = new ArrayList<>();
+        String query = "SELECT *\n" +
+                "                FROM products \n" +
+                "              \n" +
+                "                ORDER BY product_id asc\n" +
+                "                LIMIT ? OFFSET ?";
+        try {
+            cnn = (new DBContext()).connection;
+            pstm = cnn.prepareStatement(query);
+            pstm.setInt(1, pageSize);
+            pstm.setInt(2, offset);
+            rs = pstm.executeQuery();
+
+            while (rs.next()) {
+                list.add(new Products(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getString(5),
+                        rs.getString(6)));
+            }
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+        return list;
+    }
+
+
     public List<BlogComment> getAllBlogCommentByBlogID(int blogId, int page, int pageSize) {
         int offset = (page - 1) * pageSize;
         List<BlogComment> list = new ArrayList<>();
@@ -179,6 +205,28 @@ public class DAO {
         }
         return count;
     }
+
+
+    public int countProducts() {
+        String query = "SELECT COUNT(*) AS count FROM products";
+        int count = 0;
+        try {
+            cnn = (new DBContext()).connection;
+            pstm = cnn.prepareStatement(query);
+
+
+            // Execute the query
+            rs = pstm.executeQuery(); // Assign the result set to 'rs'
+
+            if (rs.next()) {
+                count = rs.getInt("count");
+            }
+        } catch (Exception e) {
+            System.err.println("countComments" + e);
+        }
+        return count;
+    }
+
 
     public int countProductFeedback(int blog_id) {
         String query = "SELECT COUNT(*) AS count FROM Product_feedbacks WHERE product_id = ?";
