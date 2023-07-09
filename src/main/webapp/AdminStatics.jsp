@@ -65,6 +65,11 @@
             padding: 0;
             overflow: hidden;
         }
+
+
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 
@@ -102,39 +107,24 @@
 
             <li>
                 <a href="pages">
-                        <span class="icon">
-                            <ion-icon name="chatbubble-outline"></ion-icon>
-                        </span>
+        <span class="icon">
+            <ion-icon name="basket-outline"></ion-icon>
+        </span>
                     <span class="title">Quản lí đơn hàng</span>
                 </a>
             </li>
 
+
             <li>
                 <a href="payment">
-                        <span class="icon">
-                            <ion-icon name="help-outline"></ion-icon>
-                        </span>
+                    <span class="icon">
+                        <ion-icon name="bar-chart-outline"></ion-icon>
+                    </span>
                     <span class="title">Quản lí thống kê</span>
                 </a>
             </li>
 
-            <li>
-                <a href="#">
-                        <span class="icon">
-                            <ion-icon name="settings-outline"></ion-icon>
-                        </span>
-                    <<span class="title">Settings</span>
-                </a>
-            </li>
 
-            <li>
-                <a href="#">
-                        <span class="icon">
-                            <ion-icon name="lock-closed-outline"></ion-icon>
-                        </span>
-                    <span class="title">Password</span>
-                </a>
-            </li>
 
             <li>
                 <a href="#">
@@ -189,7 +179,7 @@
                     </div>
 
                 </div>
-                <canvas id="myChart"></canvas>
+                <canvas id="myChart" class="chart"></canvas>
 
 
 
@@ -207,9 +197,9 @@
 </div>
 
 
-
 <script>
     // Lấy đối tượng form và nút submit
+    var chartCanvas = document.getElementById('myChart');
     var form = document.getElementById('searchForm');
     var submitButton = form.querySelector('button[type="submit"]');
 
@@ -224,68 +214,133 @@
         form.submit(); // Gửi form
     }
 
-
-
     var dateButton = document.getElementById('dateButton');
     var monthButton = document.getElementById('monthButton');
-    var isMonthView = true; // Mặc định hiển thị biểu đồ theo tháng
 
-    dateButton.addEventListener('click', function() {
-        if (!isMonthView) {
-            // Thực hiện hiển thị biểu đồ theo ngày
-            // Cập nhật dữ liệu biểu đồ tại đây
-
-            isMonthView = true; // Cập nhật trạng thái biểu đồ theo tháng
-            dateButton.style.display = 'none';
-            monthButton.style.display = 'inline-block';
-            // Cập nhật trạng thái biểu đồ và ẩn/hiển thị các nút tương ứng
-            updateChart();
-        }
+    dateButton.addEventListener("click", function() {
+        dateButton.style.display = "none";
+        monthButton.style.display = "block";
+        chartCanvas.classList.remove("hidden");
+        initializeChart();
     });
 
-    monthButton.addEventListener('click', function() {
-        if (isMonthView) {
-            // Thực hiện hiển thị biểu đồ theo tháng
-            // Cập nhật dữ liệu biểu đồ tại đây
-
-            isMonthView = false; // Cập nhật trạng thái biểu đồ theo ngày
-            monthButton.style.display = 'none';
-            dateButton.style.display = 'inline-block';
-            // Cập nhật trạng thái biểu đồ và ẩn/hiển thị các nút tương ứng
-            updateChart();
-        }
+    monthButton.addEventListener("click", function() {
+        monthButton.style.display = "none";
+        dateButton.style.display = "block";
+        chartCanvas.classList.add("hidden");
+        initializeChart1();
     });
 
-    function updateChart() {
-        // Ẩn/hiển thị nút theo trạng thái biểu đồ
-        if (isMonthView) {
-            monthButton.style.display = 'none';
-        } else {
-            dateButton.style.display = 'none';
-        }
-
-        // Thực hiện cập nhật dữ liệu biểu đồ
-        // Cập nhật dữ liệu biểu đồ tại đây
+    // Hàm để khởi tạo biểu đồ theo ngày
+    function initializeChart() {
+        runChart();
     }
 
-    // Khởi tạo biểu đồ ban đầu theo tháng
-    var monthlyOrders = {
-        <%
-        Map<Integer, Integer> monthlyOrdersData = (Map<Integer, Integer>) request.getAttribute("monthlyOrders");
-        for (Map.Entry<Integer, Integer> entry : monthlyOrdersData.entrySet()) {
-        %>
-        '<%= entry.getKey() %>': <%= entry.getValue() %>,
-        <% } %>
-    };
+    // Hàm để khởi tạo biểu đồ theo tháng
+    function initializeChart1() {
+        runChart1();
+    }
+
+    // Hàm để chạy biểu đồ theo ngày
+    function runChart() {
+        <%-- Thông kê theo ngày --%>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [
+                    <% for (int i = 1; i <= 31; i++) { %>
+                    '<%= i %>/01',
+                    <% } %>
+                ],
+                datasets: [{
+                    label: 'Orders',
+                    data: [
+                        <% Map<Integer, Integer> dailyOrders = (Map<Integer, Integer>) request.getAttribute("dailyOrders"); %>
+
+                        <% for (int i = 1; i <= 31; i++) { %>
+                        <%= dailyOrders.getOrDefault(i, 0) %>,
+                        <% } %>
+                    ],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+    }
+
+
+
+    <%--//thông kê theo tháng--%>
+    <%--    var ctx = document.getElementById('myChart').getContext('2d');--%>
+    <%--    var chart = new Chart(ctx, {--%>
+    <%--        type: 'line',--%>
+    <%--        data: {--%>
+    <%--            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],--%>
+    <%--            datasets: [{--%>
+    <%--                label: 'Orders',--%>
+    <%--                data: [--%>
+    <%--                    <% Map<Integer, Integer> monthlyOrders = (Map<Integer, Integer>) request.getAttribute("monthlyOrders"); %>--%>
+    <%--                    <% for (int i = 1; i <= 12; i++) { %>--%>
+    <%--                    <%= monthlyOrders.getOrDefault(i, 0) %>,--%>
+    <%--                    <% } %>--%>
+    <%--                ],--%>
+    <%--                backgroundColor: 'rgba(75, 192, 192, 0.2)',--%>
+    <%--                borderColor: 'rgba(75, 192, 192, 1)',--%>
+    <%--                borderWidth: 1,--%>
+    <%--                fill: true // Thêm thuộc tính fill: true để hiển thị miền dưới đường cong--%>
+    <%--            }]--%>
+    <%--        },--%>
+    <%--        options: {--%>
+    <%--            responsive: true,--%>
+    <%--            scales: {--%>
+    <%--                y: {--%>
+    <%--                    beginAtZero: true--%>
+    <%--                }--%>
+    <%--            }--%>
+    <%--        }--%>
+    <%--    });--%>
+
+
+
+
 
     var ctx = document.getElementById('myChart').getContext('2d');
+    var labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    <% Map<Integer, Integer> monthlyOrders = (Map<Integer, Integer>) request.getAttribute("monthlyOrders"); %>
+    var monthlyOrdersData = [
+        <%= monthlyOrders.getOrDefault(1, 0) %>,
+        <%= monthlyOrders.getOrDefault(2, 0) %>,
+        <%= monthlyOrders.getOrDefault(3, 0) %>,
+        <%= monthlyOrders.getOrDefault(4, 0) %>,
+        <%= monthlyOrders.getOrDefault(5, 0) %>,
+        <%= monthlyOrders.getOrDefault(6, 0) %>,
+        <%= monthlyOrders.getOrDefault(7, 0) %>,
+        <%= monthlyOrders.getOrDefault(8, 0) %>,
+        <%= monthlyOrders.getOrDefault(9, 0) %>,
+        <%= monthlyOrders.getOrDefault(10, 0) %>,
+        <%= monthlyOrders.getOrDefault(11, 0) %>,
+        <%= monthlyOrders.getOrDefault(12, 0) %>
+    ];
+
     var chart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: Object.keys(monthlyOrders),
+            labels: labels,
             datasets: [{
-                label: 'Orders',
-                data: Object.values(monthlyOrders),
+                label: '$doller',
+                data: monthlyOrdersData,
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 borderColor: 'rgba(75, 192, 192, 1)',
                 borderWidth: 1
@@ -302,75 +357,16 @@
     });
 
 
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var currentDate = new Date();
-
-
-    var labels = [];
-    var data = [];
-
-    <% Map<Integer, Integer> dailyOrders = (Map<Integer, Integer>) request.getAttribute("dailyOrders"); %>
-    <% for (int i = 1; i <= 31; i++) { %>
-    labels.push('<%= i %>/01');
-    data.push(<%= dailyOrders.getOrDefault(i, 0) %>);
-    <% } %>
-
-    var chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Orders',
-                data: data,
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1,
-                fill: true
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-            datasets: [{
-                label: 'Orders',
-                data: [
-                    <% Map<Integer, Integer> monthlyOrders = (Map<Integer, Integer>) request.getAttribute("monthlyOrders"); %>
-                    <% for (int i = 1; i <= 12; i++) { %>
-                    <%= monthlyOrders.getOrDefault(i, 0) %>,
-                    <% } %>
-                ],
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1,
-                fill: true // Thêm thuộc tính fill: true để hiển thị miền dưới đường cong
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
 
 
 </script>
 
 <!-- =========== Scripts =========  -->
+<script src="assets/js/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- ====== ionicons ======= -->
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 <script src="assets/js/main.js"></script>
 
 <!-- ====== ionicons ======= -->

@@ -27,7 +27,7 @@ public class Payment extends HttpServlet {
         int total = p.calculateTotalAmount();
         String year = req.getParameter("year");
         Map<Integer, Integer> monthlyOrders = p.calculateTotalAmountByYear(2023);
-        Map<String, Integer> dailyOrders = p.calculateTotalByDay(2023, 7); // Thay đổi ngày và tháng tùy theo nhu cầu
+        Map<String, Integer> dailyOrders = p.calculateTotalByDay(2023, 12); // Thay đổi ngày và tháng tùy theo nhu cầu
 
         for (Map.Entry<Integer, Integer> entry : monthlyOrders.entrySet()) {
             int month = entry.getKey();

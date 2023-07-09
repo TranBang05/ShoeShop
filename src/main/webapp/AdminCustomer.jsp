@@ -70,41 +70,30 @@
                 </a>
             </li>
 
+
+
             <li>
                 <a href="pages">
-                    <span class="icon">
-                        <ion-icon name="chatbubble-outline"></ion-icon>
-                    </span>
+        <span class="icon">
+            <ion-icon name="basket-outline"></ion-icon>
+        </span>
                     <span class="title">Quản lí đơn hàng</span>
                 </a>
             </li>
 
+
+
             <li>
                 <a href="payment">
                     <span class="icon">
-                        <ion-icon name="help-outline"></ion-icon>
+                        <ion-icon name="bar-chart-outline"></ion-icon>
                     </span>
                     <span class="title">Quản lí thống kê</span>
                 </a>
             </li>
 
-            <li>
-                <a href="#">
-                    <span class="icon">
-                        <ion-icon name="settings-outline"></ion-icon>
-                    </span>
-                    <span class="title">Settings</span>
-                </a>
-            </li>
 
-            <li>
-                <a href="#">
-                    <span class="icon">
-                        <ion-icon name="lock-closed-outline"></ion-icon>
-                    </span>
-                    <span class="title">Password</span>
-                </a>
-            </li>
+
 
             <li>
                 <a href="#">

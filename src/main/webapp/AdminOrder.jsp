@@ -118,7 +118,13 @@
     <!-- ======= Styles ====== -->
     <link rel="stylesheet" href="assets/css/style01.css">
 
-
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Admin Dashboard | Korsat X Parmaga</title>
+    <!-- ======= Styles ====== -->
+    <link rel="stylesheet" href="assets/css/style01.css">
+    <title>Chart.js Example - Area Chart</title>
 </head>
 
 
@@ -156,9 +162,9 @@
 
             <li>
                 <a href="pages">
-                    <span class="icon">
-                        <ion-icon name="chatbubble-outline"></ion-icon>
-                    </span>
+        <span class="icon">
+            <ion-icon name="basket-outline"></ion-icon>
+        </span>
                     <span class="title">Quản lí đơn hàng</span>
                 </a>
             </li>
@@ -166,29 +172,14 @@
             <li>
                 <a href="payment">
                     <span class="icon">
-                        <ion-icon name="help-outline"></ion-icon>
+                        <ion-icon name="bar-chart-outline"></ion-icon>
                     </span>
                     <span class="title">Quản lí thống kê</span>
                 </a>
             </li>
 
-            <li>
-                <a href="#">
-                    <span class="icon">
-                        <ion-icon name="settings-outline"></ion-icon>
-                    </span>
-                    <span class="title">Settings</span>
-                </a>
-            </li>
 
-            <li>
-                <a href="#">
-                    <span class="icon">
-                        <ion-icon name="lock-closed-outline"></ion-icon>
-                    </span>
-                    <span class="title">Password</span>
-                </a>
-            </li>
+
 
             <li>
                 <a href="#">
@@ -327,7 +318,11 @@
     </div>
 </div>
 
+<script src="assets/js/main.js"></script>
 
+<!-- ====== ionicons ======= -->
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
 <!-- =========== Scripts =========  -->
 
