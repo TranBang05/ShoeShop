@@ -291,7 +291,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                             <div class="product-single-info">
                                                 <h3 class="main-title">${detail.name}</h3>
                                                 <div class="prices">
-                                                    <span class="price">${detail.price}</span>
+                                                    <c:if test="${detail.discount != null && detail.discount != 0.0}">
+                                                        <span class="discounted-price"><del>${detail.price}</del></span>
+                                                        <span class="price">${detail.discountPrice}</span>
+                                                    </c:if>
+                                                    <c:if test="${detail.discount == null || detail.discount == 0.0}">
+                                                        <span class="price">${detail.price}</span>
+                                                    </c:if>
                                                 </div>
                                                 <div class="rating-box-wrap">
                                                     <div class="rating-box">

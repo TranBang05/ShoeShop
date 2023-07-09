@@ -110,6 +110,7 @@
                                     <td>Price</td>
                                     <td>image</td>
                                     <td>Category</td>
+                                    <td>Discount</td>
 
                                     <td>Action</td>
                                 </tr>
@@ -128,6 +129,7 @@
                                             <td>$${p.price}</td>
                                             <td><img style="height: 50px; width: 50px" src="${p.image}" alt="alt" /></td>
                                             <td><span class="">${p.cateName}</span></td>
+                                            <td><span class="">${p.discount*100}%</span></td>
                                             <td>
 
                                                 <a href="product-detail?pid=${p.id}" class="btn-edit-blog">

@@ -62,7 +62,7 @@ public class ProductDetailsController extends HttpServlet {
          String pid = request.getParameter("pid");
          DAO dao = new DAO();
           List<Category> category = dao.getAllCategory();
-         Products p= dao.getProductByIDForManage(pid);
+         Products p= dao.getProductByID(pid);
          request.setAttribute("product", p);
          System.out.println(p);
           request.setAttribute("category", category);

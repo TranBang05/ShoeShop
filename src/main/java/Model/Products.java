@@ -12,6 +12,8 @@ public class Products {
     private String title;
     private int cateId;
     private String cateName;
+    private double discount;
+    private double discountPrice;
 
     public Products() {
     }
@@ -34,7 +36,7 @@ public class Products {
         this.cateId = cateId;
     }
 
-    public Products(int id, String name, String description, double price, String image, int cateId, String cateName) {
+    public Products(int id, String name, String description, double price, String image, int cateId, String cateName, double  discount) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -42,7 +44,37 @@ public class Products {
         this.image = image;
         this.cateId = cateId;
         this.cateName = cateName;
+        this.discount = discount;
     }
+
+   public Products(int id, String name, String description, double price, String image, String title, Double discount, Double discountPice) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.image = image;
+        this.title = title;
+        this.discount = discount;
+        this.discountPrice = discountPice;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
+
+    public double getDiscountPrice() {
+        return discountPrice;
+    }
+
+    public void setDiscountPrice(double discountPrice) {
+        this.discountPrice = discountPrice;
+    }
+
+   
 
     public int getId() {
         return id;

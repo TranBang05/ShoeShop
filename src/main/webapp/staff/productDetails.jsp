@@ -106,6 +106,9 @@
 
                     <label for="image">Image:</label>
                     <input type="text" name="image" value="${product.image}" /><br/>
+                    
+                    <label for="discount">Discount(%)</label>
+                    <input type="number" name="discount" value="${product.discount*100 }" /><br/>
 
                     <!--<label for="title">Title:</label>-->
                     <!--<input type="text" name="title" value="${product.title}" /><br/>-->

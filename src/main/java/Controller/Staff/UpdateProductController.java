@@ -76,10 +76,11 @@ public class UpdateProductController extends HttpServlet {
         String price = request.getParameter("price");
         String image = request.getParameter("image");
         String title = request.getParameter("title");
+        double discount = Double.parseDouble(request.getParameter("discount"));
         String cateId = request.getParameter("cateId");
 
         DAO dao = new DAO();
-        boolean success = dao.updateProduct(id, name, description, price, image, cateId);
+        boolean success = dao.updateProduct(id, name, description, price, image, cateId, (discount/100));
 
         if (success) {
             response.sendRedirect("product-manage?status=success");

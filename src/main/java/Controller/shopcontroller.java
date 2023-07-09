@@ -23,6 +23,7 @@ public class shopcontroller extends HttpServlet {
         DAO dao = new DAO();
 
         List<Products> list = dao.getAllProduct();
+        list.forEach(System.out::println);
         List<Category> listC = dao.getAllCategory();
         Products last = dao.getLast();
 

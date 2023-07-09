@@ -34,15 +34,15 @@ public class DAO {
 
     public List<Products> getAllProduct() {
         List<Products> list = new ArrayList<>();
-        String query = "select * from products";
+        String query = "SELECT *, CASE WHEN discount IS NOT NULL THEN price - (price * discount) ELSE price END AS discounted_price FROM products";
         try {
             cnn = (new DBContext()).connection;
             pstm = cnn.prepareStatement(query);
             rs = pstm.executeQuery();
 
-            while (rs.next()) {
-                list.add(new Products(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getString(5),
-                        rs.getString(7)));
+           while (rs.next()) {
+                list.add( new Products(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getString(5), rs.getString(7),
+                        rs.getDouble(8),     rs.getDouble(9)));
             }
         } catch (Exception e) {
         }
@@ -98,7 +98,7 @@ public class DAO {
 
         try {
             StringBuilder query = new StringBuilder();
-            query.append("select p.product_id, p.name, p.description, p.price, p.image, p.category_id, c.name\n")
+            query.append("select p.product_id, p.name, p.description, p.price, p.image, p.category_id, c.name, p.discount\n")
                     .append("from products p join Categories c\n")
                     .append("on p.category_id = c.category_id ");
 
@@ -122,7 +122,8 @@ public class DAO {
                         rs.getDouble(4),
                         rs.getString(5),
                         rs.getInt(6),
-                        rs.getString(7)));
+                        rs.getString(7),
+                        rs.getDouble(8)));
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -204,9 +205,9 @@ public class DAO {
     }
 
     public boolean updateProduct(String id, String name, String description, String price, String image,
-            String cateId) {
+            String cateId, double discount) {
         boolean success = false;
-        String query = "UPDATE Products SET name=?, description=?, price=?, image=?, category_id=? WHERE product_id=?";
+        String query = "UPDATE Products SET name=?, description=?, price=?, image=?, category_id=?, discount =? WHERE product_id=?";
 
         try {
             cnn = new DBContext().connection;
@@ -216,7 +217,8 @@ public class DAO {
             pstm.setString(3, price);
             pstm.setString(4, image);
             pstm.setString(5, cateId);
-            pstm.setString(6, id);
+            pstm.setDouble(6, discount);
+            pstm.setString(7, id);
 
             int rowsUpdated = pstm.executeUpdate();
             success = (rowsUpdated > 0);
@@ -587,7 +589,7 @@ public class DAO {
 
     public Products getProductByID(String id) {
 
-        String query = "select * from products where product_id=?";
+        String query = "SELECT *, CASE WHEN discount IS NOT NULL THEN price - (price * discount) ELSE price END AS discounted_price FROM products where product_id=?";
         try {
             cnn = (new DBContext()).connection;
             pstm = cnn.prepareStatement(query);
@@ -595,8 +597,8 @@ public class DAO {
             rs = pstm.executeQuery();
 
             while (rs.next()) {
-                return new Products(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getString(5),
-                        rs.getString(7));
+                return new Products(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getString(5), rs.getString(7),
+                        rs.getDouble(8),     rs.getDouble(9));
             }
         } catch (Exception e) {
             System.out.println(e);
