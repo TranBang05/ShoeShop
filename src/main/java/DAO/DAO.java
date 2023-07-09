@@ -1,13 +1,7 @@
 package DAO;
 
 import DAL.DBContext;
-import Model.Order;
-import Model.Products;
-import Model.Blog;
-import Model.BlogComment;
-import Model.Category;
-import Model.ProductFeedback;
-import Model.cart;
+import Model.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -595,6 +589,56 @@ public class DAO {
         }
         return sum;
     }
+    public List<User> getAllUser() {
+        List<User> listU = new ArrayList<>();
+        String query = "select * from users";
+        try {
+            cnn = (new DBContext()).connection;
+            pstm = cnn.prepareStatement(query);
+
+            rs = pstm.executeQuery();
+
+            while (rs.next()) {
+                int use_id = rs.getInt("userid");
+                String user_name = rs.getString("username");
+                String pa = rs.getString("password");
+                String email = rs.getString("email");
+                String add = rs.getString("address");
+                int role = rs.getInt("role");
+                User user = new User(user_name,pa, email, role);
+                listU.add(user);
+//                listU.add(new User(rs.getInt(1),
+//                        rs.getString(2),
+//                        rs.getString(3),
+//                        rs.getString(4),
+//                        rs.getString(5)));
+
+            }
+        } catch (Exception e) {
+        }
+        return listU;
+    }
+    public User getAccountById(int id) {
+        try {
+            String sql = "select *  from users where userid = ?";
+
+
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                User user = new User();
+                user.setId(rs.getInt(1));
+                user.setUsername(rs.getString(2));
+                user.setPassword(rs.getString(3));
+                user.setEmail(rs.getString(4));
+
+
+                return user;
+            }
+        } catch (Exception ex) {
+
+        }
+        return null;
+    }
 
     public static void main(String[] args) {
         DAO dao = new DAO();
@@ -603,6 +647,12 @@ public class DAO {
         List<Blog> listB = dao.getAllBlogs();
         Blog b = dao.getBlogByID(1);
         System.out.println(b);
+        List<User> listU = dao.getAllUser();
+
+
+        for (User u : listU) {
+            System.out.println("name:" + u.getUsername() + "pass: " + u.getPassword() + " email: " + u.getEmail());
+        }
 //        List<BlogComment> blogComments = dao.getAllBlogCommentByBlogID(1);
 //        for (BlogComment blogComment : blogComments) {
 //            System.out.println(blogComment);
