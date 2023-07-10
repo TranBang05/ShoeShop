@@ -291,7 +291,19 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                             <h4 class="title"><a href="single-product.html"><%=c.getName()%></a></h4>
                                         </td>
                                         <td class="product-price">
-                                            <span class="price" name="price"><%=c.getPrice()%></span>
+                                            <c:choose>
+                                                <c:when test="c.getDiscount() != null && c.getDdiscount() != 0.0)">
+
+                                                    <span class="price" name="price"><%= c.getDiscountPrice() %></span>
+
+                                                </c:when>
+                                                <c:otherwise>
+
+                                                    <span class="price" name="price"><%= c.getPrice() %></span>
+
+                                                </c:otherwise>
+                                            </c:choose>
+
                                         </td>
                                         <td class="product-quantity">
 

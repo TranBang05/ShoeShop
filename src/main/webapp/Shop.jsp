@@ -165,8 +165,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                             <a class="shopping-cart-btn" href="ShopCart.jsp">
 
 
-                                            <i class="pe-7s-shopbag icon"></i>
-                                            <sup class="shop-count">${cart_list.size()}</sup>
+                                                <i class="pe-7s-shopbag icon"></i>
+                                                <sup class="shop-count">${cart_list.size()}</sup>
                                             </a>
                                         </button>
 
@@ -277,93 +277,131 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
 
                                             <c:forEach var="p" items="${list}">
-                                            <div class="col-sm-6 col-lg-4">
-                                                <!--== Start Product Item ==-->
-                                                <div class="product-item">
-                                                    <div class="inner-content">
-                                                        <div class="product-thumb">
-                                                            <a  href="detail?pid=${p.id}">
-                                                                <img src="${p.image}" width="270" height="274" alt="Image-HasTech">
-                                                            </a>
+                                                <div class="col-sm-6 col-lg-4">
+                                                    <!--== Start Product Item ==-->
+                                                    <div class="product-item">
+                                                        <div class="inner-content">
+                                                            <div class="product-thumb">
+                                                                <a  href="detail?pid=${p.id}">
+                                                                    <img src="${p.image}" width="270" height="274" alt="Image-HasTech">
+                                                                </a>
 
-                                                            <div class="product-action">
-                                                                <a class="btn-product-wishlist" href="wishlist?id=${p.id}"><i class="fa fa-heart"></i></a>
+                                                                <div class="product-action">
+                                                                    <a class="btn-product-wishlist" href="wishlist?id=${p.id}"><i class="fa fa-heart"></i></a>
 
+                                                                </div>
+                                                                <a class="banner-link-overlay" href="shop.html"></a>
                                                             </div>
-                                                            <a class="banner-link-overlay" href="shop.html"></a>
-                                                        </div>
-                                                        <div class="product-info">
+                                                            <div class="product-info">
 
-                                                            <h4 class="title"><a href="detail?pid=${p.id}">${p.name}</a></h4>
-                                                            <div class="prices">
-                                                                    <span class="price">${p.price}</span>
+                                                                <h4 class="title"><a href="detail?pid=${p.id}">${p.name}</a></h4>
+                                                                <div class="prices">
+                                                                    <c:choose>
+                                                                        <c:when test="${p.discount != null && p.discount != 0.0}">
+                                                                            <span class="discounted-price"><del>${p.price}</del></span>
+                                                                            <span class="price">${p.discountPrice}</span>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <span class="price">${p.price}</span>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <!--== End prPduct Item ==-->
                                                 </div>
-                                                <!--== End prPduct Item ==-->
-                                            </div>
                                             </c:forEach>
 
 
 
 
 
-
-
-
                                             <div class="col-12">
                                                 <div class="pagination-items">
-                                                    <ul class="pagination justify-content-end mb--0">
-                                                        <li><a class="active" href="shop.html">1</a></li>
-                                                        <li><a href="shop-four-columns.html">2</a></li>
-                                                        <li><a href="shop-three-columns.html">3</a></li>
+                                                    <ul class="pagination d-inline-flex">
+                                                        <c:if test="${currentPage > 1}">
+                                                            <li class="page-item">
+                                                                <a class="page-link" href="?pid=${product_id}&amp;page=${currentPage - 1}&amp;pageSize=${pageSize}">&laquo; </a>
+                                                            </li>
+                                                        </c:if>
+
+                                                        <c:forEach begin="1" end="${totalPages}" var="pageNumber">
+                                                            <c:choose>
+                                                                <c:when test="${pageNumber == currentPage}">
+                                                                    <li class="page-item active">
+                                                                        <span class="page-link">${pageNumber}</span>
+                                                                    </li>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <li class="page-item">
+                                                                        <a class="page-link" href="?pid=${product_id}&amp;page=${pageNumber}&amp;pageSize=${pageSize}">${pageNumber}</a>
+                                                                    </li>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </c:forEach>
+
+                                                        <c:if test="${currentPage < totalPages}">
+                                                            <li class="page-item">
+                                                                <a class="page-link" href="?pid=${product_id}&amp;page=${currentPage + 1}&amp;pageSize=${pageSize}"> &raquo;</a>
+                                                            </li>
+                                                        </c:if>
                                                     </ul>
                                                 </div>
                                             </div>
+
+
+
+
+
                                         </div>
                                     </div>
                                     <div class="tab-pane fade" id="nav-list" role="tabpanel" aria-labelledby="nav-list-tab">
-
                                         <div class="row">
+                                            <c:forEach var="p" items="${list}">
+                                                <div class="col-md-12">
+                                                    <!--== Start Product Item ==-->
+                                                    <div class="product-item product-list-item">
+                                                        <div class="inner-content">
+                                                            <div class="product-thumb">
+                                                                <a href="single-product.html">
+                                                                    <img src="${p.image}" width="322" height="360" alt="Image-HasTech">
+                                                                </a>
 
-                                           <c:forEach var="p" items="${list}">
-                                            <div class="col-md-12">
-                                                <!--== Start Product Item ==-->
-                                                <div class="product-item product-list-item">
+                                                                <div class="product-action">
+                                                                    <a class="btn-product-wishlist" href="wishlist?id=${p.id}" ><i class="fa fa-heart"></i></a>
 
-                                                    <div class="inner-content">
-                                                        <div class="product-thumb">
-                                                            <a href="single-product.html">
-                                                                <img src="${p.image}" width="322" height="360" alt="Image-HasTech">
-                                                            </a>
-
-                                                            <div class="product-action">
-                                                                <a class="btn-product-wishlist" href="wishlist?id=${p.id}" ><i class="fa fa-heart"></i></a>
+                                                                </div>
+                                                                <a class="banner-link-overlay" href="shop.html"></a>
+                                                            </div>
+                                                            <div class="product-info">
+                                                                <div class="category">
+                                                                    <ul>
+                                                                        <li>${p.name}</li>
+                                                                    </ul>
+                                                                </div>
+                                                                <h4 class="title"><a href="single-product.html">Leather Mens Slipper</a></h4>
+                                                                <div class="prices">
+                                                                    <c:choose>
+                                                                        <c:when test="${p.discount != null && p.discount != 0.0}">
+                                                                            <span class="discounted-price"><del>${p.price}</del></span>
+                                                                            <span class="price">${p.discountPrice}</span>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <span class="price">${p.price}</span>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+                                                                </div>
+                                                                <p>${p.description}</p>
+                                                                <a class="btn-theme btn-sm" href="addtocart?id=${p.id}&price=${p.price}">Thêm Vào Giỏ Hàng</a>
+                                                                <a class="btn-theme btn-sm" href="ordernow?quantity=1&id=${p.id}">Mua Ngay</a>
 
                                                             </div>
-                                                            <a class="banner-link-overlay" href="shop.html"></a>
-                                                        </div>
-                                                        <div class="product-info">
-                                                            <div class="category">
-                                                                <ul>
-                                                                    <li>${p.name}</li>
-                                                                </ul>
-                                                            </div>
-                                                            <h4 class="title"><a href="single-product.html">Leather Mens Slipper</a></h4>
-                                                            <div class="prices">
-                                                                <span class="price">${p.price}</span>
-                                                            </div>
-                                                            <p>${p.description}</p>
-                                                            <a class="btn-theme btn-sm" href="addtocart?id=${p.id}&price=${p.price}">Thêm Vào Giỏ Hàng</a>
-                                                            <a class="btn-theme btn-sm" href="ordernow?quantity=1&id=${p.id}">Mua Ngay</a>
-
                                                         </div>
                                                     </div>
+                                                    <!--== End prPduct Item ==-->
                                                 </div>
-                                                <!--== End prPduct Item ==-->
-                                            </div>
-                                           </c:forEach>
+                                            </c:forEach>
 
 
 
@@ -373,11 +411,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                                 <div class="pagination-items">
                                                     <ul class="pagination justify-content-end mb--0">
                                                         <li><a class="active" href="shop.html">1</a></li>
-                                                        <li><a href="shop-four-columns.html">2</a></li>
+                                                        <li><a href="shop-four-columns.html">3</a></li>
                                                         <li><a href="shop-three-columns.html">3</a></li>
                                                     </ul>
                                                 </div>
                                             </div>
+
+
+
+
                                         </div>
                                     </div>
                                 </div>
@@ -589,10 +631,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
     <!--== Start Side Menu ==-->
 
-            <!-- Mobile Menu End -->
-        </div>
-    </div>
-    <!--== End Side Menu ==-->
+    <!-- Mobile Menu End -->
+</div>
+</div>
+<!--== End Side Menu ==-->
 </div>
 
 <!--=======================Javascript============================-->
@@ -621,7 +663,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
 <!--=== jQuery Custom Js ===-->
 <script src="${pageContext.request.contextPath}/assets/js/custom.js"></script>
-
 </body>
 
 </html>

@@ -2,9 +2,9 @@ package Controller;
 
 import DAO.DAO;
 import Model.Order;
+import Model.Payments;
 import Model.User;
-import Model.cart;
-import Model.Payment;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -38,7 +38,7 @@ public class Paymentcontroller extends HttpServlet {
             if(orders != null && username!=null) {
                 for(Order c:orders) {
                     System.out.println(c);
-                    Payment p= new Payment();
+                    Payments p= new Payments();
                     p.setOrderId(c.getOrderId());
                     p.setAmount(price);
                     DAO payment = new DAO();

@@ -15,8 +15,13 @@ public class User {
     private String username;
     private String password;
     private String email;
+
+    private String address;
+    private String phone_number;
     private String code;
     private int role;
+
+    private int status;
 
 
 
@@ -45,7 +50,16 @@ public class User {
     }
 
 
-
+    public User(int id, String username, String password, String email, String address, String phone_number, String code) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.address = address;
+        this.phone_number = phone_number;
+        this.code = code;
+        connect ();
+    }
 
 
     public User(String username, String password, String email) {
@@ -73,10 +87,53 @@ public class User {
         this.role = role;
         connect();
     }
+    public User(int id, String username, String password, String email, String address, String phone_number) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.address = address;
+        this.phone_number = phone_number;
+        connect ();
+    }
+    public User(String username, String password, String email, String address, String phone, String code) {
+
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.address = address;
+        this.phone_number = phone;
+        this.code = code;
+        connect ();
+    }
+
+    public User(int id, String username, String password, String email, String address, String phone_number, int role, int status) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.address = address;
+        this.phone_number = phone_number;
+        this.role = role;
+        this.status = status;
+        connect();
+    }
 
 
+    public String getAddress() {
+        return address;
+    }
 
+    public String getPhone_number() {
+        return phone_number;
+    }
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
+    public void setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
+    }
     public String getCode() {
         return code;
     }
@@ -116,6 +173,20 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+
+
+
+
+
     Connection cnn;
     Statement stm;//thuc thi cau lenh sql
     PreparedStatement pstm;
@@ -156,6 +227,31 @@ public class User {
         return user;
     }
 
+    public boolean checkUser() {
+        User user = null;
+        try {
+            String strSelect = "SELECT * FROM Users "
+                    + "WHERE username=? "
+                    + "AND password=?";
+            pstm = cnn.prepareStatement ( strSelect );
+            pstm.setString ( 1, username );
+            pstm.setString ( 2, password );
+            rs = pstm.executeQuery ();
+            while (rs.next ()) {
+                user = new User();
+                user.setId(rs.getInt("userid"));
+                user.setUsername(rs.getString("username"));
+                user.setEmail(rs.getString("email"));
+
+            }
+        } catch (Exception e) {
+            System.out.println ( "checkUser: " + e.getMessage () );
+        }
+
+        return false;
+    }
+
+
 
     public boolean checkAccount() {
         try {
@@ -190,6 +286,36 @@ public class User {
         }
     }
 
+
+    public void addUser1() {
+        try {
+            String sql = "INSERT INTO Users (username, password, email, address, phone_number) VALUES (?, ?, ?, ?, ?)";
+            pstm = cnn.prepareStatement(sql);
+
+            pstm.setString(1, username);
+            pstm.setString(2, password);
+            pstm.setString(3, email);
+            pstm.setString(4, address);
+            pstm.setString(5, phone_number);
+
+            pstm.executeUpdate();
+            System.out.println("User added successfully.");
+        } catch (Exception e) {
+            System.out.println("addUser: " + e.getMessage());
+        } finally {
+            // Close resources in the finally block
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstm != null) {
+                    pstm.close();
+                }
+            } catch (Exception e) {
+                System.out.println("addUser - Error closing resources: " + e.getMessage());
+            }
+        }
+    }
     public User getUserByAccount2(String acc) {
         User u = null;
         try {
@@ -268,5 +394,73 @@ public class User {
         }
 
         return userList;
+    }
+    public List<User> getListUser1() {
+        List<User> userList = new ArrayList<>();
+
+        try {
+            String strSelect = "SELECT * FROM Users";
+            stm = cnn.createStatement();
+            rs = stm.executeQuery(strSelect);
+            while (rs.next()) {
+
+                int id = rs.getInt("userid"); // Change "id" to "userid"
+                String username = rs.getString("username");
+                String password = rs.getString("password");
+                String email = rs.getString("email");
+                String address = rs.getString("address");
+                String phone = rs.getString("phone_number");
+
+                User user = new User(id, username, password, email, address, phone);
+                userList.add(user);
+            }
+        } catch (Exception e) {
+            System.out.println("getListUser: " + e.getMessage());
+        }
+
+        return userList;
+    }
+
+
+    public void editOrder(String orderId, String newState, double newTotal, String newOrderDate) {
+        try {
+            String strUpdate = "UPDATE Orders SET state=?, total=?, order_date=? WHERE order_id=?";
+            pstm = cnn.prepareStatement ( strUpdate );
+            pstm.setString ( 1, orderId );
+            pstm.setString ( 2, newState );
+            pstm.setDouble ( 3, newTotal );
+            pstm.setString ( 4, newOrderDate );
+            pstm.executeUpdate ();
+        } catch (Exception e) {
+
+            System.out.println ( "editOrder: " + e.getMessage () );
+        }
+    }
+
+    public List<User> searchUsersByName(String name) {
+        List<User> userList = new ArrayList<> ();
+
+        try {
+            String strSelect = "SELECT * FROM Users WHERE username LIKE ?";
+            pstm = cnn.prepareStatement ( strSelect );
+            pstm.setString ( 1, "%" + name + "%" );
+            rs = pstm.executeQuery ();
+
+            while (rs.next ()) {
+                int id = rs.getInt ( "userid" );
+                String username = rs.getString ( "username" );
+                String password = rs.getString ( "password" );
+                String email = rs.getString ( "email" );
+                String address = rs.getString ( "address" );
+                String phone = rs.getString ( "phone_number" );
+                User user = new User ( id, username, password, email, address, phone);
+                userList.add ( user );
+            }
+        } catch (Exception e) {
+            System.out.println ( "searchUsersByName: " + e.getMessage () );
+        }
+
+        return userList;
+
     }
 }

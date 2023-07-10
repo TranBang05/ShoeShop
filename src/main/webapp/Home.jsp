@@ -184,7 +184,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                     </li>
                                     <li><a href="blog"><span>Blog</span></a>
                                     </li>
-                                    <li><a href="contact.html"><span>Liên Hệ</span></a></li>
+                                    <li><a href="home"><span>Liên Hệ</span></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -208,7 +208,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
 
                             <div class="container">
-                                <img src="https://sneakerdaily.vn/wp-content/uploads/2023/05/6.png.webp" width="100%" height="10%" >
+                                <img src="https://anhdep123.com/wp-content/uploads/2021/01/anh-giay-converse.jpg" width="100%" height="10%" >
                                 <div class="slider-container">
                                     <div class="row justify-content-between align-items-center">
                                         <div class="col-sm-6 col-md-5">
@@ -252,11 +252,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             <div class="inner-content">
                                 <div class="product-collection-content">
                                     <div class="content">
-                                        <h3 class="title" ><a href="shop.html">Giày Bóng Đá</a></h3>
+                                        <h3 class="title" ><a href="shop">Giày Bóng Đá</a></h3>
                                     </div>
                                 </div>
                                 <div class="product-collection-thumb" data-bg-img="https://pos.nvncdn.net/b0b717-26181/pc/cateCT/20200117_8kqN0qRHydP4MLm4J63tG97f.jpg"></div>
-                                <a class="banner-link-overlay" href="shop.html"></a>
+                                <a class="banner-link-overlay" href="shop"></a>
                             </div>
                         </div>
                         <!--== End Product Collection Item ==-->
@@ -267,13 +267,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             <div class="inner-content">
                                 <div class="product-collection-content">
                                     <div class="content">
-                                        <h3 class="title"><a href="shop.html">Giày bóng rổ
+                                        <h3 class="title"><a href="shop">Giày bóng rổ
                                         </a></h3>
 
                                     </div>
                                 </div>
                                 <div class="product-collection-thumb" data-bg-img="https://pos.nvncdn.net/80cfbf-41716/ps/20230610_z5zDh3SKhL.jpeg"></div>
-                                <a class="banner-link-overlay" href="shop.html"></a>
+                                <a class="banner-link-overlay" href="shop"></a>
                             </div>
                         </div>
                         <!--== End Product Collection Item ==-->
@@ -284,12 +284,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             <div class="inner-content">
                                 <div class="product-collection-content">
                                     <div class="content">
-                                        <h3 class="title"><a href="shop.html">Giày Trượt Ván</a></h3>
+                                        <h3 class="title"><a href="shop">Giày Trượt Ván</a></h3>
 
                                     </div>
                                 </div>
                                 <div class="product-collection-thumb" data-bg-img="https://mcdn.coolmate.me/image/August2021/00.jpg"></div>
-                                <a class="banner-link-overlay" href="shop.html"></a>
+                                <a class="banner-link-overlay" href="shop"></a>
                             </div>
                         </div>
                         <!--== End Product Collection Item ==-->

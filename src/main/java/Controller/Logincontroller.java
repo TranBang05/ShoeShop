@@ -1,7 +1,8 @@
 package Controller;
 
-
+import Model.Staff;
 import Model.User;
+import Model.Admin;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -10,35 +11,43 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+
 @WebServlet(name = "Logincontroller", value = "/login")
 public class Logincontroller extends HttpServlet {
 
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //nhan thong tin
-        String username = req.getParameter ( "username" );
-        String password = req.getParameter ( "password" );
+        String username = req.getParameter("username");
+        String password = req.getParameter("password");
 
         String err = "";
-        //su ly thong tin
-        User u = new User ( username, password );
-
+        User u = new User(username, password);
+        Staff s = new Staff(username, password);
         User user = u.userLogin(username, password);
+        Staff staff = s.staffLogin(username, password);
 
 
+        Admin a= new Admin (username,password);
+        Admin ad = a.adminLogin ( username,password );
 
-        if (user!=null) {
+        if (user != null) {
             req.getSession().setAttribute("username", user);
-
-
             resp.sendRedirect("home");
+        } else if (ad!=null) {
+            req.getSession().setAttribute("username", ad);
 
-        } else {
-            err = "Account exit";
-            req.setAttribute ( "err", err );
-            req.getRequestDispatcher ( "Login.jsp" ).forward ( req, resp );
+
+            resp.sendRedirect("Admin.jsp");
         }
-
+        else if (staff != null) {
+            req.getSession().setAttribute("staff", staff);
+            resp.sendRedirect("DashBoard.jsp");
+        }
+        else {
+            err = "Invalid credentials";
+            req.setAttribute("err", err);
+            req.getRequestDispatcher("Login.jsp").forward(req, resp);
+        }
     }
+
 }

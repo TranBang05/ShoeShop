@@ -217,7 +217,7 @@
           <div class="row">
             <div class="col-sm-8 m-auto">
               <div class="section-title text-center">
-                <h2 class="title"> Dang Nhap </h2>
+                <h2 class="title"> Login </h2>
               </div>
             </div>
           </div>

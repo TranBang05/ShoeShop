@@ -1,6 +1,5 @@
 package Model;
 
-import java.util.ArrayList;
 
 public class Products {
     private int id;
@@ -9,6 +8,13 @@ public class Products {
     private double price;
     private String image;
     private String title;
+
+    private int cateId;
+    private String cateName;
+    private Categories category;
+
+    private double discount;
+    private double discountPrice;
 
 
     public Products() {
@@ -23,6 +29,93 @@ public class Products {
         this.description = description;
     }
 
+    public Products(int id, String name, String description, double price, String image, Categories category) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.image = image;
+        this.category = category;
+
+    }
+
+    public Products(int id, String name, String description, double price, String image, int cateId) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.image = image;
+        this.cateId = cateId;
+    }
+
+    public Products(int id, String name, String description, double price, String image, int cateId, String cateName) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.image = image;
+        this.cateId = cateId;
+        this.cateName = cateName;
+    }
+    public Products(int id, String name, String description, double price, String image, int cateId, String cateName, double  discount) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.image = image;
+        this.cateId = cateId;
+        this.cateName = cateName;
+        this.discount = discount;
+    }
+
+    public Products(int id, String name, String description, double price, String image, String title, Double discount, Double discountPice) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.image = image;
+        this.title = title;
+        this.discount = discount;
+        this.discountPrice = discountPice;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public double getDiscountPrice() {
+        return discountPrice;
+    }
+
+    public void setDiscountPrice(double discountPrice) {
+        this.discountPrice = discountPrice;
+    }
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
+    public Categories getCategory() {
+        return category;
+    }
+
+    public void setCategory(Categories category) {
+        this.category = category;
+    }
+
+    public int getCateId() {
+        return cateId;
+    }
+
+    public void setCateId(int cateId) {
+        this.cateId = cateId;
+    }
+
+    public String getCateName() {
+        return cateName;
+    }
+
+    public void setCateName(String cateName) {
+        this.cateName = cateName;
+    }
     public int getId() {
         return id;
     }
@@ -73,7 +166,7 @@ public class Products {
 
     @Override
     public String toString() {
-        return "Product{" + "id=" + id + ", name=" + name + ", description=" + description+",  price=" + price + ", image=" + image + ", title=" + title +  '}';
+        return "Products{" + "id=" + id + ", name=" + name + ", description=" + description + ", price=" + price + ", image=" + image + ", title=" + title + ", cateId=" + cateId + ", cateName=" + cateName + '}';
     }
 
 

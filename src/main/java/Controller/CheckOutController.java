@@ -30,11 +30,12 @@ public class CheckOutController extends HttpServlet {
             ArrayList<cart> cart_list = (ArrayList<cart>) request.getSession().getAttribute("cart-list");
 
             User username = (User) request.getSession().getAttribute("username");
+            System.out.println(username);
 
             if (cart_list != null && username != null) {
                 for (cart c : cart_list) {
 
-                    System.out.println(c);
+                    System.out.println(username.getId());
                     Order order = new Order();
                     order.setId(c.getId());
                     order.setUid(username.getId());
