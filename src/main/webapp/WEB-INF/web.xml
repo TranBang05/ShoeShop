@@ -25,45 +25,26 @@
         <servlet-name>AddCommnetController</servlet-name>
         <servlet-class>Controller.AddCommnetController</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>getCommentServlet</servlet-name>
-        <servlet-class>Controller.getCommentServlet</servlet-class>
-    </servlet>
+
     <servlet>
         <servlet-name>AddProductFeedback</servlet-name>
         <servlet-class>Controller.AddProductFeedback</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ProductManageController</servlet-name>
-        <servlet-class>Staff.ProductManageController</servlet-class>
+        <servlet-name>AccountDeatilController</servlet-name>
+        <servlet-class>Controller.AccountDeatilController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>GetProductServlet</servlet-name>
-        <servlet-class>Staff.GetProductServlet</servlet-class>
+        <servlet-name>FeedbackToStaffController</servlet-name>
+        <servlet-class>Controller.FeedbackToStaffController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ProductDetailsController</servlet-name>
-        <servlet-class>Staff.ProductDetailsController</servlet-class>
+        <servlet-name>ResponseFeedback</servlet-name>
+        <servlet-class>Controller.ResponseFeedback</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>UpdateProductController</servlet-name>
-        <servlet-class>Staff.UpdateProductController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>DeleteProductController</servlet-name>
-        <servlet-class>Staff.DeleteProductController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>AddProductController</servlet-name>
-        <servlet-class>Staff.AddProductController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>UserManageController</servlet-name>
-        <servlet-class>Staff.UserManageController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>BlockUserController</servlet-name>
-        <servlet-class>Staff.BlockUserController</servlet-class>
+        <servlet-name>FeedbackManager</servlet-name>
+        <servlet-class>Staff.FeedbackManager</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Logincontroller</servlet-name>
@@ -89,22 +70,44 @@
         <servlet-name>AddCommnetController</servlet-name>
         <url-pattern>/add-comment</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>getCommentServlet</servlet-name>
-        <url-pattern>/get-comments</url-pattern>
-    </servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>AddProductFeedback</servlet-name>
         <url-pattern>/add-product-feedback</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>AccountDeatilController</servlet-name>
+        <url-pattern>/account-detail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AccountDeatilController</servlet-name>
+        <url-pattern>/edit-address</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AccountDeatilController</servlet-name>
+        <url-pattern>/change-pass</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FeedbackToStaffController</servlet-name>
+        <url-pattern>/feedback</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FeedbackToStaffController</servlet-name>
+        <url-pattern>/submit-feedback</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ResponseFeedback</servlet-name>
+        <url-pattern>/success</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ResponseFeedback</servlet-name>
+        <url-pattern>/error</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>ProductManageController</servlet-name>
         <url-pattern>/product-manage</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>GetProductServlet</servlet-name>
-        <url-pattern>/get-product</url-pattern>
-    </servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>ProductDetailsController</servlet-name>
         <url-pattern>/product-detail</url-pattern>
@@ -129,9 +132,46 @@
         <servlet-name>BlockUserController</servlet-name>
         <url-pattern>/block-user</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>ProductManageController</servlet-name>
+        <servlet-class>Staff.ProductManageController</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>ProductDetailsController</servlet-name>
+        <servlet-class>Staff.ProductDetailsController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateProductController</servlet-name>
+        <servlet-class>Staff.UpdateProductController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteProductController</servlet-name>
+        <servlet-class>Staff.DeleteProductController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddProductController</servlet-name>
+        <servlet-class>Staff.AddProductController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserManageController</servlet-name>
+        <servlet-class>Staff.UserManageController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BlockUserController</servlet-name>
+        <servlet-class>Staff.BlockUserController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FeedbackManager</servlet-name>
+        <url-pattern>/user-feedback-manage</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
+        <servlet-mapping>
+            <servlet-name>ResponseFeedback</servlet-name>
+            <url-pattern>/success</url-pattern>
+        </servlet-mapping>
     </session-config>
 </web-app>

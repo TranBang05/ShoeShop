@@ -971,6 +971,186 @@ public class DAO {
         return success;
     }
 
+    public User getUserByID(int id) {
+
+        String query = "  select * from users where userid = ?";
+        try {
+            cnn = (new DBContext()).connection;
+            pstm = cnn.prepareStatement(query);
+            pstm.setInt(1, id);
+            rs = pstm.executeQuery();
+
+            while (rs.next()) {
+                return new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
+            }
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+        return null;
+    }
+    public List<Feedback> getAllFeedback() {
+        List<Feedback> feedbackList = new ArrayList<>();
+        String query = "          SELECT f.feedback_id, f.userid, f.staff_id, f.title, f.content, f.date_posted,s.username FROM feedback f JOIN staff s \n"
+                + "						ON f.staff_id = s.staff_id";
+        try {
+            cnn = (new DBContext()).connection;
+            pstm = cnn.prepareStatement(query);
+            rs = pstm.executeQuery();
+
+            while (rs.next()) {
+                int feedbackId = rs.getInt("feedback_id");
+                int userId = rs.getInt("userid");
+                int staffId = rs.getInt("staff_id");
+                String title = rs.getString("title");
+                String content = rs.getString("content");
+                Timestamp datePosted = rs.getTimestamp("date_posted");
+                String staffName = rs.getString("username");
+
+                Feedback feedback = new Feedback(feedbackId, userId, staffId, title, content, datePosted, staffName);
+                feedbackList.add(feedback);
+            }
+        } catch (Exception e) {
+            System.err.println("Error retrieving all feedback: " + e);
+
+        }
+        return feedbackList;
+    }
+
+    public boolean insertFeedback(Feedback feedback) {
+        String query = "INSERT INTO Feedback (userid, staff_id, title, content, date_posted) VALUES (?, ?, ?, ?, NOW())";
+        try {
+            cnn = (new DBContext()).connection;
+            pstm = cnn.prepareStatement(query);
+            pstm.setInt(1, feedback.getUserid());
+            pstm.setInt(2, feedback.getStaff_id());
+            pstm.setString(3, feedback.getTitle());
+            pstm.setString(4, feedback.getContent());
+            pstm.executeUpdate();
+        } catch (Exception e) {
+            System.err.println("Error inserting feedback: " + e);
+            e.printStackTrace();
+        }
+        return  true;
+    }
+
+    public List<Order> getOrdersByUserID(int id) {
+        List<Order> list = new ArrayList<>();
+        String query = " select * from orders where userid  = ?";
+        try {
+            cnn = (new DBContext()).connection;
+            pstm = cnn.prepareStatement(query);
+            pstm.setInt(1, id);
+            rs = pstm.executeQuery();
+
+            while (rs.next()) {
+                list.add(new Order(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getDouble(5), rs.getString(6)));
+            }
+        } catch (Exception e) {
+            System.err.println("loi " + e);
+        }
+        return list;
+    }
+
+    public boolean verifyUserPassword(int userId, String password) {
+        boolean isPasswordCorrect = false;
+        String query = "SELECT password FROM users WHERE userid  = ?";
+        try {
+            cnn = (new DBContext()).connection;
+            pstm = cnn.prepareStatement(query);
+            pstm.setInt(1, userId);
+            rs = pstm.executeQuery();
+
+            if (rs.next()) {
+                String storedPassword = rs.getString("password");
+                // Compare the stored password with the provided password
+                isPasswordCorrect = storedPassword.equals(password);
+            }
+        } catch (Exception e) {
+            System.err.println("Error verifying user password: " + e);
+        } finally {
+            // Close connections and resources
+            // ...
+        }
+        return isPasswordCorrect;
+    }
+
+    public void updateUserPassword(int userId, String newPassword) {
+        String query = "UPDATE users SET password = ? WHERE userid = ?";
+        try {
+            cnn = (new DBContext()).connection;
+            pstm = cnn.prepareStatement(query);
+            pstm.setString(1, newPassword);
+            pstm.setInt(2, userId);
+            pstm.executeUpdate();
+        } catch (Exception e) {
+            System.err.println("Error updating user password: " + e);
+        } finally {
+            // Close connections and resources
+            // ...
+        }
+    }
+
+    public List<Feedback> getAllFeedbacksForManage(String searchParam, int staffId) {
+        List<Object> list = new ArrayList<>();
+        List<Feedback> feedbacks = new ArrayList<>();
+
+        try {
+            StringBuilder query = new StringBuilder();
+            query.append(" select * from feedback where staff_id = ?");
+
+            if (searchParam != null && !searchParam.trim().isEmpty()) {
+                query.append(" AND (title LIKE ? OR content LIKE ?)");
+                list.add("%" + searchParam + "%");
+                list.add("%" + searchParam + "%");
+            }
+            list.add(staffId);
+            cnn = (new DBContext()).connection;
+            pstm = cnn.prepareStatement(query.toString());
+
+            mapParams(pstm, list);
+            rs = pstm.executeQuery();
+            while (rs.next()) {
+                Feedback feedback = new Feedback();
+                feedback.setFeedback_id(rs.getInt("feedback_id"));
+                feedback.setUserid(rs.getInt("userid"));
+                feedback.setStaff_id(rs.getInt("staff_id"));
+                feedback.setTitle(rs.getString("title"));
+                feedback.setContent(rs.getString("content"));
+                feedback.setDate_posted(rs.getTimestamp("date_posted"));
+
+                feedbacks.add(feedback);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            e.printStackTrace();
+        }
+        return feedbacks;
+    }
+
+    public List<Feedback> PagingFeedback(List<Feedback> list, int pageParam, int size) {
+        if (list.isEmpty()) {
+            return list;
+        }
+        return list.subList((pageParam - 1) * size, size * pageParam >= list.size() ? list.size() : size * pageParam);
+    }
+
+    public boolean updateUserAddressAndPhone(int userId, String address, String phoneNumber) {
+        String query = "UPDATE users SET address = ?, phone_number = ? WHERE userid = ?";
+        try {
+            cnn = (new DBContext()).connection;
+            pstm = cnn.prepareStatement(query);
+            pstm.setString(1, address);
+            pstm.setString(2, phoneNumber);
+            pstm.setInt(3, userId);
+            pstm.executeUpdate();
+        } catch (Exception e) {
+            System.err.println("Error updating user address and phone: " + e);
+        } finally {
+            // Close connections and resources
+            // ...
+        }
+        return true;
+    }
 
 
     public static void main(String[] args) {

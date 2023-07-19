@@ -382,15 +382,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                                                 </div>
                                                                 <h4 class="title"><a href="single-product.html">Leather Mens Slipper</a></h4>
                                                                 <div class="prices">
-                                                                    <c:choose>
-                                                                        <c:when test="${p.discount != null && p.discount != 0.0}">
-                                                                            <span class="discounted-price"><del>${p.price}</del></span>
-                                                                            <span class="price">${p.discountPrice}</span>
-                                                                        </c:when>
-                                                                        <c:otherwise>
-                                                                            <span class="price">${p.price}</span>
-                                                                        </c:otherwise>
-                                                                    </c:choose>
+                                                                    <span class="price">${p.price}</span>
                                                                 </div>
                                                                 <p>${p.description}</p>
                                                                 <a class="btn-theme btn-sm" href="addtocart?id=${p.id}&price=${p.price}">Thêm Vào Giỏ Hàng</a>

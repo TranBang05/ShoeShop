@@ -1,9 +1,5 @@
 
-<%--
-    Document   : productManage
-    Created on : Jul 6, 2023, 9:42:51 PM
-    Author     : ADMIN
---%>
+
 
 <%@page contentType="text/html" pageEncoding="x-windows-949"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -52,24 +48,17 @@
 
       <form>
         <div class="form-container">
-          <label >
+          <label>
             <input type="text" name="search" placeholder="Search here" value="${searchParam}"><!-- comment -->
             <input type="hidden" name="page" value="${currentPage}">
 
           </label>
 
-          <label for="category">Category:</label>
-          <select name="category" id="category">
-            <option value="">All</option>
-            <c:forEach items="${category}" var="c">
-              <option value="${c.cid}" <c:if test="${param.category == c.cid}">selected</c:if>>${c.cname}</option>
-            </c:forEach>
-            <!-- Add more options as needed -->
-          </select>
 
 
 
-          <button type="submit">Apply</button>
+
+
         </div>
 
 
@@ -77,7 +66,7 @@
 
       </form>
 
-      <button class="btn-add-blog">Add new Product</button>
+
     </div>
 
     <!-- ======================= Cards ================== -->
@@ -106,13 +95,11 @@
         <table>
           <thead>
           <tr>
-            <td>Name</td>
-            <td>Price</td>
-            <td>image</td>
-            <td>Category</td>
-            <td>Discount</td>
+            <td>Username</td>
+            <td>Title</td>
+            <td>Content</td>
+            <td>Date</td>
 
-            <td>Action</td>
           </tr>
           </thead>
 
@@ -125,20 +112,13 @@
           <c:if test="${not empty listP}">
             <c:forEach items="${listP}" var="p">
               <tr>
-                <td>${p.name}</td>
-                <td>$${p.price}</td>
-                <td><img style="height: 50px; width: 50px" src="${p.image}" alt="alt" /></td>
-                <td><span class="">${p.cateName}</span></td>
-                <td><span class="">${p.discount*100}%</span></td>
-                <td>
+                <td>${p.userid}</td>
+                <td>$${p.title}</td>
+                <td>$${p.content}</td>
+                <td>$${p.date_posted}</td>
 
-                  <a href="product-detail?pid=${p.id}" class="btn-edit-blog">
-                    <ion-icon name="pencil-sharp"></ion-icon>
-                  </a>
-                  <button class="delete-button"data-product-id="${p.id}" onclick="confirmDelete(this)">
-                    <ion-icon name="trash-outline"></ion-icon>
-                  </button>
-                </td>
+
+
               </tr>
             </c:forEach>
           </c:if>
@@ -175,51 +155,6 @@
 
       <!-- ================= New Customers ================ -->
 
-      <div id="editModel" class="modal">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Add New Product</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form action="add-product" method="post">
-                <div class="form-group">
-                  <label  class="col-form-label">Name</label>
-                  <input type="text" class="form-control" name="name" required="">
-                </div>
-                <div class="form-group">
-                  <label class="col-form-label">Description</label>
-                  <input type="text" class="form-control" name="description" required="">
-                </div>
-                <div class="form-group">
-                  <label  class="col-form-label">price</label>
-                  <input type="text" class="form-control" name="price" required="">
-                </div>
-                <div class="form-group">
-                  <label  class="col-form-label">Image</label>
-                  <input type="url" class="form-control" name="image" required="">
-                </div>
-                <div class="form-group">
-                  <label >Category</label>
-                  <select name="cateId">
-                    <c:forEach var="cat" items="${category}">
-                      <option value="${cat.cid}">${cat.cname}</option>
-                    </c:forEach>
-                  </select><br/>
-                </div>
-
-                <div class="modal-footer">
-
-                  <button  style="background-color: #f44336; color: #fff; padding: 10px 20px; border: none; border-radius: 4px; font-size: 16px; color: white"type="submit" class="btn btn-warning">Add</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
 
     </div>
   </div>
@@ -247,7 +182,7 @@
     modal.style.display = "none";
   };
 
-
+  // When the user clicks anywhere outside of the modal, close it
   window.onclick = function (event) {
     if (event.target == modal) {
       modal.style.display = "none";
@@ -275,7 +210,7 @@
     var postId = button.getAttribute("data-product-id");
 
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "delete-product?pid=" + encodeURIComponent(postId), true);
+    xhr.open("POST", "/staff/delete-product?pid=" + encodeURIComponent(postId), true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.onreadystatechange = function () {
       if (xhr.readyState === 4) {

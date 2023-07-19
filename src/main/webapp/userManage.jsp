@@ -48,13 +48,13 @@
 
       <form>
         <div class="form-container">
-          <label for="search">
+          <label >
             <input type="text" name="search" placeholder="Search here" value="${searchParam}"><!-- comment -->
             <input type="hidden" name="page" value="${currentPage}">
 
           </label>
 
-          <label for="status">Status</label>
+          <label >Status</label>
           <select name="status" id="category">
             <option value="">All</option>
             <option value="1" ${statusParam == '1' ? 'selected' : ''}>Active</option>
@@ -183,23 +183,23 @@
             <div class="modal-body">
               <form action="add-product" method="post">
                 <div class="form-group">
-                  <label for="recipient-name" class="col-form-label">Name</label>
+                  <label class="col-form-label">Name</label>
                   <input type="text" class="form-control" name="name" required="">
                 </div>
                 <div class="form-group">
-                  <label for="recipient-name" class="col-form-label">Description</label>
+                  <label class="col-form-label">Description</label>
                   <input type="text" class="form-control" name="description" required="">
                 </div>
                 <div class="form-group">
-                  <label for="recipient-name" class="col-form-label">price</label>
+                  <label  class="col-form-label">price</label>
                   <input type="text" class="form-control" name="price" required="">
                 </div>
                 <div class="form-group">
-                  <label for="recipient-name" class="col-form-label">Image</label>
+                  <label  class="col-form-label">Image</label>
                   <input type="url" class="form-control" name="image" required="">
                 </div>
                 <div class="form-group">
-                  <label for="cateId">Category</label>
+                  <label for=>Category</label>
                   <select name="cateId">
                     <c:forEach var="cat" items="${category}">
                       <option value="${cat.cid}">${cat.cname}</option>

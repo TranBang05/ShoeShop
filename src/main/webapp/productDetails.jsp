@@ -16,7 +16,7 @@
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <link
         href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400;1,500&display=swap"
-        rel="stylesheet">\
+        rel="stylesheet">
 <style>   .details select {
         width: 100%;
         padding: 8px;
@@ -76,38 +76,35 @@
 <div class="container">
     <jsp:include page="header.jsp"></jsp:include>
 
-    <!-- ========================= Main ==================== -->
+
     <div class="main">
 
         <h1 style=" text-align: center">Product Details </h1>
-        <!-- ======================= Cards ================== -->
 
-
-        <!-- ================ Order Details List ================= -->
         <div class="details">
 
             <form action="updateProduct" method="POST">
                 <input type="hidden" name="id" value="${product.id}" />
 
-                <label for="name">Name:</label>
+                <label>Name:</label>
                 <input type="text" name="name" value="${product.name}" /><br/>
 
-                <label for="description">Description:</label>
+                <label >Description:</label>
                 <textarea name="description">${product.description}</textarea><br/>
 
-                <label for="price">Price:</label>
+                <label >Price:</label>
                 <input type="number" name="price" value="${product.price}" step="0.01" /><br/>
 
-                <label for="image">Image:</label>
+                <label >Image:</label>
                 <input type="text" name="image" value="${product.image}" /><br/>
 
-                <label for="discount">Discount(%)</label>
+                <label >Discount(%)</label>
                 <input type="number" name="discount" value="${product.discount*100 }" /><br/>
 
                 <!--<label for="title">Title:</label>-->
                 <!--<input type="text" name="title" value="${product.title}" /><br/>-->
 
-                <label for="cateId">Category</label>
+                <label>Category</label>
                 <select name="cateId">
                     <c:forEach var="cat" items="${category}">
                         <option value="${cat.cid}" ${cat.cid == product.cateId ? 'selected' : ''}>${cat.cname}</option>

@@ -1,11 +1,6 @@
 package Admin;
 
 
-
-
-
-
-
 import Model.Categories;
 import Model.Products;
 import jakarta.servlet.ServletException;
