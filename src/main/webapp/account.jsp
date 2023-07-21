@@ -199,7 +199,7 @@
                                     </li>
                                     <li><a href="blog"><span>Blog</span></a>
                                     </li>
-                                    <li><a href="home"><span>Liên Hệ</span></a></li>
+                                    <li><a href="feedback"><span>Liên Hệ</span></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -208,6 +208,7 @@
             </div>
         </div>
     </header>
+
     <!--== End Header Wrapper ==-->
 
     <main class="main-content">

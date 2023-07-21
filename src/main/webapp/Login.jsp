@@ -78,19 +78,21 @@
               <div class="header-top-align-end">
                 <div class="header-info-items">
                   <div class="info-items">
-                    <%
-                      if(username!=null){%>
 
-                    <ul>
-                      <li class="account"><i class="fa fa-user"></i><a href="logout">LogOut</a></li>
-                    </ul>
-                    <%}else{%>
-                    <ul>
-                      <li class="account"><i class="fa fa-user"></i><a href="logout">Login</a></li>
-                    </ul>
+                    <c:if test="${sessionScope.username != null}">
+                      <ul>
+                        <li class="account"><i class="fa fa-user"></i><a href="account-detail">Xin chào ${sessionScope.username.username}</a></li>
+                        <li class="account"><i class="fa fa-user"></i><a href="logout">LogOut</a></li>
+                      </ul>
+                    </c:if>
 
-                    <%}
-                    %>
+                    <c:if test="${sessionScope.username==null}">
+                      <ul>
+                        <li class="account"><i class="fa fa-user"></i><a href="Login.jsp">Đăng Nhập</a></li>
+                      </ul>
+
+                    </c:if>
+
 
                   </div>
                 </div>
@@ -115,8 +117,8 @@
               </div>
               <div class="header-middle-align-center">
                 <div class="header-search-area">
-                  <form class="header-searchbox">
-                    <input type="search" class="form-control" placeholder="Search">
+                  <form class="header-searchbox" action="search">
+                    <input type="search" class="form-control" name="txt" placeholder="Tìm Kiếm">
                     <button class="btn-submit" type="submit"><i class="pe-7s-search"></i></button>
                   </form>
                 </div>
@@ -127,15 +129,23 @@
                     <button class="shopping-search-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#AsideOffcanvasSearch" aria-controls="AsideOffcanvasSearch"><i class="pe-7s-search icon"></i></button>
                   </div>
                   <div class="shopping-wishlist">
-                    <a class="shopping-wishlist-btn" href="shop-wishlist.html">
+                    <a class="shopping-wishlist-btn" href="Wishlist.jsp">
                       <i class="pe-7s-like icon"></i>
                     </a>
                   </div>
                   <div class="shopping-cart">
-                    <button class="shopping-cart-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#AsideOffcanvasCart" aria-controls="offcanvasRightLabel">
-                      <i class="pe-7s-shopbag icon"></i>
-                      <sup class="shop-count">02</sup>
+
+
+
+                    <button class="shopping-cart-btn" type="button" href="ShopCart.jsp">
+                      <a class="shopping-cart-btn" href="ShopCart.jsp">
+
+
+                        <i class="pe-7s-shopbag icon"></i>
+                        <sup class="shop-count">${cart_list.size()}</sup>
+                      </a>
                     </button>
+
                   </div>
                   <button class="btn-menu" type="button" data-bs-toggle="offcanvas" data-bs-target="#AsideOffcanvasMenu" aria-controls="AsideOffcanvasMenu">
                     <i class="pe-7s-menu"></i>
@@ -154,16 +164,17 @@
             <div class="header-align">
               <div class="header-navigation-area position-relative">
                 <ul class="main-menu nav">
-                  <li><a href="Home.jsp"><span>Home</span></a>
+
+                  <li><a href="home"><span>Trang Chủ</span></a>
 
                   </li>
 
-                  <li ><a href="Shop-Products.jsp"><span>Shop</span></a>
+                  <li ><a href="shop"><span>Sản Phẩm</span></a>
 
                   </li>
-                  <li><a href="blog-details-no-sidebar.html"><span>Blog</span></a>
+                  <li><a href="blog"><span>Blog</span></a>
                   </li>
-                  <li><a href="contact.html"><span>Contact</span></a></li>
+                  <li><a href="feedback"><span>Liên Hệ</span></a></li>
                 </ul>
               </div>
             </div>

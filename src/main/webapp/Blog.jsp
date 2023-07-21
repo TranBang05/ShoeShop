@@ -128,29 +128,27 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="header-top-align">
-                                    <div class="header-top-align-start"></div>
+                                    <div class="header-top-align-start">
+
+                                    </div>
                                     <div class="header-top-align-end">
                                         <div class="header-info-items">
                                             <div class="info-items">
-                                                <%
-                                                    if (username != null) {
-                                                %>
 
-                                                <ul>
-                                                    <li class="account"><i class="fa fa-user"></i><a
-                                                            href="logout">LogOut</a></li>
-                                                </ul>
-                                                <%
-                                                } else {
-                                                %>
-                                                <ul>
-                                                    <li class="account"><i class="fa fa-user"></i><a
-                                                            href="logout">Đăng Nhập</a></li>
-                                                </ul>
+                                                <c:if test="${sessionScope.username != null}">
+                                                    <ul>
+                                                        <li class="account"><i class="fa fa-user"></i><a href="account-detail">Xin chào ${sessionScope.username.username}</a></li>
+                                                        <li class="account"><i class="fa fa-user"></i><a href="logout">LogOut</a></li>
+                                                    </ul>
+                                                </c:if>
 
-                                                <%
-                                                    }
-                                                %>
+                                                <c:if test="${sessionScope.username==null}">
+                                                    <ul>
+                                                        <li class="account"><i class="fa fa-user"></i><a href="Login.jsp">Đăng Nhập</a></li>
+                                                    </ul>
+
+                                                </c:if>
+
 
                                             </div>
                                         </div>
@@ -161,58 +159,51 @@
                     </div>
                 </div>
                 <div class="header-middle">
-
                     <div class="container pt--0 pb--0">
                         <div class="row align-items-center">
                             <div class="col-12">
                                 <div class="header-middle-align">
                                     <div class="header-middle-align-start">
                                         <div class="header-logo-area">
-                                            <a href="index.html"> <img class="logo-main"
-                                                                       src="assets/img/logo.webp" width="131" height="34" alt="Logo" />
-                                                <img class="logo-light" src="assets/img/logo-light.webp"
-                                                     width="131" height="34" alt="Logo" />
+                                            <a href="index.html">
+                                                <img class="logo-main" src="assets/img/logo.webp" width="131" height="34" alt="Logo" />
+                                                <img class="logo-light" src="assets/img/logo-light.webp" width="131" height="34" alt="Logo" />
                                             </a>
                                         </div>
                                     </div>
                                     <div class="header-middle-align-center">
                                         <div class="header-search-area">
-                                            <form class="header-searchbox">
-                                                <input type="search" class="form-control"
-                                                       placeholder="Tìm Kiếm">
-                                                <button class="btn-submit" type="submit">
-                                                    <i class="pe-7s-search"></i>
-                                                </button>
+                                            <form class="header-searchbox" action="search">
+                                                <input type="search" class="form-control" name="txt" placeholder="Tìm Kiếm">
+                                                <button class="btn-submit" type="submit"><i class="pe-7s-search"></i></button>
                                             </form>
                                         </div>
                                     </div>
                                     <div class="header-middle-align-end">
                                         <div class="header-action-area">
                                             <div class="shopping-search">
-                                                <button class="shopping-search-btn" type="button"
-                                                        data-bs-toggle="offcanvas"
-                                                        data-bs-target="#AsideOffcanvasSearch"
-                                                        aria-controls="AsideOffcanvasSearch">
-                                                    <i class="pe-7s-search icon"></i>
-                                                </button>
+                                                <button class="shopping-search-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#AsideOffcanvasSearch" aria-controls="AsideOffcanvasSearch"><i class="pe-7s-search icon"></i></button>
                                             </div>
                                             <div class="shopping-wishlist">
-                                                <a class="shopping-wishlist-btn" href="shop-wishlist.html">
+                                                <a class="shopping-wishlist-btn" href="Wishlist.jsp">
                                                     <i class="pe-7s-like icon"></i>
                                                 </a>
                                             </div>
                                             <div class="shopping-cart">
-                                                <button class="shopping-cart-btn" type="button"
-                                                        data-bs-toggle="offcanvas"
-                                                        data-bs-target="#AsideOffcanvasCart"
-                                                        aria-controls="offcanvasRightLabel">
-                                                    <i class="pe-7s-shopbag icon"></i> <sup class="shop-count">02</sup>
+
+
+
+                                                <button class="shopping-cart-btn" type="button" href="ShopCart.jsp">
+                                                    <a class="shopping-cart-btn" href="ShopCart.jsp">
+
+
+                                                        <i class="pe-7s-shopbag icon"></i>
+                                                        <sup class="shop-count">${cart_list.size()}</sup>
+                                                    </a>
                                                 </button>
+
                                             </div>
-                                            <button class="btn-menu" type="button"
-                                                    data-bs-toggle="offcanvas"
-                                                    data-bs-target="#AsideOffcanvasMenu"
-                                                    aria-controls="AsideOffcanvasMenu">
+                                            <button class="btn-menu" type="button" data-bs-toggle="offcanvas" data-bs-target="#AsideOffcanvasMenu" aria-controls="AsideOffcanvasMenu">
                                                 <i class="pe-7s-menu"></i>
                                             </button>
                                         </div>
@@ -230,12 +221,16 @@
                                     <div class="header-navigation-area position-relative">
                                         <ul class="main-menu nav">
 
-                                            <li><a href="home"><span>Trang Chủ</span></a></li>
+                                            <li><a href="home"><span>Trang Chủ</span></a>
 
-                                            <li><a href="Shop.jsp"><span>Sản Phẩm</span></a></li>
-                                            <li><a href="blog-details-no-sidebar.html"><span>Blog</span></a>
                                             </li>
-                                            <li><a href="contact.html"><span>Liên Hệ</span></a></li>
+
+                                            <li ><a href="shop"><span>Sản Phẩm</span></a>
+
+                                            </li>
+                                            <li><a href="blog"><span>Blog</span></a>
+                                            </li>
+                                            <li><a href="feedback"><span>Liên Hệ</span></a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -244,13 +239,14 @@
                     </div>
                 </div>
             </header>
+
             <!--== End Header Wrapper ==-->
 
             <main class="main-content">
 
                 <!--== Start Page Header Area Wrapper ==-->
                 <div class="page-header-area"
-                     data-bg-img="assets/img/photos/bg3.webp">
+                     data-bg-img="https://images5.alphacoders.com/594/594404.jpg?fbclid=IwAR2S-ndjiHJQdCYAb6mKHwJjH4jF6HiBzUL7NK7qRCk2UYTWbP4moM_JUkA">
                     <div class="container pt--0 pb--0">
                         <div class="row">
                             <div class="col-12">
@@ -284,15 +280,15 @@
                             <div class="modal-body">
                                 <form action="add-post" method="post">
                                     <div class="form-group">
-                                        <label for="recipient-name" class="col-form-label">Title</label>
+                                        <label  class="col-form-label">Title</label>
                                         <input type="text" class="form-control" name="title" required="">
                                     </div>
                                     <div class="form-group">
-                                        <label for="recipient-name" class="col-form-label">Image</label>
+                                        <label class="col-form-label">Image</label>
                                         <input type="url" class="form-control" name="image" required="">
                                     </div>
                                     <div class="form-group">
-                                        <label for="message-text" class="col-form-label">Content</label>
+                                        <label  class="col-form-label">Content</label>
                                         <textarea style="height:  200px" class="form-control"name="content" required=""></textarea>
                                     </div>
                                     <div class="modal-footer">

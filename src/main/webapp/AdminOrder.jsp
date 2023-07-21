@@ -182,7 +182,7 @@
 
 
             <li>
-                <a href="logout">
+                <a href="login.jsp">
                     <span class="icon">
                         <ion-icon name="log-out-outline"></ion-icon>
                     </span>
@@ -240,6 +240,7 @@
                 <table>
                     <thead>
                     <tr>
+                        <td>User Name</td>
                         <td>Product Name</td>
                         <td>State</td>
                         <td>Total</td>
@@ -258,6 +259,7 @@
                             for (Orders order : displayOrders) {
                     %>
                     <tr>
+                        <td><%= order.getUserName() %></td>
                         <td><%= order.getProductName() %></td>
                         <td class="status <%= order.getState().toLowerCase() %>"><%= order.getState() %></td>
                         <td><%= order.getTotal() %></td>
@@ -275,6 +277,8 @@
                             total: "<%= order.getTotal() %>",
                             orderDate: "<%= order.getOrderDate() %>"
                         };
+
+
                         document.getElementById("orderInfo").value = JSON.stringify(orderInfo);
                     </script>
                     <%

@@ -13,6 +13,8 @@ import java.util.List;
 public class Orders {
     private int order_id;
     private String productName;
+
+    private String userName;
     private int userId;
     private String state;
     private int staff_id;
@@ -56,6 +58,14 @@ public class Orders {
 
     public void setProductName(String productName) {
         this.productName = productName;
+    }
+
+    public void setUserName(String UserName) {
+        this.userName = UserName;
+    }
+
+    public String getUserName() {
+        return userName;
     }
 
     public void setOrder_id(int order_id) {
@@ -308,7 +318,12 @@ public class Orders {
         try {
             int offset = (index - 1) * 2;  // Assuming 2 orders per page
 
-            String query = "SELECT o.*, p.name FROM orders o JOIN Products p ON o.product_id = p.product_id ORDER BY o.order_id LIMIT 2 OFFSET ?";
+            String query = "SELECT o.*, p.name, u.username " +
+                    "FROM orders o " +
+                    "JOIN Products p ON o.product_id = p.product_id " +
+                    "JOIN Users u ON o.userid = u.userid " +
+                    "ORDER BY u.username " +  // Changed ORDER BY to u.username
+                    "LIMIT 2 OFFSET ?";
             PreparedStatement pstm = cnn.prepareStatement(query);
             pstm.setInt(1, offset);
             ResultSet rs = pstm.executeQuery();
@@ -323,9 +338,11 @@ public class Orders {
                 int productId = rs.getInt("o.product_id");
                 int quantity = rs.getInt("o.quantity");
                 String productName = rs.getString("p.name");
+                String username = rs.getString("u.username");
 
                 Orders order = new Orders(orderId, userId, state, staffId, total, orderDate, productId, quantity);
                 order.setProductName(productName);
+                order.setUserName(username);
                 list.add(order);
             }
 
@@ -337,5 +354,6 @@ public class Orders {
 
         return list;
     }
+
 
 }

@@ -104,9 +104,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             <div class="header-top-align-end">
                                 <div class="header-info-items">
                                     <div class="info-items">
+
                                         <c:if test="${sessionScope.username != null}">
                                             <ul>
-                                                <li class="account"><i class="fa fa-user"></i><a href="logout">Xin chào ${sessionScope.username.username}</a></li>
+                                                <li class="account"><i class="fa fa-user"></i><a href="account-detail">Xin chào ${sessionScope.username.username}</a></li>
                                                 <li class="account"><i class="fa fa-user"></i><a href="logout">LogOut</a></li>
                                             </ul>
                                         </c:if>
@@ -117,6 +118,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                             </ul>
 
                                         </c:if>
+
 
                                     </div>
                                 </div>
@@ -141,7 +143,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             </div>
                             <div class="header-middle-align-center">
                                 <div class="header-search-area">
-                                    <form class="header-searchbox" action="search" method="post">
+                                    <form class="header-searchbox" action="search">
                                         <input type="search" class="form-control" name="txt" placeholder="Tìm Kiếm">
                                         <button class="btn-submit" type="submit"><i class="pe-7s-search"></i></button>
                                     </form>
@@ -170,9 +172,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                             </a>
                                         </button>
 
-
-
-
                                     </div>
                                     <button class="btn-menu" type="button" data-bs-toggle="offcanvas" data-bs-target="#AsideOffcanvasMenu" aria-controls="AsideOffcanvasMenu">
                                         <i class="pe-7s-menu"></i>
@@ -199,9 +198,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                     <li ><a href="shop"><span>Sản Phẩm</span></a>
 
                                     </li>
-                                    <li><a href="blog-details-no-sidebar.html"><span>Blog</span></a>
+                                    <li><a href="blog"><span>Blog</span></a>
                                     </li>
-                                    <li><a href="contact.html"><span>Liên Hệ</span></a></li>
+                                    <li><a href="feedback"><span>Liên Hệ</span></a></li>
                                 </ul>
                             </div>
                         </div>

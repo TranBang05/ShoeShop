@@ -44,9 +44,9 @@
 
             <li>
                 <a href="pages">
-                    <span class="icon">
-                        <ion-icon name="receipt-outline"></ion-icon>
-                    </span>
+        <span class="icon">
+            <ion-icon name="basket-outline"></ion-icon>
+        </span>
                     <span class="title">Quản lí đơn hàng</span>
                 </a>
             </li>
@@ -60,26 +60,11 @@
                 </a>
             </li>
 
-            <li>
-                <a href="#">
-                    <span class="icon">
-                        <ion-icon name="settings-outline"></ion-icon>
-                    </span>
-                    <span class="title">Settings</span>
-                </a>
-            </li>
+
+
 
             <li>
-                <a href="#">
-                    <span class="icon">
-                        <ion-icon name="lock-closed-outline"></ion-icon>
-                    </span>
-                    <span class="title">Password</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="logout">
+                <a href="login.jsp">
                     <span class="icon">
                         <ion-icon name="log-out-outline"></ion-icon>
                     </span>
@@ -112,7 +97,7 @@
         <div class="cardBox">
             <div class="card">
                 <div>
-                    <div class="numbers">1,504</div>
+                    <div class="numbers">50</div>
                     <div class="cardName">Lượt yêu thích</div>
                 </div>
 
@@ -155,161 +140,23 @@
             </div>
         </div>
 
-        <!-- ================ Order Details List ================= -->
-        <div class="details">
-            <div class="recentOrders">
-                <div class="cardHeader">
-                    <h2>Đơn hàng gần đây</h2>
-                    <a href="#" class="btn">Xem tất cả</a>
-                </div>
 
-                <table>
-                    <thead>
-                    <tr>
-                        <th>Tên</th>
-                        <th>Giá</th>
-                        <th>Thanh toán</th>
-                        <th>Trạng thái</th>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-                    <tr>
-                        <td>Tủ lạnh Star</td>
-                        <td>$1200</td>
-                        <td>Đã thanh toán</td>
-                        <td><span class="status delivered">Đã giao hàng</span></td>
-                    </tr>
-
-                    <tr>
-                        <td>Laptop Dell</td>
-                        <td>$110</td>
-                        <td>Chưa thanh toán</td>
-                        <td><span class="status pending">Đang chờ</span></td>
-                    </tr>
-
-                    <tr>
-                        <td>Đồng hồ Apple</td>
-                        <td>$1200</td>
-                        <td>Đã thanh toán</td>
-                        <td><span class="status return">Trả hàng</span></td>
-                    </tr>
-
-                    <tr>
-                        <td>Găng tay Addidas</td>
-                        <td>$620</td>
-                        <td>Chưa thanh toán</td>
-                        <td><span class="status inProgress">Đang tiến hành</span></td>
-                    </tr>
-
-                    <tr>
-                        <td>Tủ lạnh Star</td>
-                        <td>$1200</td>
-                        <td>Đã thanh toán</td>
-                        <td><span class="status delivered">Đã giao hàng</span></td>
-                    </tr>
-
-                    <tr>
-                        <td>Laptop Dell</td>
-                        <td>$110</td>
-                        <td>Chưa thanh toán</td>
-                        <td><span class="status pending">Đang chờ</span></td>
-                    </tr>
-
-
-
-                    <tr>
-                        <td>Găng tay Addidas</td>
-                        <td>$620</td>
-                        <td>Chưa thanh toán</td>
-                        <td><span class="status inProgress">Đang tiến hành</span></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- ================= New Customers ================ -->
-            <div class="recentCustomers">
-                <div class="cardHeader">
-                    <h2>Khách hàng gần đây</h2>
-                </div>
-
-                <table>
-                    <tr>
-                        <td width="60px">
-                            <div class="imgBx"><img src="assets/imgs/customer02.jpg" alt=""></div>
-                        </td>
-                        <td>
-                            <h4>David <br> <span>Italy</span></h4>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td width="60px">
-                            <div class="imgBx"><img src="assets/imgs/customer01.jpg" alt=""></div>
-                        </td>
-                        <td>
-                            <h4>Amit <br> <span>India</span></h4>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td width="60px">
-                            <div class="imgBx"><img src="assets/imgs/customer02.jpg" alt=""></div>
-                        </td>
-                        <td>
-                            <h4>David <br> <span>Italy</span></h4>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td width="60px">
-                            <div class="imgBx"><img src="assets/imgs/customer01.jpg" alt=""></div>
-                        </td>
-                        <td>
-                            <h4>Amit <br> <span>India</span></h4>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td width="60px">
-                            <div class="imgBx"><img src="assets/imgs/customer02.jpg" alt=""></div>
-                        </td>
-                        <td>
-                            <h4>David <br> <span>Italy</span></h4>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td width="60px">
-                            <div class="imgBx"><img src="assets/imgs/customer01.jpg" alt=""></div>
-                        </td>
-                        <td>
-                            <h4>Amit <br> <span>India</span></h4>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td width="60px">
-                            <div class="imgBx"><img src="assets/imgs/customer02.jpg" alt=""></div>
-                        </td>
-                        <td>
-                            <h4>David <br> <span>Italy</span></h4>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td width="60px">
-                            <div class="imgBx"><img src="assets/imgs/customer01.jpg" alt=""></div>
-                        </td>
-                        <td>
-                            <h4>Amit <br> <span>India</span></h4>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
     </div>
+
+    <!-- ================= New Customers ================ -->
+
 </div>
+</div>
+</div>
+<script src="assets/js/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- ====== ionicons ======= -->
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<script src="assets/js/main.js"></script>
+
+<!-- ====== ionicons ======= -->
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </body>
 </html>

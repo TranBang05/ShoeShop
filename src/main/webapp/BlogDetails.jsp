@@ -102,9 +102,22 @@
                                     <div class="header-top-align-end">
                                         <div class="header-info-items">
                                             <div class="info-items">
-                                                <ul>
-                                                    <li class="account"><i class="fa fa-user"></i><a href="account-login.html">Account</a></li>
-                                                </ul>
+
+                                                <c:if test="${sessionScope.username != null}">
+                                                    <ul>
+                                                        <li class="account"><i class="fa fa-user"></i><a href="account-detail">Xin ch?o ${sessionScope.username.username}</a></li>
+                                                        <li class="account"><i class="fa fa-user"></i><a href="logout">LogOut</a></li>
+                                                    </ul>
+                                                </c:if>
+
+                                                <c:if test="${sessionScope.username==null}">
+                                                    <ul>
+                                                        <li class="account"><i class="fa fa-user"></i><a href="Login.jsp">??ng Nh?p</a></li>
+                                                    </ul>
+
+                                                </c:if>
+
+
                                             </div>
                                         </div>
                                     </div>
@@ -120,7 +133,7 @@
                                 <div class="header-middle-align">
                                     <div class="header-middle-align-start">
                                         <div class="header-logo-area">
-                                            <a href="home">
+                                            <a href="index.html">
                                                 <img class="logo-main" src="assets/img/logo.webp" width="131" height="34" alt="Logo" />
                                                 <img class="logo-light" src="assets/img/logo-light.webp" width="131" height="34" alt="Logo" />
                                             </a>
@@ -128,8 +141,8 @@
                                     </div>
                                     <div class="header-middle-align-center">
                                         <div class="header-search-area">
-                                            <form class="header-searchbox">
-                                                <input type="search" class="form-control" placeholder="Search">
+                                            <form class="header-searchbox" action="search">
+                                                <input type="search" class="form-control" name="txt" placeholder="T?m Ki?m">
                                                 <button class="btn-submit" type="submit"><i class="pe-7s-search"></i></button>
                                             </form>
                                         </div>
@@ -140,15 +153,23 @@
                                                 <button class="shopping-search-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#AsideOffcanvasSearch" aria-controls="AsideOffcanvasSearch"><i class="pe-7s-search icon"></i></button>
                                             </div>
                                             <div class="shopping-wishlist">
-                                                <a class="shopping-wishlist-btn" href="shop-wishlist.html">
+                                                <a class="shopping-wishlist-btn" href="Wishlist.jsp">
                                                     <i class="pe-7s-like icon"></i>
                                                 </a>
                                             </div>
                                             <div class="shopping-cart">
-                                                <button class="shopping-cart-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#AsideOffcanvasCart" aria-controls="offcanvasRightLabel">
-                                                    <i class="pe-7s-shopbag icon"></i>
-                                                    <sup class="shop-count">02</sup>
+
+
+
+                                                <button class="shopping-cart-btn" type="button" href="ShopCart.jsp">
+                                                    <a class="shopping-cart-btn" href="ShopCart.jsp">
+
+
+                                                        <i class="pe-7s-shopbag icon"></i>
+                                                        <sup class="shop-count">${cart_list.size()}</sup>
+                                                    </a>
                                                 </button>
+
                                             </div>
                                             <button class="btn-menu" type="button" data-bs-toggle="offcanvas" data-bs-target="#AsideOffcanvasMenu" aria-controls="AsideOffcanvasMenu">
                                                 <i class="pe-7s-menu"></i>
@@ -167,16 +188,17 @@
                                 <div class="header-align">
                                     <div class="header-navigation-area position-relative">
                                         <ul class="main-menu nav">
-                                            <li><a href="home"><span>Home</span></a>
+
+                                            <li><a href="home"><span>Trang Ch?</span></a>
 
                                             </li>
 
-                                            <li ><a href="shop-four-columns.html"><span>Shop</span></a>
+                                            <li ><a href="shop"><span>S?n Ph?m</span></a>
 
                                             </li>
-                                            <li><a href="blog-details-no-sidebar.html"><span>Blog</span></a>
+                                            <li><a href="blog"><span>Blog</span></a>
                                             </li>
-                                            <li><a href="contact.html"><span>Contact</span></a></li>
+                                            <li><a href="feedback"><span>Li?n H?</span></a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -185,6 +207,7 @@
                     </div>
                 </div>
             </header>
+
             <!--== End Header Wrapper ==-->
 
             <main class="main-content">

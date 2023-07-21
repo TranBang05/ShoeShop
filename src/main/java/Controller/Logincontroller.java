@@ -37,7 +37,7 @@ public class Logincontroller extends HttpServlet {
             req.getSession().setAttribute("username", ad);
 
 
-            resp.sendRedirect("Admin.jsp");
+            resp.sendRedirect("statics");
         }
         else if (staff != null) {
             req.getSession().setAttribute("staff", staff);

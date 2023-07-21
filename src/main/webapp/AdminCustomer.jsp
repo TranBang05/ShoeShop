@@ -178,7 +178,8 @@
       <div class="recentOrders">
         <div class="cardHeader">
           <div class="searchForm">
-            <form action="search" method="post">
+
+            <form action="search1" method="post">
               <div class="formGroup">
                 <label for="name">name</label>
                 <input type="text" id="name" name="name">
@@ -186,6 +187,7 @@
 
               <button type="submit" class="customButton">Search</button>
             </form>
+
           </div>
           <a href="AddUser.jsp" class="btn">Add User</a>
         </div>

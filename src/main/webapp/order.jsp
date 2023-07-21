@@ -107,9 +107,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             <div class="header-top-align-end">
                                 <div class="header-info-items">
                                     <div class="info-items">
+
                                         <c:if test="${sessionScope.username != null}">
                                             <ul>
-                                                <li class="account"><i class="fa fa-user"></i><a href="logout">Xin chào ${sessionScope.username.username}</a></li>
+                                                <li class="account"><i class="fa fa-user"></i><a href="account-detail">Xin chào ${sessionScope.username.username}</a></li>
                                                 <li class="account"><i class="fa fa-user"></i><a href="logout">LogOut</a></li>
                                             </ul>
                                         </c:if>
@@ -120,6 +121,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                             </ul>
 
                                         </c:if>
+
 
                                     </div>
                                 </div>
@@ -144,8 +146,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             </div>
                             <div class="header-middle-align-center">
                                 <div class="header-search-area">
-                                    <form class="header-searchbox">
-                                        <input type="search" class="form-control" placeholder="Tìm Kiếm">
+                                    <form class="header-searchbox" action="search">
+                                        <input type="search" class="form-control" name="txt" placeholder="Tìm Kiếm">
                                         <button class="btn-submit" type="submit"><i class="pe-7s-search"></i></button>
                                     </form>
                                 </div>
@@ -173,9 +175,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                             </a>
                                         </button>
 
-
-
-
                                     </div>
                                     <button class="btn-menu" type="button" data-bs-toggle="offcanvas" data-bs-target="#AsideOffcanvasMenu" aria-controls="AsideOffcanvasMenu">
                                         <i class="pe-7s-menu"></i>
@@ -202,9 +201,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                     <li ><a href="shop"><span>Sản Phẩm</span></a>
 
                                     </li>
-                                    <li><a href="blog-details-no-sidebar.html"><span>Blog</span></a>
+                                    <li><a href="blog"><span>Blog</span></a>
                                     </li>
-                                    <li><a href="contact.html"><span>Liên Hệ</span></a></li>
+                                    <li><a href="feedback"><span>Liên Hệ</span></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -215,7 +214,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     </header>
 
     <!--== End Header Wrapper ==-->
-
     <main class="main-content">
         <!--== Start Page Header Area Wrapper ==-->
         <div class="page-header-area" data-bg-img="https://images5.alphacoders.com/594/594404.jpg?fbclid=IwAR2S-ndjiHJQdCYAb6mKHwJjH4jF6HiBzUL7NK7qRCk2UYTWbP4moM_JUkA">
@@ -226,7 +224,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             <h2 class="title" data-aos="fade-down" data-aos-duration="1000">Shopping Cart</h2>
                             <nav class="breadcrumb-area" data-aos="fade-down" data-aos-duration="1200">
                                 <ul class="breadcrumb">
-                                    <li><a href="index.html">Home</a></li>
+                                    <li><a href="home">Home</a></li>
                                     <li class="breadcrumb-sep">//</li>
                                     <li>Shopping Cart</li>
                                 </ul>
@@ -246,7 +244,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 <tr>
                     <th scope="col" type="date">Date</th>
                     <th scope="col">Name</th>
-
                     <th scope="col">Quantity</th>
                     <th scope="col">Price</th>
                     <th scope="col">Cancel</th>
@@ -272,73 +269,126 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 </tbody>
             </table>
 
-            <div class="card-header my-3"><a href="payment">Thanh toan</a></div>
-
-    </div>
 
 
+        </div>
+        <!--== End Page Header Area Wrapper ==-->
+
+        <!--== Start Shopping Checkout Area Wrapper ==-->
+        <section class="shopping-checkout-wrap">
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <!--== Start Billing Accordion ==-->
+                        <div class="checkout-billing-details-wrap">
+                            <h2 class="title">Chi tiết thanh toán</h2>
+                            <div class="billing-form-wrap">
+                                <form action="#" method="post">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="f_name">Họ và Tên <abbr class="required" title="required"> </abbr></label>
+                                                <input id="f_name" type="text"  class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="phone">Số Điện Thoại</label>
+                                                <input id="phone" type="text"  class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="com_name">Địa Chỉ Nhận Hàng</label>
+                                                <input id="com_name" type="text"  class="form-control">
+                                            </div>
+                                        </div>
 
 
+                                        <div class="col-md-12">
+                                            <div class="form-group mb--0">
+                                                <label for="order-notes">Ghi Chú</label>
+                                                <textarea id="order-notes" class="form-control" placeholder=" "></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!--== End Billing Accordion ==-->
+                    </div>
+                    <div class="col-lg-6">
+                        <!--== Start Order Details Accordion ==-->
+                        <div class="checkout-order-details-wrap">
+                            <form action="payment" method="post">
+                            <div class="order-details-table-wrap table-responsive">
+                                <h2 class="title mb-25">Thông Tin Đặt Hàng</h2>
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th class="product-name">Sản Phẩm</th>
+                                        <th class="product-total">Tổng</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="table-body">
 
-            <div class="center-container">
-                <div class="checkout-order-details-wrap">
-                    <form action="payment" method="post">
-                    <div class="order-details-table-wrap table-responsive">
-
-
-
-                        <h2 class="title mb-25">Your order</h2>
-
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th class="product-name">Product</th>
-                                <th class="product-total">Total</th>
-                            </tr>
-                            </thead>
-                            <tbody class="table-body">
-
-                                <%
+                                        <%
                                     double total = 0.0; // Khởi tạo biến tổng ban đầu
 
                                     if (orders != null) {
                                         for (Order o : orders) {
                                    %>
-                            <tr class="cart-item">
-                                <td class="product-name" name="name"><%= o.getName() %><span class="product-quantity">*<%=o.getQunatity()%></span></td>
-                                <td class="product-total" name="price"><%= o.getPrice() %></td>
-                            </tr>
-                                <%
+                                    <tr class="cart-item">
+                                        <td class="product-name" name="name"><%= o.getName() %><span class="product-quantity">*<%=o.getQunatity()%></span></td>
+                                        <td class="product-total" name="price"><%= o.getPrice() %></td>
+                                    </tr>
+                                        <%
                                            total += o.getPrice();
                                   }
                                      }
                                  %>
 
-                            <!-- ... -->
+                                    <!-- ... -->
 
-                            <tfoot class="table-foot">git
-                            <!-- ... -->
-                            <tr class="order-total">
-                                <th>Total</th>
-                                <td><%= total %></td>
-                            </tr>
-                            <input type="hidden" class="quantity" title="Quantity" name="price" value="<%=total%>">
-                            </tfoot>
-                        </table>
+                                    <tfoot class="table-foot">
 
-                        <td >
-                            <button type="submit" class="btn-theme btn-flat" >Xác Nhận Đặt Hàng</button>
-                        </td>
+                                    <tr class="order-total">
+                                        <th>Total</th>
+                                        <td><%= total %></td>
+                                    </tr>
+                                    <input type="hidden" class="quantity" title="Quantity" name="price" value="<%=total%>">
+                                    </tfoot>
+                                </table>
+
+                                <div class="shop-payment-method">
+
+
+                                    <div class="agree-policy">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" id="privacy" class="custom-control-input visually-hidden">
+                                            <label>
+                                                <input type="checkbox" id="agree" name="agree" required>
+                                                Tôi đã đọc và chấp nhận các điều khoản và điều kiện của trang web.
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <td >
+                                        <button type="submit" class="btn-theme btn-flat">Đặt Hàng</button>
+                                    </td>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                        <!--== End Order Details Accordion ==-->
                     </div>
-                    </form>
-
                 </div>
-
-
             </div>
-
-
+        </section>
+        <!--== End Shopping Checkout Area Wrapper ==-->
     </main>
+
+
 </div>
 
 
@@ -366,6 +416,18 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
 <!--=== jQuery Custom Js ===-->
 <script src="${pageContext.request.contextPath}/assets/js/custom.js"></script>
+<script>
+    const agreeCheckbox = document.getElementById('agree');
+    const registerBtn = document.getElementById('register-btn');
+
+    agreeCheckbox.addEventListener('change', function () {
+        if (this.checked) {
+            registerBtn.removeAttribute('disabled');
+        } else {
+            registerBtn.setAttribute('disabled', true);
+        }
+    });
+</script>
 </body>
 <style>
 
