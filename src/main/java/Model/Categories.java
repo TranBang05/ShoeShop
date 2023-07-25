@@ -118,19 +118,16 @@ public class Categories {
         return categoriesList;
     }
 
+    public int getTotalCategories() {
+        List<Categories> categoriesList = getCategories();
+        return categoriesList.size();
+    }
+
+
+
     public static void main(String[] args) {
         Categories categories = new Categories();
-        List<Products> topProducts = categories.getTop3OrderedProducts();
-
-        for (Products product : topProducts) {
-            System.out.println("Product ID: " + product.getId());
-            System.out.println("Name: " + product.getName());
-            System.out.println("Description: " + product.getDescription());
-            System.out.println("Price: " + product.getPrice());
-            System.out.println("Image: " + product.getImage());
-            System.out.println("Category ID: " + product.getCategory().getCategory_id());
-            System.out.println("Category Name: " + product.getCategory().getName());
-            System.out.println("----------------------------------------");
-        }
+        int totalCategories = categories.getTotalCategories();
+        System.out.println("Total Categories: " + totalCategories);
     }
 }

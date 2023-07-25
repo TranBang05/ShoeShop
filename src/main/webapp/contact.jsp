@@ -13,56 +13,6 @@
 <%@ page import="java.util.List" %>
 <%@page isELIgnored="false" %>
 
-<!DOCTYPE html>
-<html lang="zxx">
-
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Shome - Shoes eCommerce Website Template"/>
-  <meta name="keywords" content="footwear, shoes, modern, shop, store, ecommerce, responsive, e-commerce"/>
-  <meta name="author" content="codecarnival"/>
-
-  <title>Contact :: Shome - Shoes eCommerce Website Template</title>
-
-  <!--== Favicon ==-->
-  <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon" />
-
-  <!--== Google Fonts ==-->
-  <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,300i,400,400i,500,600,700,800" rel="stylesheet">
-
-  <!--== Bootstrap CSS ==-->
-  <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
-  <!--== Font Awesome Min Icon CSS ==-->
-  <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
-  <!--== Pe7 Stroke Icon CSS ==-->
-  <link href="assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
-  <!--== Swiper CSS ==-->
-  <link href="assets/css/swiper.min.css" rel="stylesheet" />
-  <!--== Fancybox Min CSS ==-->
-  <link href="assets/css/fancybox.min.css" rel="stylesheet" />
-  <!--== Aos Min CSS ==-->
-  <link href="assets/css/aos.min.css" rel="stylesheet" />
-
-  <!--== Main Style CSS ==-->
-  <link href="assets/css/style.css" rel="stylesheet" />
-
-  <!--[if lt IE 9]>
-  <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-  <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
-</head>
-
-<body>
-
-<!--wrapper start-->
-<div class="wrapper">
-
-  <!--== Start Header Wrapper ==-->
-
-
-
 
 
   <!DOCTYPE html>
@@ -175,8 +125,8 @@
                 <div class="header-middle-align-start">
                   <div class="header-logo-area">
                     <a href="index.html">
-                      <img class="logo-main" src="assets/img/logo.webp" width="131" height="34" alt="Logo" />
-                      <img class="logo-light" src="assets/img/logo-light.webp" width="131" height="34" alt="Logo" />
+                      <img class="logo-main" src="https://png.pngtree.com/png-clipart/20190619/original/pngtree-sneakers-png-image_3989154.jpg" width="30%" height="30%"/>
+                      <img class="logo-light" src="https://png.pngtree.com/png-clipart/20190619/original/pngtree-sneakers-png-image_3989154.jpg" width="30%" height="30%"/>
                     </a>
                   </div>
                 </div>
@@ -260,7 +210,7 @@
                 <h2 class="title" data-aos="fade-down" data-aos-duration="1000">Contact Us</h2>
                 <nav class="breadcrumb-area" data-aos="fade-down" data-aos-duration="1200">
                   <ul class="breadcrumb">
-                    <li><a href="index.html">Home</a></li>
+                    <li><a href="home">Home</a></li>
                     <li class="breadcrumb-sep">//</li>
                     <li>Contact Us</li>
                   </ul>

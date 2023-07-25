@@ -137,8 +137,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             <div class="header-middle-align-start">
                                 <div class="header-logo-area">
                                     <a href="index.html">
-                                        <img class="logo-main" src="assets/img/logo.webp" width="131" height="34" alt="Logo" />
-                                        <img class="logo-light" src="assets/img/logo-light.webp" width="131" height="34" alt="Logo" />
+                                        <img class="logo-main" src="https://png.pngtree.com/png-clipart/20190619/original/pngtree-sneakers-png-image_3989154.jpg" width="30%" height="30%"/>
+                                        <img class="logo-light" src="https://png.pngtree.com/png-clipart/20190619/original/pngtree-sneakers-png-image_3989154.jpg" width="30%" height="30%"/>
                                     </a>
                                 </div>
                             </div>
@@ -289,12 +289,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                         <h3 class="main-title">${detail.name}</h3>
                                         <div class="prices">
                                             <c:choose>
-                                                <c:when test="${p.discount != null && p.discount != 0.0}">
-                                                    <span class="discounted-price"><del>${p.price}</del></span>
-                                                    <span class="price">${p.discountPrice}</span>
+                                                <c:when test="${detail.discount != null && detail.discount != 0.0}">
+                                                    <span class="discounted-price"><del>${detail.price}</del></span>
+                                                    <span class="price">${detail.discountPrice}</span>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <span class="price">${p.price}</span>
+                                                    <span class="price">${detail.price}</span>
                                                 </c:otherwise>
                                             </c:choose>
                                         </div>
@@ -311,7 +311,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                             </div>
                                             <div class="review-status">
                                                 <%-- Display the total customer reviews dynamically --%>
-                                                <a href="javascript:void(0)">${totalCount} Customer Review</a>
+                                                <a href="javascript:void(0)">${totalCount}Customer Review</a>
                                             </div>
                                         </div>
                                         <p>${detail.description}</p>
@@ -350,90 +350,90 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
 
 
-                <div class="row">
-                    <div class="col-12">
-                        <div class="product-review-tabs-content">
-                            <ul class="nav product-tab-nav" id="ReviewTab" role="tablist">
-                                <li role="presentation">
-                                    <a class="active" id="information-tab" data-bs-toggle="pill" href="#information" role="tab" aria-controls="information" aria-selected="true">Information</a>
-                                </li>
-                                <li role="presentation">
-                                    <a id="description-tab" data-bs-toggle="pill" href="#description" role="tab" aria-controls="description" aria-selected="false">Description</a>
-                                </li>
-                                <li role="presentation">
-                                    <a id="reviews-tab" data-bs-toggle="pill" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">Reviews <span>(${totalCount})</span></a>
-                                </li>
-                            </ul>
-                            <div class="tab-content product-tab-content" id="ReviewTabContent">
-                                <div class="tab-pane fade show active" id="information" role="tabpanel" aria-labelledby="information-tab">
-                                    <div class="product-information">
-                                        <p>${detail.description}</p>
-                                    </div>
+                <<div class="row">
+                <div class="col-12">
+                    <div class="product-review-tabs-content">
+                        <ul class="nav product-tab-nav" id="ReviewTab" role="tablist">
+                            <li role="presentation">
+                                <a class="active" id="information-tab" data-bs-toggle="pill" href="#information" role="tab" aria-controls="information" aria-selected="true">Information</a>
+                            </li>
+                            <li role="presentation">
+                                <a id="description-tab" data-bs-toggle="pill" href="#description" role="tab" aria-controls="description" aria-selected="false">Description</a>
+                            </li>
+                            <li role="presentation">
+                                <a id="reviews-tab" data-bs-toggle="pill" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">Reviews <span>(${totalCount})</span></a>
+                            </li>
+                        </ul>
+                        <div class="tab-content product-tab-content" id="ReviewTabContent">
+                            <div class="tab-pane fade show active" id="information" role="tabpanel" aria-labelledby="information-tab">
+                                <div class="product-information">
+                                    <p>${detail.description}</p>
                                 </div>
-                                <div class="tab-pane fade" id="description" role="tabpanel" aria-labelledby="description-tab">
-                                    <div class="product-description">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim adlo minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in tun tuni reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserun mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rel aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur.</p>
-                                    </div>
+                            </div>
+                            <div class="tab-pane fade" id="description" role="tabpanel" aria-labelledby="description-tab">
+                                <div class="product-description">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim adlo minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in tun tuni reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserun mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rel aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur.</p>
                                 </div>
-                                <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
-                                    <div class="product-review-content">
-                                        <div class="review-content-header">
-                                            <h3>Customer Reviews</h3>
-                                            <div class="review-info">
-                                                <ul class="review-rating">
-                                                    <c:forEach begin="1" end="${avgStarRating}">
-                                                        <li class="fa fa-star"></li>
-                                                    </c:forEach>
-                                                    <c:forEach begin="${avgStarRating + 1}" end="5">
-                                                        <li class="fa fa-star-o"></li>
-                                                    </c:forEach>
-                                                </ul>
-                                                <span class="review-caption">Based on ${totalCount} reviews</span>
-                                                <span class="review-write-btn">Write a review</span>
-                                            </div>
+                            </div>
+                            <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                                <div class="product-review-content">
+                                    <div class="review-content-header">
+                                        <h3>Customer Reviews</h3>
+                                        <div class="review-info">
+                                            <ul class="review-rating">
+                                                <c:forEach begin="1" end="${avgStarRating}">
+                                                    <li class="fa fa-star"></li>
+                                                </c:forEach>
+                                                <c:forEach begin="${avgStarRating + 1}" end="5">
+                                                    <li class="fa fa-star-o"></li>
+                                                </c:forEach>
+                                            </ul>
+                                            <span class="review-caption">Based on ${totalCount} reviews</span>
+                                            <span class="review-write-btn">Write a review</span>
                                         </div>
+                                    </div>
 
-                                        <!--== Start Reviews Form Item ==-->
-                                        <div class="reviews-form-area">
-                                            <h4 class="title">Write a review</h4>
-                                            <div class="reviews-form-content">
-                                                <form id="feedbackForm" action="#" method="POST">
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="form-group" >
-                                                                <span class="title">Rating</span>
-                                                                <ul class="review-rating">
-                                                                    <li class="fa fa-star-o" data-star="1"></li>
-                                                                    <li class="fa fa-star-o" data-star="2"></li>
-                                                                    <li class="fa fa-star-o" data-star="3"></li>
-                                                                    <li class="fa fa-star-o" data-star="4"></li>
-                                                                    <li class="fa fa-star-o" data-star="5"></li>
-                                                                </ul>
-                                                                <input type="hidden" id="feedbackRating" name="rating" value="0" required="">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <label for="feedbackTitle">Review Title</label>
-                                                                <input id="feedbackTitle" class="form-control" type="text" placeholder="Give your review a title" required="">
-                                                                <input type="hidden" id="productId" name="productId" value="${product_id}">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <label for="feedbackContent">Body of Review (1500)</label>
-                                                                <textarea id="feedbackContent" class="form-control" placeholder="Write your comments here" required=""></textarea>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <div class="form-submit-btn">
-                                                                <button id="addFeedbackButton" type="submit" class="btn-submit">Post comment</button>
-                                                            </div>
+                                    <!--== Start Reviews Form Item ==-->
+                                    <div class="reviews-form-area">
+                                        <h4 class="title">Write a review</h4>
+                                        <div class="reviews-form-content">
+                                            <form id="feedbackForm" action="#" method="POST">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group" >
+                                                            <span class="title">Rating</span>
+                                                            <ul class="review-rating">
+                                                                <li class="fa fa-star-o" data-star="1"></li>
+                                                                <li class="fa fa-star-o" data-star="2"></li>
+                                                                <li class="fa fa-star-o" data-star="3"></li>
+                                                                <li class="fa fa-star-o" data-star="4"></li>
+                                                                <li class="fa fa-star-o" data-star="5"></li>
+                                                            </ul>
+                                                            <input type="hidden" id="feedbackRating" name="rating" value="0" required="">
                                                         </div>
                                                     </div>
-                                                </form>
-                                            </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="feedbackTitle">Review Title</label>
+                                                            <input id="feedbackTitle" class="form-control" type="text" placeholder="Give your review a title" required="">
+                                                            <input type="hidden" id="productId" name="productId" value="${product_id}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="feedbackContent">Body of Review (1500)</label>
+                                                            <textarea id="feedbackContent" class="form-control" placeholder="Write your comments here" required=""></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-submit-btn">
+                                                            <button id="addFeedbackButton" type="submit" class="btn-submit">Post comment</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
                                         </div>
+                                    </div>
 
                                         <!--== End Reviews Form Item ==-->
 
@@ -498,6 +498,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                 </div>
             </div>
         </section>
+
         <!--== End Product Single Area Wrapper ==-->
 
         <!--== Start Product Area Wrapper ==-->

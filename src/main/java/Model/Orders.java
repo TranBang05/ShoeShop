@@ -263,22 +263,31 @@ public class Orders {
         List<Orders> orderList = new ArrayList<>();
 
         try {
-            String strSelect = "SELECT * FROM orders WHERE orderDate = ?";
+            String strSelect = "SELECT o.*, p.name, u.username " +
+                    "FROM orders o " +
+                    "JOIN Products p ON o.product_id = p.product_id " +
+                    "JOIN Users u ON o.userid = u.userid " +
+                    "WHERE o.orderDate = ?";
+
             PreparedStatement pstm = cnn.prepareStatement(strSelect);
             pstm.setDate(1, new java.sql.Date(orderDate.getTime()));
             ResultSet rs = pstm.executeQuery();
 
             while (rs.next()) {
-                int orderId = rs.getInt("order_id");
-                int userId = rs.getInt("userid");
-                String state = rs.getString("state");
-                int staffId = rs.getInt("staff_id");
-                double total = rs.getDouble("total");
-                Date date = rs.getDate("orderDate");
-                int productId = rs.getInt("product_id");
-                int quantity = rs.getInt("quantity");
+                int orderId = rs.getInt("o.order_id");
+                int userId = rs.getInt("o.userid");
+                String state = rs.getString("o.state");
+                int staffId = rs.getInt("o.staff_id");
+                double total = rs.getDouble("o.total");
+                Date date = rs.getDate("o.orderDate");
+                int productId = rs.getInt("o.product_id");
+                int quantity = rs.getInt("o.quantity");
+                String productName = rs.getString("p.name");
+                String username = rs.getString("u.username");
 
                 Orders order = new Orders(orderId, userId, state, staffId, total, date, productId, quantity);
+                order.setProductName(productName);
+                order.setUserName(username);
                 orderList.add(order);
             }
 

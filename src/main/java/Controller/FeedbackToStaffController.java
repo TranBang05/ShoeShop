@@ -109,6 +109,7 @@ public class FeedbackToStaffController extends HttpServlet {
         Feedback feedback = new Feedback();
         feedback.setUserid(acc.getId()); // Set the user ID
         feedback.setStaff_id(Integer.parseInt(staffId)); // Set the staff ID
+        System.out.println(staffId);
         feedback.setTitle(title);
         feedback.setContent(content);
 

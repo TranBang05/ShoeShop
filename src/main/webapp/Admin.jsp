@@ -17,12 +17,14 @@
         <ul>
             <li>
                 <a href="#">
-                    <span class="icon">
-                        <ion-icon name="logo-apple"></ion-icon>
-                    </span>
-                    <span class="title">Brand Name</span>
+        <span class="icon">
+            <ion-icon name="person-circle-outline"></ion-icon>
+        </span>
+                    <span class="title">Admin</span>
                 </a>
             </li>
+
+
 
             <li>
                 <a href="statics">
@@ -41,6 +43,17 @@
                     <span class="title">Quản lí khách hàng</span>
                 </a>
             </li>
+
+            <li>
+                <a href="staff">
+                    <span class="icon">
+                        <ion-icon name="people-outline"></ion-icon>
+                    </span>
+                    <span class="title">Quản lí Nhân Viên</span>
+                </a>
+            </li>
+
+
 
             <li>
                 <a href="pages">
@@ -64,7 +77,7 @@
 
 
             <li>
-                <a href="login.jsp">
+                <a href="logout">
                     <span class="icon">
                         <ion-icon name="log-out-outline"></ion-icon>
                     </span>
@@ -81,35 +94,17 @@
                 <ion-icon name="menu-outline"></ion-icon>
             </div>
 
-            <div class="search">
-                <label>
-                    <input type="text" placeholder="Tìm kiếm">
-                    <ion-icon name="search-outline"></ion-icon>
-                </label>
-            </div>
 
-            <div class="user">
-                <img src="assets/imgs/customer01.jpg" alt="">
-            </div>
         </div>
 
         <!-- ======================= Cards ================== -->
         <div class="cardBox">
-            <div class="card">
-                <div>
-                    <div class="numbers">50</div>
-                    <div class="cardName">Lượt yêu thích</div>
-                </div>
 
-                <div classclass="iconBx">
-                    <ion-icon name="eye-outline"></ion-icon>
-                </div>
-            </div>
 
             <div class="card">
                 <div>
-                    <div class="numbers">80</div>
-                    <div class="cardName">Doanh số</div>
+                    <div class="numbers"><%= request.getAttribute("totalcatergory") %></div>
+                    <div class="cardName">Tổng Sản Phẩm</div>
                 </div>
 
                 <div class="iconBx">
@@ -119,7 +114,7 @@
 
             <div class="card">
                 <div>
-                    <div class="numbers">284</div>
+                    <div class="numbers"><%= request.getAttribute("totalproductfeedback") %></div>
                     <div class="cardName">Bình luận</div>
                 </div>
 

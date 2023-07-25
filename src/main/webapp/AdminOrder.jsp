@@ -11,6 +11,12 @@
 <head>
     <style>
 
+        .status.da-dat-hang {
+            background-color: #00ff00; /* Màu xanh */
+            color: #6dde6d;
+        }
+
+
 
         .searchForm {
             display: flex;
@@ -135,10 +141,10 @@
         <ul>
             <li>
                 <a href="#">
-                    <span class="icon">
-                        <ion-icon name="logo-apple"></ion-icon>
-                    </span>
-                    <span class="title">Brand Name</span>
+        <span class="icon">
+            <ion-icon name="person-circle-outline"></ion-icon>
+        </span>
+                    <span class="title">Admin</span>
                 </a>
             </li>
 
@@ -157,6 +163,17 @@
                         <ion-icon name="people-outline"></ion-icon>
                     </span>
                     <span class="title">Quản lí khách hàng</span>
+                </a>
+            </li>
+
+
+
+            <li>
+                <a href="staff">
+                    <span class="icon">
+                        <ion-icon name="people-outline"></ion-icon>
+                    </span>
+                    <span class="title">Quản lí Nhân Viên</span>
                 </a>
             </li>
 
@@ -194,17 +211,7 @@
 
     <!-- ========================= Main ==================== -->
     <div class="main">
-        <div class="topbar">
-            <div class="toggle">
-                <ion-icon name="menu-outline"></ion-icon>
-            </div>
 
-
-
-            <div class="user">
-                <img src="assets/imgs/customer01.jpg" alt="">
-            </div>
-        </div>
 
         <!-- ======================= Cards ================== -->
 
@@ -261,7 +268,15 @@
                     <tr>
                         <td><%= order.getUserName() %></td>
                         <td><%= order.getProductName() %></td>
-                        <td class="status <%= order.getState().toLowerCase() %>"><%= order.getState() %></td>
+                        <td class="status <%= order.getState().toLowerCase() %>">
+                            <% if (order.getState().equals("1")) { %>
+                            Đã đặt hàng
+                            <% } else { %>
+                            <%= order.getState() %>
+                            <% } %>
+                        </td>
+                        <td><%= order.getTotal() %></td>
+                        <td><%= order.getOrderDate() %></td>
                         <td><%= order.getTotal() %></td>
                         <td><%= order.getOrderDate() %></td>
                         <td>

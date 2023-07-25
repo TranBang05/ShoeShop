@@ -2,6 +2,7 @@
 <%@ page import="Model.Orders" %>
 <%@ page import="java.util.List" %>
 <%@ page import="Model.User" %>
+<%@ page import="Model.Staff" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -45,10 +46,10 @@
     <ul>
       <li>
         <a href="#">
-        <span class="icon">
-            <ion-icon name="person-circle-outline"></ion-icon>
-        </span>
-          <span class="title">Admin</span>
+                    <span class="icon">
+                        <ion-icon name="logo-apple"></ion-icon>
+                    </span>
+          <span class="title">Brand Name</span>
         </a>
       </li>
 
@@ -69,7 +70,6 @@
           <span class="title">Quản lí khách hàng</span>
         </a>
       </li>
-
 
 
       <li>
@@ -122,55 +122,44 @@
 
   <!-- ========================= Main ==================== -->
   <div class="main">
+
+
     <div class="details">
       <div class="recentOrders">
         <div class="cardHeader">
-          <div class="searchForm">
-            <form action="search1" method="post">
-              <div class="formGroup">
-                <label for="name">name</label>
-                <input type="text" id="name" name="name">
-              </div>
-
-              <button type="submit" class="customButton">Search</button>
-            </form>
-          </div>
-          <a href="AddUser.jsp" class="btn">Add User</a>
+          <a href="AddStaff.jsp" class="btn">Add Staff</a>
         </div>
 
-
-
-        <% List<User> users = (List<User>) request.getAttribute("userList");
-          if (users != null) { %>
+        <% List<Staff> staffList = (List<Staff>) request.getAttribute("total");
+          if (staffList != null) { %>
         <table>
           <thead>
           <tr>
-            <th>userid</th>
-            <th>username</th>
-            <th>PassWord</th>
-            <th>email</th>
-            <th>address</th>
-            <th>phone_number</th>
-
+            <th>Staff ID</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Phone Number</th>
+            <th>Status</th>
           </tr>
           </thead>
           <tbody>
-          <% for (User user : users) { %>
+          <% for (Staff staff : staffList) { %>
           <tr>
-
-            <td><%= user.getId() %></td>
-            <td><%= user.getUsername() %></td>
-            <td><%= user.getPassword() %></td>
-            <td><%= user.getEmail() %></td>
-            <td><%= user.getAddress() %></td>
-            <td><%= user.getPhone_number() %></td>
-
-
+            <td><%= staff.getId() %></td>
+            <td><%= staff.getUsername() %></td>
+            <td><%= staff.getPassword() %></td>
+            <td><%= staff.getEmail() %></td>
+            <td><%= staff.getAddress() %></td>
+            <td><%= staff.getPhone_number() %></td>
+            <td><%= (staff.getRole() == 1) ? "Đã kích hoạt" : "Chưa kích hoạt" %></td>
           </tr>
           <% } %>
           </tbody>
         </table>
         <% } %>
+
 
       </div>
     </div>

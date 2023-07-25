@@ -83,8 +83,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 
 
 
-
-
 %>
 
 
@@ -139,8 +137,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             <div class="header-middle-align-start">
                                 <div class="header-logo-area">
                                     <a href="index.html">
-                                        <img class="logo-main" src="assets/img/logo.webp" width="131" height="34" alt="Logo" />
-                                        <img class="logo-light" src="assets/img/logo-light.webp" width="131" height="34" alt="Logo" />
+                                        <img class="logo-main" src="https://png.pngtree.com/png-clipart/20190619/original/pngtree-sneakers-png-image_3989154.jpg" width="30%" height="30%"/>
+                                        <img class="logo-light" src="https://png.pngtree.com/png-clipart/20190619/original/pngtree-sneakers-png-image_3989154.jpg" width="30%" height="30%"/>
                                     </a>
                                 </div>
                             </div>
@@ -259,7 +257,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                     <td><%=o.getName() %></td>
                     <td><%=o.getQunatity() %></td>
 
-                    <td><%=o.getPrice() %></td>
+                    <td><%=o.getTotal_cost() %></td>
                     <td><a class="btn btn-sm btn-danger" href="remove?id=<%=o.getOrderId()%>">Cancel Order</a></td>
                 </tr>
                 <%}
@@ -279,51 +277,36 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             <div class="container">
 
                 <div class="row">
-                    <div class="col-lg-6">
-                        <!--== Start Billing Accordion ==-->
-                        <div class="checkout-billing-details-wrap">
-                            <h2 class="title">Chi tiết thanh toán</h2>
-                            <div class="billing-form-wrap">
-                                <form action="#" method="post">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="f_name">Họ và Tên <abbr class="required" title="required"> </abbr></label>
-                                                <input id="f_name" type="text"  class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="phone">Số Điện Thoại</label>
-                                                <input id="phone" type="text"  class="form-control">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="com_name">Địa Chỉ Nhận Hàng</label>
-                                                <input id="com_name" type="text"  class="form-control">
-                                            </div>
-                                        </div>
-
-
-                                        <div class="col-md-12">
-                                            <div class="form-group mb--0">
-                                                <label for="order-notes">Ghi Chú</label>
-                                                <textarea id="order-notes" class="form-control" placeholder=" "></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <!--== End Billing Accordion ==-->
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-12">
                         <!--== Start Order Details Accordion ==-->
                         <div class="checkout-order-details-wrap">
                             <form action="payment" method="post">
                             <div class="order-details-table-wrap table-responsive">
                                 <h2 class="title mb-25">Thông Tin Đặt Hàng</h2>
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label >Số Điện Thoại</label>
+                                            <input  type="text"  class="form-control" name="phone">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label  >Địa Chỉ Nhận Hàng</label>
+                                            <input type="text"  class="form-control" name="address">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-12">
+                                        <div class="form-group mb--0">
+                                            <label >Ghi Chú</label>
+                                            <textarea  class="form-control" placeholder=" "  name="note"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
                                 <table class="table">
                                     <thead>
                                     <tr>
@@ -341,10 +324,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                    %>
                                     <tr class="cart-item">
                                         <td class="product-name" name="name"><%= o.getName() %><span class="product-quantity">*<%=o.getQunatity()%></span></td>
-                                        <td class="product-total" name="price"><%= o.getPrice() %></td>
+                                        <td class="product-total" name="price"><%= o.getTotal_cost() %></td>
                                     </tr>
                                         <%
-                                           total += o.getPrice();
+                                           total += o.getTotal_cost();
                                   }
                                      }
                                  %>
@@ -383,7 +366,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                         <!--== End Order Details Accordion ==-->
                     </div>
                 </div>
-            </div>
+          
         </section>
         <!--== End Shopping Checkout Area Wrapper ==-->
     </main>

@@ -5,7 +5,7 @@
     Author     : ADMIN
 --%>
 
-<%@page contentType="text/html" pageEncoding="x-windows-949"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -126,7 +126,7 @@
             <c:forEach items="${listP}" var="p">
               <tr>
                 <td>${p.name}</td>
-                <td>$${p.price}</td>
+                <td>${p.price}K</td>
                 <td><img style="height: 50px; width: 50px" src="${p.image}" alt="alt" /></td>
                 <td><span class="">${p.cateName}</span></td>
                 <td><span class="">${p.discount*100}%</span></td>

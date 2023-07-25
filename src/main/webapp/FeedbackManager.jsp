@@ -1,7 +1,5 @@
 
-
-
-<%@page contentType="text/html" pageEncoding="x-windows-949"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -95,7 +93,7 @@
         <table>
           <thead>
           <tr>
-            <td>Username</td>
+            <td>UserID</td>
             <td>Title</td>
             <td>Content</td>
             <td>Date</td>
@@ -113,9 +111,9 @@
             <c:forEach items="${listP}" var="p">
               <tr>
                 <td>${p.userid}</td>
-                <td>$${p.title}</td>
-                <td>$${p.content}</td>
-                <td>$${p.date_posted}</td>
+                <td>${p.title}</td>
+                <td>${p.content}</td>
+                <td>${p.date_posted}</td>
 
 
 

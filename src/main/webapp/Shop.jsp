@@ -136,8 +136,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             <div class="header-middle-align-start">
                                 <div class="header-logo-area">
                                     <a href="index.html">
-                                        <img class="logo-main" src="assets/img/logo.webp" width="131" height="34" alt="Logo" />
-                                        <img class="logo-light" src="assets/img/logo-light.webp" width="131" height="34" alt="Logo" />
+                                        <img class="logo-main" src="https://png.pngtree.com/png-clipart/20190619/original/pngtree-sneakers-png-image_3989154.jpg" width="30%" height="30%"/>
+                                        <img class="logo-light" src="https://png.pngtree.com/png-clipart/20190619/original/pngtree-sneakers-png-image_3989154.jpg" width="30%" height="30%"/>
                                     </a>
                                 </div>
                             </div>
@@ -381,7 +381,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                                                 </div>
                                                                 <h4 class="title"><a href="single-product.html">Leather Mens Slipper</a></h4>
                                                                 <div class="prices">
-                                                                    <span class="price">${p.price}</span>
+                                                                    <c:choose>
+                                                                        <c:when test="${p.discount != null && p.discount != 0.0}">
+                                                                            <span class="discounted-price"><del>${p.price}</del></span>
+                                                                            <span class="price">${p.discountPrice}</span>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            <span class="price">${p.price}</span>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
                                                                 </div>
                                                                 <p>${p.description}</p>
                                                                 <a class="btn-theme btn-sm" href="addtocart?id=${p.id}&price=${p.price}">Thêm Vào Giỏ Hàng</a>

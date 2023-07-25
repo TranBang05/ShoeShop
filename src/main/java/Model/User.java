@@ -119,6 +119,19 @@ public class User {
         connect();
     }
 
+    public User(int id, String username, String password, String email, String address, String phone_number, int role) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.address = address;
+        this.phone_number = phone_number;
+        this.role = role;
+
+        connect();
+    }
+
+
 
     public String getAddress() {
         return address;
@@ -181,6 +194,16 @@ public class User {
     public void setStatus(int status) {
         this.status = status;
     }
+
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.status = role;
+    }
+
 
 
 
@@ -410,8 +433,9 @@ public class User {
                 String email = rs.getString("email");
                 String address = rs.getString("address");
                 String phone = rs.getString("phone_number");
+                String role = rs.getString("role");
 
-                User user = new User(id, username, password, email, address, phone);
+                User user = new User(id, username, password, email, address, phone,role);
                 userList.add(user);
             }
         } catch (Exception e) {
@@ -463,4 +487,58 @@ public class User {
         return userList;
 
     }
+
+    public User searchByEmail(String email) {
+        String sql = "SELECT * FROM Users WHERE email = ?";
+
+        try {
+            PreparedStatement pre = cnn.prepareStatement(sql);
+            pre.setString(1, email);
+            ResultSet rs = pre.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("userid");
+                String username = rs.getString("username");
+                String password = rs.getString("password");
+                String address = rs.getString("address");
+                String phone_number = rs.getString("phone_number");
+                int role = rs.getInt("role");
+
+                User user = new User(id, username, password, email, address, phone_number, role);
+                return user;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public int updateUserByPre(User user) {
+        int n = 0;
+        String sql = "UPDATE Users " +
+                "SET username = ?, " +
+                "password = ?, " +
+                "email = ?, " +
+                "address = ?, " +
+                "phone_number = ?, " +
+                "role = ? " +
+                "WHERE userid = ?;";
+
+        try {
+            PreparedStatement pre = cnn.prepareStatement(sql);
+            pre.setString(1, user.getUsername());
+            pre.setString(2, user.getPassword());
+            pre.setString(3, user.getEmail());
+            pre.setString(4, user.getAddress());
+            pre.setString(5, user.getPhone_number());
+            pre.setInt(6, user.getRole());
+            pre.setInt(7, user.getId());
+
+            n = pre.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("updateUserByPre: " + e.getMessage());
+        }
+
+        return n;
+    }
+
 }

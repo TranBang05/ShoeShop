@@ -1,14 +1,13 @@
 package Controller;
 
+import Model.Admin;
 import Model.Staff;
 import Model.User;
-import Model.Admin;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
@@ -28,20 +27,26 @@ public class Logincontroller extends HttpServlet {
 
 
         Admin a= new Admin (username,password);
-        Admin ad = a.adminLogin ( username,password );
+        Admin admin = a.adminLogin ( username,password );
 
         if (user != null) {
             req.getSession().setAttribute("username", user);
             resp.sendRedirect("home");
-        } else if (ad!=null) {
-            req.getSession().setAttribute("username", ad);
+        } else if (admin!=null) {
 
+            req.getSession().setAttribute("admin", admin);
 
             resp.sendRedirect("statics");
         }
+
         else if (staff != null) {
             req.getSession().setAttribute("staff", staff);
-            resp.sendRedirect("DashBoard.jsp");
+            if(staff.getRole ()==1){
+                resp.sendRedirect("DashBoard.jsp");
+            }else{
+                resp.sendRedirect("activeAccount");
+            }
+
         }
         else {
             err = "Invalid credentials";

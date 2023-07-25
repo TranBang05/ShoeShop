@@ -121,10 +121,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             <div class="header-top-align-end">
                                 <div class="header-info-items">
                                     <div class="info-items">
-
                                         <c:if test="${sessionScope.username != null}">
                                             <ul>
-                                                <li class="account"><i class="fa fa-user"></i><a href="account-detail">Xin chào ${sessionScope.username.username}</a></li>
+                                                <li class="account"><i class="fa fa-user"></i><a href="logout">Xin chào ${sessionScope.username.username}</a></li>
                                                 <li class="account"><i class="fa fa-user"></i><a href="logout">LogOut</a></li>
                                             </ul>
                                         </c:if>
@@ -135,7 +134,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                             </ul>
 
                                         </c:if>
-
 
                                     </div>
                                 </div>
@@ -153,15 +151,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             <div class="header-middle-align-start">
                                 <div class="header-logo-area">
                                     <a href="index.html">
-                                        <img class="logo-main" src="assets/img/logo.webp" width="131" height="34" alt="Logo" />
-                                        <img class="logo-light" src="assets/img/logo-light.webp" width="131" height="34" alt="Logo" />
+                                        <img class="logo-main" src="https://png.pngtree.com/png-clipart/20190619/original/pngtree-sneakers-png-image_3989154.jpg" width="30%" height="30%"/>
+                                        <img class="logo-light" src="https://png.pngtree.com/png-clipart/20190619/original/pngtree-sneakers-png-image_3989154.jpg" width="30%" height="30%"/>
                                     </a>
                                 </div>
                             </div>
                             <div class="header-middle-align-center">
                                 <div class="header-search-area">
-                                    <form class="header-searchbox" action="search">
-                                        <input type="search" class="form-control" name="txt" placeholder="Tìm Kiếm">
+                                    <form class="header-searchbox">
+                                        <input type="search" class="form-control" placeholder="Tìm Kiếm">
                                         <button class="btn-submit" type="submit"><i class="pe-7s-search"></i></button>
                                     </form>
                                 </div>
@@ -188,6 +186,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                                 <sup class="shop-count">${cart_list.size()}</sup>
                                             </a>
                                         </button>
+
+
+
 
                                     </div>
                                     <button class="btn-menu" type="button" data-bs-toggle="offcanvas" data-bs-target="#AsideOffcanvasMenu" aria-controls="AsideOffcanvasMenu">
@@ -217,7 +218,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                     </li>
                                     <li><a href="blog"><span>Blog</span></a>
                                     </li>
-                                    <li><a href="feedback"><span>Liên Hệ</span></a></li>
+                                    <li><a href="contact"><span>Liên Hệ</span></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -275,9 +276,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                         if (cart_list != null) {
                                             for (cart c : cartProduct) {
                                     %>
-                                                <tr class="cart-product-item">
-                                                    <input type="hidden" name="id" value="<%= c.getId()%>" class="form-input">
-                                                    <input type="hidden" class="quantity" title="Quantity" name="price" value="<%=c.getPrice()%>">
+                                    <tr class="cart-product-item">
+                                        <input type="hidden" name="id" value="<%= c.getId()%>" class="form-input">
+                                        <input type="hidden" name="price" value="<%=c.getPrice()%>" class="form-input">
                                         <td class="product-remove">
                                             <a href="removecart?id=<%=c.getId() %>"><i class="fa fa-trash-o"></i></a>
                                         </td>
@@ -290,19 +291,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                             <h4 class="title"><a href="single-product.html"><%=c.getName()%></a></h4>
                                         </td>
                                         <td class="product-price">
-                                            <c:choose>
-                                                <c:when test="c.getDiscount() != null && c.getDdiscount() != 0.0)">
-
-                                                    <span class="price" name="price"><%= c.getDiscountPrice() %></span>
-
-                                                </c:when>
-                                                <c:otherwise>
-
-                                                    <span class="price" name="price"><%= c.getPrice() %></span>
-
-                                                </c:otherwise>
-                                            </c:choose>
-
+                                            <span class="price"><%=c.getPrice()%></span>
                                         </td>
                                         <td class="product-quantity">
 
@@ -318,9 +307,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                             <span class="price"><%=c.getPrice()%></span>
                                         </td>
 
-                                                    <td class="product-subtotal">
-                                                        <button type="submit" class="btn btn-primary btn-sm">Buy</button>
-                                                    </td>
+                                        <td class="product-subtotal">
+                                            <button type="submit" class="btn btn-primary btn-sm">Buy</button>
+                                        </td>
                                     </tr>
 
                                     <%

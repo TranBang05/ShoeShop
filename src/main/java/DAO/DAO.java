@@ -519,7 +519,8 @@ public class DAO {
         try {
             if (cartList.size() > 0) {
                 for (cart item : cartList) {
-                    String query = "select * from products where product_id=?";
+                    String query = "SELECT *, CASE WHEN discount IS NOT NULL THEN price - (price * discount) ELSE price END AS discounted_price\n" +
+                            "FROM products where product_id = ?";
                     cnn = (new DBContext()).connection;
                     pstm = cnn.prepareStatement(query);
                     pstm.setInt(1, item.getId());
@@ -530,14 +531,15 @@ public class DAO {
                         row.setName(rs.getString("name"));
                         row.setDescription(rs.getString("description"));
                         row.setImage(rs.getString("image"));
-                        row.setPrice(rs.getDouble("price") * item.getQuantity());
+                        double regularPrice = rs.getDouble("price") * item.getQuantity();
+                        double discount = rs.getDouble("discount");
+                        double discountedPrice = rs.getDouble("discounted_price");
+                        row.setPrice(discount > 0 ? discountedPrice : regularPrice);
                         row.setQuantity(item.getQuantity());
                         book.add(row);
                     }
-
                 }
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println(e.getMessage());
@@ -621,7 +623,8 @@ public class DAO {
 
     public Products getProductByID(String id) {
 
-        String query = "select * from products where product_id=?";
+        String query = "SELECT *, CASE WHEN discount IS NOT NULL THEN price - (price * discount) ELSE price END AS discounted_price\n" +
+                "                           FROM products where product_id =?";
         try {
             cnn = (new DBContext()).connection;
             pstm = cnn.prepareStatement(query);
@@ -629,8 +632,8 @@ public class DAO {
             rs = pstm.executeQuery();
 
             while (rs.next()) {
-                return new Products(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getString(5),
-                        rs.getString(7));
+                return new Products(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getString(5), rs.getString(7),
+                        rs.getDouble(8),     rs.getDouble(9));
             }
         } catch (Exception e) {
         }
@@ -672,16 +675,17 @@ public class DAO {
 
     public boolean insertOrder(Order model) {
         boolean result = false;
-        String query = "insert into orders ( userid, product_id, total, quantity, orderDate) values(?,?,?,?,?)";
+        String query = "insert into orders ( userid, product_id, state, total, quantity, orderDate) values(?,?,?,?,?,?)";
         try {
             cnn = (new DBContext()).connection;
             pstm = cnn.prepareStatement(query);
 
             pstm.setInt(1, model.getUid());
             pstm.setInt(2, model.getId());
-            pstm.setDouble(3, model.getPrice());
-            pstm.setInt(4, model.getQunatity());
-            pstm.setString(5, model.getDate());
+            pstm.setInt(3, 1);
+            pstm.setDouble(4, model.getPrice());
+            pstm.setInt(5, model.getQunatity());
+            pstm.setString(6, model.getDate());
 
             pstm.executeUpdate();
             result = true;
@@ -780,13 +784,17 @@ public class DAO {
 
     public boolean insertPayment(Payments model) {
         boolean result = false;
-        String query = "insert into payments (order_id, amount) values(?,?)";
+        String query = "insert into payments (order_id, amount,date_paid,phone, address,note) values(?,?,?,?,?,?)";
         try {
             cnn=(new DBContext()).connection;
             pstm = cnn.prepareStatement(query);
 
             pstm.setInt(1,model.getOrderId());
             pstm.setDouble(2, model.getAmount());
+            pstm.setString(3, model.getDate());
+            pstm.setString(4, model.getPhone());
+            pstm.setString(5, model.getAddress());
+            pstm.setString(6, model.getNote());
 
             pstm.executeUpdate();
             result = true;
@@ -841,7 +849,7 @@ public class DAO {
                 order.setOrderId(rs.getInt("order_id"));
                 order.setId(pId);
                 order.setName(product.getName());
-                order.setPrice(product.getPrice() * rs.getInt("quantity"));
+                order.setTotal_cost(rs.getDouble("total"));
                 order.setQunatity(rs.getInt("quantity"));
                 order.setDate(rs.getString("orderDate"));
                 list.add(order);
@@ -1146,24 +1154,21 @@ public class DAO {
         } catch (Exception e) {
             System.err.println("Error updating user address and phone: " + e);
         } finally {
-            // Close connections and resources
-            // ...
+
         }
         return true;
     }
 
 
+
+
+
     public static void main(String[] args) {
         DAO dao = new DAO();
-        List<Products> list = dao.getAllProduct();
-        List<Category> listC = dao.getAllCategory();
-        List<Blog> listB = dao.getAllBlogs();
-        Blog b = dao.getBlogByID(1);
-        System.out.println(b);
-//        List<BlogComment> blogComments = dao.getAllBlogCommentByBlogID(1);
-//        for (BlogComment blogComment : blogComments) {
-//            System.out.println(blogComment);
-//        }
+       List<Order> o = dao.userOrders(1);
+
+
+       o.forEach(System.out::println);
     }
 
 }

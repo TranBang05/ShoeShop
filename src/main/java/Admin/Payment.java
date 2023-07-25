@@ -1,11 +1,6 @@
 package Admin;
 
 
-
-
-
-
-
 import Model.Payments;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -23,8 +18,13 @@ public class Payment extends HttpServlet {
             throws ServletException, IOException {
 
 
+
         Payments p = new Payments();
         int total = p.calculateTotalAmount();
+
+        int total_year = p.calculateTotalAmount (2023);
+        System.out.println ("totalamoutyear:"+total_year);
+
         String year = req.getParameter("year");
         Map<Integer, Integer> monthlyOrders = p.calculateTotalAmountByYear(2023);
         Map<String, Integer> dailyOrders = p.calculateTotalByDay(2023, 12); // Thay đổi ngày và tháng tùy theo nhu cầu
@@ -41,9 +41,15 @@ public class Payment extends HttpServlet {
             System.out.println("Day " + day + ": " + totalOrders + " orders");
         }
 
+
+
+
+
+
+        req.setAttribute("total_year", total_year);
         req.setAttribute("total", total);
         req.setAttribute("monthlyOrders", monthlyOrders);
-        req.setAttribute("dailyOrders", dailyOrders); // Thêm dữ liệu theo ngày vào thuộc tính req.setAttribute()
+        req.setAttribute("dailyOrders", dailyOrders);
 
         req.getRequestDispatcher("AdminStatics.jsp").forward(req, resp);
 
@@ -89,4 +95,3 @@ public class Payment extends HttpServlet {
 
 
 }
-

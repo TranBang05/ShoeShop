@@ -23,6 +23,7 @@ public class OrderNowController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         //b1: get data from da
+        System.out.println("go add orrdr " );
         try (PrintWriter out = response.getWriter()) {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date date = new Date();
@@ -33,6 +34,7 @@ public class OrderNowController extends HttpServlet {
                 System.out.println( username.getId() );
                 String productId = request.getParameter("id");
                 double price = Double.parseDouble(request.getParameter("price"));
+                System.out.println(price +"nnnnn");
                 int productQuantity = Integer.parseInt(request.getParameter("quantity"));
                 if (productQuantity <= 0) {
                     productQuantity = 1;
@@ -57,6 +59,7 @@ public class OrderNowController extends HttpServlet {
                             }
                         }
                     }
+
                     response.sendRedirect("order.jsp");
                 } else {
                     out.println("order failed");

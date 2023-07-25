@@ -29,11 +29,10 @@ import jakarta.servlet.http.HttpSession;
 public class Page extends HttpServlet {
 
     protected void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         // Get the order information from the request
         int index=0;
         String orderInfo = req.getParameter("orderInfo");
-
-
         String state = req.getParameter("state");
         //    System.out.println (state);
         String orderDate = req.getParameter("orderDate");
@@ -56,6 +55,7 @@ public class Page extends HttpServlet {
             } catch (ParseException e) {
                 throw new RuntimeException(e);
             }
+
             orders = o.searchOrdersByDate(orderDate1);
         } else {
             index=o.getNumberPage ();
@@ -68,23 +68,12 @@ public class Page extends HttpServlet {
             }
             orders = o.getPaging(index);
         }
-
-
-
         req.setAttribute("listO", orders);
-
-
         req.getRequestDispatcher("AdminOrder.jsp").forward(req, resp);
 
     }
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         processRequest(req, resp);
     }
 }
-
-
-
-
-

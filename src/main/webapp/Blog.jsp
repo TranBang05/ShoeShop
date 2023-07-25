@@ -166,8 +166,8 @@
                                     <div class="header-middle-align-start">
                                         <div class="header-logo-area">
                                             <a href="index.html">
-                                                <img class="logo-main" src="assets/img/logo.webp" width="131" height="34" alt="Logo" />
-                                                <img class="logo-light" src="assets/img/logo-light.webp" width="131" height="34" alt="Logo" />
+                                                <img class="logo-main" src="https://png.pngtree.com/png-clipart/20190619/original/pngtree-sneakers-png-image_3989154.jpg" width="30%" height="30%"/>
+                                                <img class="logo-light" src="https://png.pngtree.com/png-clipart/20190619/original/pngtree-sneakers-png-image_3989154.jpg" width="30%" height="30%"/>
                                             </a>
                                         </div>
                                     </div>
@@ -246,7 +246,7 @@
 
                 <!--== Start Page Header Area Wrapper ==-->
                 <div class="page-header-area"
-                     data-bg-img="https://images5.alphacoders.com/594/594404.jpg?fbclid=IwAR2S-ndjiHJQdCYAb6mKHwJjH4jF6HiBzUL7NK7qRCk2UYTWbP4moM_JUkA">
+                     data-bg-img="https://www.salesforce.com/content/dam/blogs/ca/Blog%20Posts/anatomy-of-a-blog-post-deconstructed-header.jpg">
                     <div class="container pt--0 pb--0">
                         <div class="row">
                             <div class="col-12">

@@ -4,7 +4,9 @@
  */
 package Model;
 
-import java.sql.Timestamp;
+import DAL.DBContext;
+
+import java.sql.*;
 
 /**
  *
@@ -12,8 +14,8 @@ import java.sql.Timestamp;
  */
 public class ProductFeedback {
 
-    private int feelback_id;
-    
+    private int feedback_id;
+
     private String title;
     private String content;
     private int author_id;
@@ -23,10 +25,11 @@ public class ProductFeedback {
     private String authorName;
 
     public ProductFeedback() {
+        connect ();
     }
 
-    public ProductFeedback(int feelback_id, String title, String content ,int author_id, Timestamp date_posted, int product_id, int star, String authorName) {
-        this.feelback_id = feelback_id;
+    public ProductFeedback(int feedback_id, String title, String content ,int author_id, Timestamp date_posted, int product_id, int star, String authorName) {
+        this.feedback_id = feedback_id;
         this.title = title;
         this.content = content;
         this.author_id = author_id;
@@ -34,6 +37,7 @@ public class ProductFeedback {
         this.product_id = product_id;
         this.star = star;
         this.authorName = authorName;
+        connect ();
     }
 
     public ProductFeedback(String title,String content, int author_id, Timestamp date_posted, int product_id, int star) {
@@ -43,15 +47,16 @@ public class ProductFeedback {
         this.date_posted = date_posted;
         this.product_id = product_id;
         this.star = star;
+        connect ();
 
     }
 
     public int getFeelback_id() {
-        return feelback_id;
+        return feedback_id;
     }
 
     public void setFeelback_id(int feelback_id) {
-        this.feelback_id = feelback_id;
+        this.feedback_id = feelback_id;
     }
 
     public String getContent() {
@@ -112,8 +117,48 @@ public class ProductFeedback {
 
     @Override
     public String toString() {
-        return "ProductFeedback{" + "feelback_id=" + feelback_id + ", title=" + title + ", content=" + content + ", author_id=" + author_id + ", date_posted=" + date_posted + ", product_id=" + product_id + ", star=" + star + ", authorName=" + authorName + '}';
+        return "ProductFeedback{" + "feelback_id=" + feedback_id + ", title=" + title + ", content=" + content + ", author_id=" + author_id + ", date_posted=" + date_posted + ", product_id=" + product_id + ", star=" + star + ", authorName=" + authorName + '}';
     }
 
-  
+    Connection cnn;
+    Statement stm;
+    PreparedStatement pstm;
+    ResultSet rs;
+
+    private void connect() {
+        try {
+            cnn = (new DBContext ()).connection;
+            if (cnn != null) {
+                System.out.println("Connect success");
+            }
+        } catch (Exception e) {
+            System.out.println("Connection error: " + e.getMessage());
+        }
+    }
+
+
+    public int countProductFeedbacks() {
+        // Kết nối đến cơ sở dữ liệu và thực hiện truy vấn để đếm số lượng đánh giá
+        // Ví dụ, giả sử bạn có sử dụng DBContext và Connection cnn, bạn có thể thực hiện như sau:
+        int count = 0;
+        try {
+            String query = "SELECT COUNT(*) AS feedback_count FROM product_feedbacks;";
+            Statement stm = cnn.createStatement();
+            ResultSet rs = stm.executeQuery(query);
+            if (rs.next()) {
+                count = rs.getInt("feedback_count");
+            }
+        } catch (SQLException e) {
+            System.out.println("countProductFeedbacks: " + e.getMessage());
+        }
+        return count;
+    }
+
+    public static void main(String[] args) {
+        ProductFeedback productFeedback = new ProductFeedback();
+        int feedbackCount = productFeedback.countProductFeedbacks();
+        System.out.println("Total Product Feedbacks: " + feedbackCount);
+    }
+
+
 }

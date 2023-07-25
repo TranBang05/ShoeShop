@@ -4,6 +4,7 @@ import DAO.DAO;
 import Model.Order;
 import Model.User;
 import Model.cart;
+import com.mysql.cj.Session;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -51,7 +52,7 @@ public class CheckOutController extends HttpServlet {
                 }
 
                 cart_list.clear();
-
+                request.getSession().removeAttribute("cart_list");
                 response.sendRedirect("order.jsp");
             } else {
                 if (username == null) {

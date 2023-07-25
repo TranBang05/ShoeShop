@@ -16,12 +16,17 @@ public class Payments {
     int orderId;
     String payment;
     double amount;
-    Date date;
+    String date;
+    String phone;
+    String address;
+    String note;
 
 
 
 
-    public Payments(int id, int orderId, String payment, double amount, Date date) {
+
+
+    public Payments(int id, int orderId, String payment, double amount, String date) {
         this.id = id;
         this.orderId = orderId;
         this.payment = payment;
@@ -30,6 +35,30 @@ public class Payments {
         connect ();
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public Payments() {
         connect ();
@@ -67,11 +96,11 @@ public class Payments {
         this.amount = amount;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -89,6 +118,26 @@ public class Payments {
             }
         } catch (Exception e) {
         }
+    }
+
+    public int calculateTotalAmount(int year) {
+        int totalAmount = 0;
+
+        try {
+            String query = "SELECT SUM(amount) AS totalAmount FROM payments WHERE YEAR(date_paid) = ?";
+            try (PreparedStatement pstm = cnn.prepareStatement(query)) {
+                pstm.setInt(1, year);
+                try (ResultSet rs = pstm.executeQuery()) {
+                    if (rs.next()) {
+                        totalAmount = rs.getInt("totalAmount");
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("calculateTotalAmount: " + e.getMessage());
+        }
+
+        return totalAmount;
     }
 
     public int calculateTotalAmount() {
@@ -109,6 +158,12 @@ public class Payments {
 
         return totalAmount;
     }
+
+
+
+
+
+
 
 
 
@@ -142,6 +197,8 @@ public class Payments {
 
         return monthlyAmounts;
     }
+
+
 
 
     public Map<String, Integer> calculateTotalByDay(int year, int month) {

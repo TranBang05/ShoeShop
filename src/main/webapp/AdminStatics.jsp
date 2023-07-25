@@ -80,15 +80,15 @@
         <ul>
             <li>
                 <a href="#">
-                        <span class="icon">
-                            <ion-icon name="logo-apple"></ion-icon>
-                        </span>
-                    <span class="title">Brand Name</span>
+        <span class="icon">
+            <ion-icon name="person-circle-outline"></ion-icon>
+        </span>
+                    <span class="title">Admin</span>
                 </a>
             </li>
 
             <li>
-                <a href="payment">
+                <a href="statics">
                         <span class="icon">
                             <ion-icon name="home-outline"></ion-icon>
                         </span>
@@ -102,6 +102,17 @@
                             <ion-icon name="people-outline"></ion-icon>
                         </span>
                     <span class="title">Quản lí khách hàng</span>
+                </a>
+            </li>
+
+
+
+            <li>
+                <a href="staff">
+                    <span class="icon">
+                        <ion-icon name="people-outline"></ion-icon>
+                    </span>
+                    <span class="title">Quản lí Nhân Viên</span>
                 </a>
             </li>
 
@@ -127,7 +138,7 @@
 
 
             <li>
-                <a href="#">
+                <a href="login.jsp">
                         <span class="icon">
                             <ion-icon name="log-out-outline"></ion-icon>
                         </span>
@@ -140,57 +151,29 @@
 
     <!-- ========================= Main ==================== -->
     <div class="main">
-        <div class="topbar">
-            <div class="toggle">
-                <ion-icon name="menu-outline"></ion-icon>
-            </div>
-
-
-
-            <div class="user">
-                <img src="assets/imgs/customer01.jpg" alt="">
-            </div>
-        </div>
-
-        <!-- ======================= Cards ================== -->
-        <div class="cardBox">
-
-        </div>
-
-
-
         <!-- ================ Order Details List ================= -->
         <div class="details">
 
             <div class="recentOrders">
-                <div class="form1">
-                    <div class="form2">
-
-
-                        <form id="searchForm" action="payment" method="GET">
-
-                            <input type="text" id="year" name="year" placeholder="Nhập năm..." required>
-                            <button type="submit">Search</button>
-                        </form>
-                    </div>
-                    <div class="form3">
-                        <button type="button" id="dateButton">Theo Ngày</button>
-                        <button type="button" id="monthButton" style="display: none;">Theo Tháng</button>
-                    </div>
-
-                </div>
+                <h3>Theo tháng</h3>
                 <canvas id="myChart" class="chart"></canvas>
-
-
-
-
-
-
-
 
             </div>
 
+
             <!-- ================= New Customers ================ -->
+            <div>
+                <h3>Total Amount in Year:</h3>
+                <br>
+                <h4><%= request.getAttribute("total_year") %></h4>
+
+            </div>
+
+        </div>
+
+
+        <div class="details">
+
 
         </div>
     </div>
@@ -198,123 +181,7 @@
 
 
 <script>
-    // Lấy đối tượng form và nút submit
-    var chartCanvas = document.getElementById('myChart');
-    var form = document.getElementById('searchForm');
-    var submitButton = form.querySelector('button[type="submit"]');
-
-    // Đăng ký sự kiện khi người dùng ấn nút "Tìm kiếm"
-    submitButton.addEventListener('click', function(event) {
-        event.preventDefault(); // Ngăn chặn hành vi mặc định của nút submit
-        submitForm();
-    });
-
-    // Hàm để gửi form
-    function submitForm() {
-        form.submit(); // Gửi form
-    }
-
-    var dateButton = document.getElementById('dateButton');
-    var monthButton = document.getElementById('monthButton');
-
-    dateButton.addEventListener("click", function() {
-        dateButton.style.display = "none";
-        monthButton.style.display = "block";
-        chartCanvas.classList.remove("hidden");
-        initializeChart();
-    });
-
-    monthButton.addEventListener("click", function() {
-        monthButton.style.display = "none";
-        dateButton.style.display = "block";
-        chartCanvas.classList.add("hidden");
-        initializeChart1();
-    });
-
-    // Hàm để khởi tạo biểu đồ theo ngày
-    function initializeChart() {
-        runChart();
-    }
-
-    // Hàm để khởi tạo biểu đồ theo tháng
-    function initializeChart1() {
-        runChart1();
-    }
-
-    // Hàm để chạy biểu đồ theo ngày
-    function runChart() {
-        <%-- Thông kê theo ngày --%>
-        var ctx = document.getElementById('myChart').getContext('2d');
-        var chart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: [
-                    <% for (int i = 1; i <= 31; i++) { %>
-                    '<%= i %>/01',
-                    <% } %>
-                ],
-                datasets: [{
-                    label: 'Orders',
-                    data: [
-                        <% Map<Integer, Integer> dailyOrders = (Map<Integer, Integer>) request.getAttribute("dailyOrders"); %>
-
-                        <% for (int i = 1; i <= 31; i++) { %>
-                        <%= dailyOrders.getOrDefault(i, 0) %>,
-                        <% } %>
-                    ],
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1,
-                    fill: true
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-
-    }
-
-
-
-    <%--//thông kê theo tháng--%>
-    <%--    var ctx = document.getElementById('myChart').getContext('2d');--%>
-    <%--    var chart = new Chart(ctx, {--%>
-    <%--        type: 'line',--%>
-    <%--        data: {--%>
-    <%--            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],--%>
-    <%--            datasets: [{--%>
-    <%--                label: 'Orders',--%>
-    <%--                data: [--%>
-    <%--                    <% Map<Integer, Integer> monthlyOrders = (Map<Integer, Integer>) request.getAttribute("monthlyOrders"); %>--%>
-    <%--                    <% for (int i = 1; i <= 12; i++) { %>--%>
-    <%--                    <%= monthlyOrders.getOrDefault(i, 0) %>,--%>
-    <%--                    <% } %>--%>
-    <%--                ],--%>
-    <%--                backgroundColor: 'rgba(75, 192, 192, 0.2)',--%>
-    <%--                borderColor: 'rgba(75, 192, 192, 1)',--%>
-    <%--                borderWidth: 1,--%>
-    <%--                fill: true // Thêm thuộc tính fill: true để hiển thị miền dưới đường cong--%>
-    <%--            }]--%>
-    <%--        },--%>
-    <%--        options: {--%>
-    <%--            responsive: true,--%>
-    <%--            scales: {--%>
-    <%--                y: {--%>
-    <%--                    beginAtZero: true--%>
-    <%--                }--%>
-    <%--            }--%>
-    <%--        }--%>
-    <%--    });--%>
-
-
-
-
+    // Lấy đối tượng form và nút s
 
     var ctx = document.getElementById('myChart').getContext('2d');
     var labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];

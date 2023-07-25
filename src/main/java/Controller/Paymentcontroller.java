@@ -26,6 +26,9 @@ public class Paymentcontroller extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         //b1: get data from da
         try(PrintWriter out = response.getWriter()){
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = new Date();
+
             User username = (User) request.getSession().getAttribute("username");
             List<Order> orders = null;
 
@@ -35,17 +38,26 @@ public class Paymentcontroller extends HttpServlet {
                 request.setAttribute("order-list", orders);
 
             double price = Double.parseDouble(request.getParameter("price"));
+            String phone= request.getParameter("phone");
+            String address=request.getParameter("address");
+            String note=request.getParameter("note");
+            System.out.println(phone);
             if(orders != null && username!=null) {
                 for(Order c:orders) {
                     System.out.println(c);
                     Payments p= new Payments();
                     p.setOrderId(c.getOrderId());
                     p.setAmount(price);
+                    p.setPhone(phone);
+                    p.setAddress(address);
+                    p.setNote(note);
+                    p.setDate(formatter.format(date));
                     DAO payment = new DAO();
                     boolean result = payment.insertPayment(p);
                     if(!result) break;
                 }
                 orders.clear();
+                request.getSession().removeAttribute("order-list");
                 response.sendRedirect("paymentsuccess.jsp");
             }else {
                 if (username == null) {

@@ -142,8 +142,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                             <div class="header-middle-align-start">
                                 <div class="header-logo-area">
                                     <a href="index.html">
-                                        <img class="logo-main" src="assets/img/logo.webp" width="131" height="34" alt="Logo" />
-                                        <img class="logo-light" src="assets/img/logo-light.webp" width="131" height="34" alt="Logo" />
+                                        <img class="logo-main" src="https://png.pngtree.com/png-clipart/20190619/original/pngtree-sneakers-png-image_3989154.jpg" width="30%" height="30%"/>
+                                        <img class="logo-light" src="https://png.pngtree.com/png-clipart/20190619/original/pngtree-sneakers-png-image_3989154.jpg" width="30%" height="30%"/>
                                     </a>
                                 </div>
                             </div>
@@ -281,7 +281,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                                         <span class="price"><%=p.getPrice()%></span>
                                     </td>
                                     <td class="product-action">
-                                        <a class="btn-cart" href="addtocart?id=<%=p.getId()%>">Add to cart</a>
+                                        <a class="btn-cart" href="addtocart?id=<%=p.getId()%>&price=<%=p.getPrice()%>">Add to cart</a>
                                     </td>
                                 </tr>
                                 <%
